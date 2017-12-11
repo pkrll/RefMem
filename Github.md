@@ -2,7 +2,7 @@
 
 *Version: 1.0.0*
 
-The following is a short guideline for how we use Github.
+The following is a short guideline for how we use Github, including common best practices for Git.
 
 ### Five (+ five) tips that will CHANGE your life
 
