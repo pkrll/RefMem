@@ -2,6 +2,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include "../src/refmen.h"
 
@@ -10,18 +11,12 @@ struct test_struct {
   int x;
   int y;
   int z;
-  int e;
-  int t;
-  int r;
-  int u;
-  int l;
 
 } typedef test_t;
 
 void test_allocate() {
   test_t *object = allocate(sizeof(test_t), NULL);
-
-  CU_ASSERT_EQUAL(sizeof(*object), 32);
+  CU_ASSERT_EQUAL(sizeof(*object), 12);
 }
 
 void test_retain() {
@@ -48,12 +43,14 @@ void test_release() {
 }
 
 void test_rc() {
-  // test_t *object = allocate(sizeof(test_t), NULL);
-  // CU_ASSERT_EQUAL(rc(object), 0);
-  // retain(object);
-  // CU_ASSERT_EQUAL(rc(object), 1);
-  // release(object);
-  // CU_ASSERT_EQUAL(rc(object), 1);
+  test_t *object = allocate(sizeof(test_t), NULL);
+  CU_ASSERT_EQUAL(rc(object), 0);
+  retain(object);
+  CU_ASSERT_EQUAL(rc(object), 1);
+  retain(object);
+  CU_ASSERT_EQUAL(rc(object), 2);
+  release(object);
+  CU_ASSERT_EQUAL(rc(object), 1);
 }
 
 int main(int argc, char *argv[]) {
@@ -65,6 +62,7 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "Allocation", test_allocate);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
+  CU_add_test(creation, "RC", test_rc);
 
   CU_basic_run_tests();
 
