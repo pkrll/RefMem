@@ -22,7 +22,7 @@ void retain(obj object) {
 
 void release(obj object) {
   if (object != NULL) {
-      object = (char *)object - HEADER_SIZE;
+    object = (char *)object - HEADER_SIZE;
 
     if (((object_t *)object)->refcount > 1) {
       ((object_t *)object)->refcount -= 1;
