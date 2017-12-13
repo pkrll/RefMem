@@ -60,7 +60,17 @@ obj allocate(size_t bytes, function1_t destructor) {
 }
 
 
-obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor);
+obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
+      record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
+      
+
+      record->reference_count = 0;
+      record->destructor = destructor;
+
+      record++;
+
+      return (obj)record;
+}
 
 void deallocate(obj);
 void set_cascade_limit(size_t);
