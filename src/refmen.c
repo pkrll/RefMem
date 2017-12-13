@@ -6,48 +6,57 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
-struct object {
-  size_t refcount;
+struct record {
+  size_t reference_count;
   function1_t destructor;
 
-} typedef object_t;
+} typedef record_t;
+
+static record_t *convert_to_record(obj object) {
+  record_t *record = object;
+  record--;
+
+  return record;
+}
 
 void retain(obj object) {
   if (object != NULL) {
-    object = (char *)object - HEADER_SIZE;
-
-    ((object_t *)object)->refcount += 1;
+    record_t *record = convert_to_record(object);
+    record->reference_count += 1;
   }
 }
 
 void release(obj object) {
   if (object != NULL) {
-    object = (char *)object - HEADER_SIZE;
+    record_t *record = convert_to_record(object);
 
-    if (((object_t *)object)->refcount > 1) {
-      ((object_t *)object)->refcount -= 1;
+    if (record->reference_count > 1) {
+      record->reference_count -= 1;
     } else {
-      // deallocate(object);
+      // deallocate(record)
     }
   }
 }
 
-size_t rc(obj param) {
-  param = (char *)param - HEADER_SIZE;
-  object_t *object = (object_t*)param;
+size_t rc(obj object) {
+  // Should we assert object?
+  if (object != NULL) {
+    record_t *record = convert_to_record(object);
+    return record->reference_count;
+  }
 
-  return object->refcount;
+  return 0;
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
-  void *object = malloc(HEADER_SIZE + bytes);
+  record_t *record = malloc(HEADER_SIZE + bytes);
 
-  ((object_t *)object)->refcount = 0;
-  ((object_t *)object)->destructor = destructor;
+  record->reference_count = 0;
+  record->destructor = destructor;
 
-  object = (char *)object + HEADER_SIZE;
+  record++;
 
-  return (obj)object;
+  return (obj)record;
 }
 
 
