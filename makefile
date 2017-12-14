@@ -30,6 +30,9 @@ build: compile
 
 compile: $(OBJECTS)
 
+linux-test:compile
+	gcc -o refmen_test
+
 build-tests: $(OBJECTS) $(OBJECTS_TEST)
 	$(CC) $(CFLAGS) $(TFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTS_TEST) $(OBJECTS) -o $(BINARYDIR)/$(TESTBINARY)
 

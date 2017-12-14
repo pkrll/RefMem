@@ -19,6 +19,22 @@ void test_allocate() {
   CU_ASSERT_EQUAL(sizeof(*object), 12);
 }
 
+void test_allocate_array() {
+  int* object = (int*) allocate_array(4, sizeof(int), NULL);
+  char* text = (char*) allocate_array(4, sizeof(char), NULL);
+  char* test = "abc";
+
+  for(int i = 0; i < 4; i++) {
+    object[i] = i;
+    text[i] = test[i];
+  }
+  
+  for(int i = 0; i < 4; i++){
+    CU_ASSERT_EQUAL(i,object[i]);
+    CU_ASSERT_EQUAL(text[i], test[i]);
+  }
+}
+
 void test_retain() {
   test_t *object = allocate(sizeof(test_t), NULL);
 
@@ -66,6 +82,17 @@ void test_deallocate() {
   deallocate(dealloc_object);
 }
 
+void test_set_cascade_limit(){
+  set_cascade_limit(2);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 2);
+  set_cascade_limit(3);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 3);
+  for(int i= 0; i<=100; i++){
+    set_cascade_limit(i);
+  }
+  CU_ASSERT_EQUAL(get_cascade_limit(), 100);
+}
+
 int main(int argc, char *argv[]) {
 
   CU_initialize_registry();
@@ -74,6 +101,7 @@ int main(int argc, char *argv[]) {
   CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
   CU_add_test(creation, "Allocation", test_allocate);
   CU_add_test(creation, "Deallocation", test_deallocate);
+  CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "RC", test_rc);
