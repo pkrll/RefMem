@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 #include "refmen.h"
 
 #define COUNT_SIZE 8
@@ -62,7 +63,19 @@ obj allocate(size_t bytes, function1_t destructor) {
 
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor);
 
-void deallocate(obj);
+void deallocate(obj object) {
+
+  assert(rc(object) == 0);
+  
+  record_t *record = convert_to_record(object);
+
+  if (record->destructor != NULL) {
+    (*record->destructor)(object);
+  }
+    
+  free(record);
+}
+
 void set_cascade_limit(size_t);
 size_t get_cascade_limit();
 void cleanup();

@@ -53,6 +53,19 @@ void test_rc() {
   CU_ASSERT_EQUAL(rc(object), 1);
 }
 
+// Global object for destructor testing 
+test_t *dealloc_object;
+
+void test_destructor(obj object) {
+  // Make sure the object we get from destructor is the same as the one we deallocated
+  CU_ASSERT_PTR_EQUAL(dealloc_object, object);
+}
+
+void test_deallocate() {
+  dealloc_object = allocate(sizeof(test_t), (function1_t) test_destructor);
+  deallocate(dealloc_object);
+}
+
 int main(int argc, char *argv[]) {
 
   CU_initialize_registry();
@@ -60,6 +73,7 @@ int main(int argc, char *argv[]) {
   // Set up suites and tests
   CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
   CU_add_test(creation, "Allocation", test_allocate);
+  CU_add_test(creation, "Deallocation", test_deallocate);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "RC", test_rc);
