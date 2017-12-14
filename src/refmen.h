@@ -12,5 +12,6 @@ obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor);
 void deallocate(obj);
 void set_cascade_limit(size_t);
 size_t get_cascade_limit();
+size_t read_cascade_limit();
 void cleanup();
 void shutdown();

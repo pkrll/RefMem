@@ -12,6 +12,15 @@ struct record {
 
 } typedef record_t;
 
+struct cascade {
+  size_t limit;
+  //linked list, använd någons listmoduler? eller?
+} typedef cascade_t;
+
+//define global struct for cascade, alloc?? är vi ok med att den ligger på stacken?
+//du måste set_cascade_limit i början nu annars kommer det fucka uuuuur
+static cascade_t cascade;
+
 static record_t *convert_to_record(obj object) {
   record_t *record = object;
   record--;
@@ -59,6 +68,15 @@ obj allocate(size_t bytes, function1_t destructor) {
   return (obj)record;
 }
 
+void set_cascade_limit(size_t new_limit) {
+  cascade.limit = new_limit;//. eftersom den inte är allokad
+}
+
+//denna heter read för vet inte om det är samma som get ska göra
+//denna används iallafall i mina tester
+size_t read_cascade_limit(){
+  return cascade.limit;
+}
 
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor);
 
