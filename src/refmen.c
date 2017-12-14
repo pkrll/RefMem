@@ -74,7 +74,7 @@ void set_cascade_limit(size_t new_limit) {
 
 //denna heter read för vet inte om det är samma som get ska göra
 //denna används iallafall i mina tester
-size_t read_cascade_limit(){
+size_t get_cascade_limit(){
   return cascade.limit;
 }
 

@@ -55,13 +55,13 @@ void test_rc() {
 
 void test_set_cascade_limit(){
   set_cascade_limit(2);
-  CU_ASSERT_EQUAL(read_cascade_limit(), 2);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 2);
   set_cascade_limit(3);
-  CU_ASSERT_EQUAL(read_cascade_limit(), 3);
-  for(int i; 1<=100; i++){
+  CU_ASSERT_EQUAL(get_cascade_limit(), 3);
+  for(int i= 0; i<=100; i++){
     set_cascade_limit(i);
   }
-  CU_ASSERT_EQUAL(read_cascade_limit(), 100);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 100);
 }
 
 int main(int argc, char *argv[]) {
