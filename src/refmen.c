@@ -7,6 +7,11 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
+/**  
+* @brief CASCADE_LIMIT represent the amount of free's
+         that's the program is allowed to do in a 
+         sequence.
+*/
 static size_t CASCADE_LIMIT = 1000;
 
 struct record {
@@ -62,12 +67,19 @@ obj allocate(size_t bytes, function1_t destructor) {
   return (obj)record;
 }
 
+/**  
+* @brief Sets the cascade limit
+* @param limit new cascade limit
+* @return void.
+*/
 void set_cascade_limit(size_t limit) {
   CASCADE_LIMIT = limit;
 }
 
-//denna heter read för vet inte om det är samma som get ska göra
-//denna används iallafall i mina tester
+/**  
+* @brief Returns the cascade limit
+* @return cascade limit.
+*/
 size_t get_cascade_limit(){
   return CASCADE_LIMIT;
 }

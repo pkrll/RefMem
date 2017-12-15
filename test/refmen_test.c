@@ -82,15 +82,15 @@ void test_deallocate() {
   deallocate(dealloc_object);
 }
 
-void test_set_cascade_limit(){
-  set_cascade_limit(2);
-  CU_ASSERT_EQUAL(get_cascade_limit(), 2);
-  set_cascade_limit(3);
-  CU_ASSERT_EQUAL(get_cascade_limit(), 3);
-  for(int i= 0; i<=100; i++){
-    set_cascade_limit(i);
-  }
-  CU_ASSERT_EQUAL(get_cascade_limit(), 100);
+void test_cascade() {
+  int base_value = 1000, test1 = 200, test2 = 0, test3 = sizeof(int);
+  CU_ASSERT_EQUAL(base_value, get_cascade_limit());
+  set_cascade_limit(test1);
+  CU_ASSERT_EQUAL(test1, get_cascade_limit());
+  set_cascade_limit(test2);
+  CU_ASSERT_EQUAL(test2, get_cascade_limit());
+  set_cascade_limit(test3);
+  CU_ASSERT_EQUAL(test3, get_cascade_limit());
 }
 
 int main(int argc, char *argv[]) {
@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "Deallocation", test_deallocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
+  CU_add_test(creation, "Cascade", test_cascade);
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "RC", test_rc);
 
