@@ -118,9 +118,9 @@ void tree_delete(tree_t *tree);
 
 static int compare(T a, T b) {
   if (a < b) {
-    return 1;
-  } else if (a > b) {
     return -1;
+  } else if (a > b) {
+    return 1;
   }
 
   return 0;
@@ -190,22 +190,26 @@ static bool node_insert(node_t **node, T elem) {
   int balance = node_get_balance(*node);
 
   // Left-left
-  if (balance > 1 && cmp < 0) {
+  if (balance > 1 && elem < (*node)->left->element) {
     *node = node_rotate_right(*node);
+    return true;
   }
   // Right-right
-  if (balance < -1 && cmp > 0) {
+  if (balance < -1 && elem > (*node)->right->element) {
     *node = node_rotate_left(*node);
+    return true;
   }
   // Left-right
-  if (balance > 1 && cmp > 0) {
-    (*node)->right = node_rotate_right((*node)->right);
-    *node = node_rotate_left(*node);
+  if (balance > 1 && elem > (*node)->left->element) {
+    (*node)->left = node_rotate_left((*node)->left);
+    *node = node_rotate_right(*node);
+    return true;
   }
-
-  if (balance < -1 && cmp < 0) {
+  // Right-right
+  if (balance < -1 && elem < (*node)->right->element) {
     (*node)->right = node_rotate_right((*node)->right);
     *node = node_rotate_left(*node);
+    return true;
   }
 
   return true;

@@ -14,7 +14,7 @@ void test_tree_new() {
 
 void test_tree_insert() {
   tree_t *tree = tree_new();
-  void *ptr = calloc(1, sizeof(int));
+  int *ptr = calloc(1, sizeof(int *));
 
   tree_insert(tree, ptr);
 
@@ -23,7 +23,7 @@ void test_tree_insert() {
   int n = 150000;
 
   for (size_t i = 2; i < n; i++) {
-    void *ptr = calloc(1, sizeof(int));
+    int *ptr = calloc(1, sizeof(int *));
     tree_insert(tree, ptr);
   }
 
