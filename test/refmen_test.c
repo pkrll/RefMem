@@ -69,6 +69,19 @@ void test_rc() {
   CU_ASSERT_EQUAL(rc(object), 1);
 }
 
+// Global object for destructor testing 
+test_t *dealloc_object;
+
+void test_destructor(obj object) {
+  // Make sure the object we get from destructor is the same as the one we deallocated
+  CU_ASSERT_PTR_EQUAL(dealloc_object, object);
+}
+
+void test_deallocate() {
+  dealloc_object = allocate(sizeof(test_t), (function1_t) test_destructor);
+  deallocate(dealloc_object);
+}
+
 void test_set_cascade_limit(){
   set_cascade_limit(2);
   CU_ASSERT_EQUAL(get_cascade_limit(), 2);
@@ -87,6 +100,7 @@ int main(int argc, char *argv[]) {
   // Set up suites and tests
   CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
   CU_add_test(creation, "Allocation", test_allocate);
+  CU_add_test(creation, "Deallocation", test_deallocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
