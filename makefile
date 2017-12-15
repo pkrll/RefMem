@@ -1,7 +1,8 @@
 # Compiler & compiler flags
 CC=gcc
 CFLAGS=-Wall -pedantic
-TFLAGS=-g -lcunit# --coverage
+TFLAGS=-lcunit #--coverage
+TEST=test/test_refmen
 
 # Directories
 TESTDIR=test
@@ -11,7 +12,7 @@ BINARYDIR=bin
 
 # Binary names
 BINARY=refmen.out
-TESTBINARY=refmen_test.out
+TESTBINARY=test_refmen.out
 
 # Source & object files
 SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.c')
@@ -23,6 +24,7 @@ OBJECTS_TEST = $(patsubst $(TESTDIR)/%.c, $(OBJECTDIR)/%.o, $(SOURCES_TEST))
 DEBUG_FILES = $(shell find . -type f -name '*.gcda' -o -name '*.gcno' -o -name '*.dSYM')
 
 # Targets
+
 all: build
 
 build: compile
@@ -30,14 +32,8 @@ build: compile
 
 compile: $(OBJECTS)
 
-linux-test:compile
-	gcc -o refmen_test
-
-tree-test:
-	gcc -g src/tree.c test/tree_test.c -lcunit
-
-build-tests: $(OBJECTS) $(OBJECTS_TEST)
-	$(CC) $(CFLAGS) $(TFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTS_TEST) $(OBJECTS) -o $(BINARYDIR)/$(TESTBINARY)
+compile-tests: CFLAGS +=-g
+compile-tests: $(OBJECTS) $(OBJECTS_TEST)
 
 $(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -45,19 +41,31 @@ $(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
 $(OBJECTDIR)/%.o: $(TESTDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# TEST TARGETS
+
+test-tree: compile-tests
+test-tree:
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree.o $(OBJECTDIR)/tree_test.o -o $(BINARYDIR)/test_tree $(TFLAGS)
+
+test-refmen: compile-tests
+test-refmen:
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmen.o $(OBJECTDIR)/refmen_test.o -o $(BINARYDIR)/test_refmen $(TFLAGS)
+
 # PHONY TARGETS
 
 .PHONY: clean test
 
 clean:
 	rm -f $(OBJECTDIR)/*.o
-	rm -f $(BINARYDIR)/*.out
+	rm -f $(BINARYDIR)/*
 	rm -f *~
+	rm -rf $(DEBUG_FILES)
 
-# rm -f $(DEBUG_FILES)
-
-test: build-tests
-	./$(BINARYDIR)/$(TESTBINARY)
+test: test-refmen test-tree
+	@echo "--------------------------------------------- RUNNING TESTS ON REFMEN --------------------------------------------"
+	@./$(BINARYDIR)/test_refmen
+	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
+	@./$(BINARYDIR)/test_tree
 
 style:
-	AStyle --style=google --indent=spaces=2 $(SOURCES) $(SOURCES_TEST)
+	astyle --style=google --indent=spaces=2 $(SOURCES) $(SOURCES_TEST)

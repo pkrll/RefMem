@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "tree.h"
 
 struct node {
@@ -15,45 +16,44 @@ struct tree {
 
 } typedef tree_t;
 
-
 // -------------------------------
 // Declarations
 // -------------------------------
-static int compare(T a, T b);
-static node_t **find_node(node_t **parent, T elem);
-static node_t **node_minimum(node_t **root);
-static node_t *node_new(T elem);
-static bool node_insert(node_t **node, T elem);
+
 static int max(int a, int b);
-static int node_height(node_t *node);
+static int compare(T a, T b);
+static node_t *node_new(T elem);
+static node_t **node_get(node_t **parent, T elem);
+static node_t **node_minimum(node_t **root);
 static node_t *node_rotate_right(node_t *y);
 static node_t *node_rotate_left(node_t *x);
+static bool node_insert(node_t **node, T elem);
+static int node_height(node_t *node);
 static int node_get_balance(node_t *node);
 static int node_size(node_t *node, int acc);
+static bool node_remove(node_t **node, T elem);
 
 // -------------------------------
 // Public functions
 // -------------------------------
 
 tree_t *tree_new() {
-  tree_t *tree = calloc(1, sizeof(tree_t));
-
-  return tree;
+  return calloc(1, sizeof(tree_t));
 }
 
 bool tree_insert(tree_t *tree, T elem) {
   if (tree->root == NULL) {
     tree->root = node_new(elem);
     return true;
-  } else {
-    return node_insert(&(tree->root), elem);
   }
+
+  return node_insert(&(tree->root), elem);
 }
 
 bool tree_has_key(tree_t *tree, T elem) {
   if (tree != NULL) {
     node_t *head  = tree->root;
-    node_t **node = find_node(&head, elem);
+    node_t **node = node_get(&head, elem);
 
     return (*node != NULL);
   }
@@ -62,37 +62,7 @@ bool tree_has_key(tree_t *tree, T elem) {
 }
 
 bool tree_remove(tree_t *tree, T elem) {
-  if (tree != NULL) {
-    node_t **parent = &tree->root;
-    node_t **child = find_node(parent, elem);
-
-    if (*child) {
-      node_t *node_to_delete = *child;
-
-      if (node_to_delete->left == NULL) {
-        *child = node_to_delete->right;
-      } else if (node_to_delete->right == NULL) {
-        *child = node_to_delete->left;
-      } else {
-        node_t *minimum_root = node_to_delete->right;
-        node_t *minimum_node = *node_minimum(&minimum_root);
-
-        if (minimum_root != minimum_node) {
-          minimum_root->left = minimum_node->right;
-          minimum_node->right = node_to_delete->right;
-        }
-
-        minimum_node->left = node_to_delete->left;
-        *child = minimum_node;
-      }
-
-      free(node_to_delete);
-
-      return true;
-    }
-  }
-
-  return false;
+  return node_remove(&(tree->root), elem);
 }
 
 int tree_size(tree_t *tree) {
@@ -108,13 +78,15 @@ int tree_height(tree_t *tree) {
   return tree->root->height;
 }
 
-int tree_depth(tree_t *tree);
-
 void tree_delete(tree_t *tree);
 
 // -------------------------------
 // Private functions
 // -------------------------------
+
+static int max(int a, int b) {
+  return (a > b) ? a : b;
+}
 
 static int compare(T a, T b) {
   if (a < b) {
@@ -126,7 +98,17 @@ static int compare(T a, T b) {
   return 0;
 }
 
-static node_t **find_node(node_t **parent, T elem) {
+static node_t *node_new(T elem) {
+  node_t *node = calloc(1, sizeof(node_t));
+
+  if (node != NULL) {
+    node->element = elem;
+  }
+
+  return node;
+}
+
+static node_t **node_get(node_t **parent, T elem) {
   node_t **current = parent;
 
   while (*current) {
@@ -156,14 +138,30 @@ static node_t **node_minimum(node_t **root) {
   return node;
 }
 
-static node_t *node_new(T elem) {
-  node_t *node = calloc(1, sizeof(node_t));
+static node_t *node_rotate_right(node_t *y) {
+  node_t *x  = y->left;
+  node_t *z = x->right;
 
-  if (node != NULL) {
-    node->element = elem;
-  }
+  x->right = y;
+  y->left = z;
 
-  return node;
+  y->height = max(node_height(y->left), node_height(y->right))+1;
+  x->height = max(node_height(x->left), node_height(x->right))+1;
+
+  return x;
+}
+
+static node_t *node_rotate_left(node_t *x) {
+  node_t *y = x->right;
+  node_t *z = y->left;
+
+  y->left = x;
+  x->right = z;
+
+  x->height = max(node_height(x->left), node_height(x->right))+1;
+  y->height = max(node_height(y->left), node_height(y->right))+1;
+
+  return y;
 }
 
 static bool node_insert(node_t **node, T elem) {
@@ -215,39 +213,71 @@ static bool node_insert(node_t **node, T elem) {
   return true;
 }
 
-static int max(int a, int b) {
-    return (a > b) ? a : b;
+static bool node_remove(node_t **node, T elem) {
+  if (*node == NULL) {
+    return false;
+  }
+
+  if (elem < (*node)->element) {
+    node_remove(&(*node)->left, elem);
+  } else if (elem > (*node)->element) {
+    node_remove(&(*node)->right, elem);
+  } else {
+    if ((*node)->left == NULL || (*node)->right == NULL) {
+      node_t *temp = ((*node)->left != NULL) ? (*node)->left : (*node)->right;
+      free(*node);
+
+      if (temp == NULL) {
+        *node = NULL;
+      } else {
+        *node = temp;
+      }
+    } else {
+      node_t *temp = *node_minimum(&((*node)->right));
+      (*node)->element = temp->element;
+      node_remove(&((*node)->right), temp->element);
+    }
+  }
+
+  if (*node == NULL) {
+    return false;
+  }
+
+  (*node)->height = 1 + max(node_height((*node)->left), node_height((*node)->right));
+  int balance = node_get_balance(*node);
+
+  // Left-left
+  if (balance > 1 && node_get_balance((*node)->left) >= 0) {
+    *node = node_rotate_right(*node);
+    return true;
+  }
+
+  // Left-right
+  if (balance > 1 && node_get_balance((*node)->left) < 0) {
+    (*node)->left =  node_rotate_left((*node)->left);
+    *node = node_rotate_right(*node);
+    return true;
+  }
+
+  // Right-right
+  if (balance < -1 && node_get_balance((*node)->right) <= 0) {
+    *node = node_rotate_left(*node);
+    return true;
+  }
+
+  // Right-left
+  if (balance < -1 && node_get_balance((*node)->right) > 0) {
+    (*node)->right = node_rotate_right((*node)->right);
+    *node = node_rotate_left(*node);
+    return true;
+  }
+
+  return true;
 }
 
-int node_height(node_t *node) {
+static int node_height(node_t *node) {
   if (node == NULL) return 0;
   return node->height;
-}
-
-static node_t *node_rotate_right(node_t *y) {
-  node_t *x  = y->left;
-  node_t *T2 = x->right;
-
-  x->right = y;
-  y->left = T2;
-
-  y->height = max(node_height(y->left), node_height(y->right))+1;
-  x->height = max(node_height(x->left), node_height(x->right))+1;
-
-  return x;
-}
-
-static node_t *node_rotate_left(node_t *x) {
-  node_t *y = x->right;
-  node_t *T2 = y->left;
-
-  y->left = x;
-  x->right = T2;
-
-  x->height = max(node_height(x->left), node_height(x->right))+1;
-  y->height = max(node_height(y->left), node_height(y->right))+1;
-
-  return y;
 }
 
 static int node_get_balance(node_t *node) {
