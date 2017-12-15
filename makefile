@@ -33,6 +33,9 @@ compile: $(OBJECTS)
 linux-test:compile
 	gcc -o refmen_test
 
+tree-test:
+	gcc -g src/tree.c test/tree_test.c -lcunit
+
 build-tests: $(OBJECTS) $(OBJECTS_TEST)
 	$(CC) $(CFLAGS) $(TFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTS_TEST) $(OBJECTS) -o $(BINARYDIR)/$(TESTBINARY)
 
