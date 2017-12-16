@@ -7,9 +7,21 @@
 #include <math.h>
 #include "../src/tree.h"
 
+void test_tree_apply_func(T elem, void *data) {
+  int *numbr = (int *)elem;
+  int *param = (int *)data;
+
+  CU_ASSERT_PTR_NOT_NULL(numbr);
+  CU_ASSERT_PTR_NOT_NULL(param);
+
+  CU_ASSERT_EQUAL(*numbr, *param);
+  (*param)++;
+}
+
 void test_tree_new() {
   tree_t *tree = tree_new();
   CU_ASSERT_PTR_NOT_NULL(tree);
+  CU_ASSERT_EQUAL(tree_size(tree), 0);
 }
 
 void test_tree_insert() {
@@ -54,9 +66,8 @@ void test_tree_remove() {
   for (size_t i = 0; i < n; i++) {
     tree_insert(tree, ptr[i]);
   }
-  size_t s = 50;
-  size_t e = 120;
-  for (size_t i = s; i < e; i++) {
+
+  for (size_t i = 50; i < 120; i++) {
     CU_ASSERT_TRUE(tree_remove(tree, ptr[i]));
     n = n - 1;
   }
@@ -75,19 +86,30 @@ void test_tree_remove() {
 
 }
 
-int main(int argc, char *argv[]) {
+void test_tree_apply() {
+  tree_t *tree = tree_new();
 
+  for (size_t i = 0; i < 41; i++) {
+    int *ptr = calloc(1, sizeof(int));
+    *ptr = i;
+    tree_insert(tree, ptr);
+  }
+
+  int param = 0;
+  tree_apply(tree, test_tree_apply_func, &param);
+}
+
+int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
-  // Set up suites and tests
   CU_pSuite creation = CU_add_suite("Test creation", NULL, NULL);
   CU_add_test(creation, "Tree new", test_tree_new);
   CU_add_test(creation, "Tree insert", test_tree_insert);
   CU_add_test(creation, "Tree remove", test_tree_remove);
+  CU_add_test(creation, "Tree apply", test_tree_apply);
 
   CU_basic_run_tests();
-
-  // Tear down
   CU_cleanup_registry();
+
   return CU_get_error();
 }

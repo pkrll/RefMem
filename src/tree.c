@@ -32,7 +32,8 @@ static int node_height(node_t *node);
 static int node_get_balance(node_t *node);
 static int node_size(node_t *node, int acc);
 static bool node_remove(node_t **node, T elem);
-
+static void node_delete(node_t *node);
+static void node_apply(node_t *node, tree_apply_func function, void *data);
 // -------------------------------
 // Public functions
 // -------------------------------
@@ -78,7 +79,18 @@ int tree_height(tree_t *tree) {
   return tree->root->height;
 }
 
-void tree_delete(tree_t *tree);
+void tree_delete(tree_t *tree) {
+  if (tree) {
+    node_delete(tree->root);
+    free(tree);
+  }
+}
+
+void tree_apply(tree_t *tree, tree_apply_func function, void *data) {
+  if (tree) {
+    node_apply(tree->root, function, data);
+  }
+}
 
 // -------------------------------
 // Private functions
@@ -291,4 +303,26 @@ static int node_size(node_t *node, int acc) {
   }
 
   return acc;
+}
+
+static void node_delete(node_t *node) {
+  if (node) {
+    if (node->left) {
+      node_delete(node->left);
+    }
+
+    if (node->right) {
+      node_delete(node->right);
+    }
+
+    free(node);
+  }
+}
+
+static void node_apply(node_t *node, tree_apply_func function, void *data) {
+  if (node) {
+    node_apply(node->left, function, data);
+    function(node->element, data);
+    node_apply(node->right, function, data);
+  }
 }
