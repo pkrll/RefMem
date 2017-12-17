@@ -11,11 +11,13 @@
 typedef void* T;
 typedef struct tree tree_t;
 typedef void(*tree_apply_func)(T elem, void *data);
+typedef void(*tree_free_func)(T elem);
 
 /// Creates a new tree
 ///
+/// \param free_func (may be NULL) used to free elements in tree_delete
 /// \returns: empty tree
-tree_t *tree_new();
+tree_t *tree_new(tree_free_func free_func);
 
 /// Insert element into the tree. Returns false if the key is already used.
 ///
@@ -51,10 +53,8 @@ int tree_height(tree_t *tree);
 /// Remove a tree along with all T elements.
 ///
 /// \param tree the tree
-/// \param cleanup a function that takes a key and element as
-///        argument, to be used to free memory. If this param is
-///        NULL, no cleanup of keys or elements will happen.
-void tree_delete(tree_t *tree);
+/// \param delete_elems if true, run tree's free_func function on all elements
+void tree_delete(tree_t *tree, bool delete_elems);
 
 /// Applies a function to all elements in the tree inorder.
 ///

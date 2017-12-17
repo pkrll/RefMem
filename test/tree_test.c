@@ -18,14 +18,22 @@ void test_tree_apply_func(T elem, void *data) {
   (*param)++;
 }
 
+void test_tree_free_func(T elem) {
+  int *ptr = (int *)elem;
+  free(ptr);
+}
+
 void test_tree_new() {
-  tree_t *tree = tree_new();
+  tree_t *tree = tree_new(NULL);
+
   CU_ASSERT_PTR_NOT_NULL(tree);
   CU_ASSERT_EQUAL(tree_size(tree), 0);
+
+  tree_delete(tree, false);
 }
 
 void test_tree_insert() {
-  tree_t *tree = tree_new();
+  tree_t *tree = tree_new(test_tree_free_func);
   int *ptr = calloc(1, sizeof(int *));
 
   tree_insert(tree, ptr);
@@ -50,10 +58,12 @@ void test_tree_insert() {
   CU_ASSERT_TRUE(h >= lower_limit && h <= upper_limit);
 
   CU_ASSERT_EQUAL(tree_size(tree), n);
+
+  tree_delete(tree, true);
 }
 
 void test_tree_remove() {
-  tree_t *tree = tree_new();
+  tree_t *tree = tree_new(test_tree_free_func);
 
   int n = 200;
   int *ptr[200];
@@ -70,6 +80,7 @@ void test_tree_remove() {
   for (size_t i = 50; i < 120; i++) {
     CU_ASSERT_TRUE(tree_remove(tree, ptr[i]));
     n = n - 1;
+    free(ptr[i]);
   }
 
   CU_ASSERT_EQUAL(tree_size(tree), n);
@@ -84,10 +95,11 @@ void test_tree_remove() {
 
   CU_ASSERT_TRUE(h >= lower_limit && h < upper_limit);
 
+  tree_delete(tree, true);
 }
 
 void test_tree_apply() {
-  tree_t *tree = tree_new();
+  tree_t *tree = tree_new(test_tree_free_func);
 
   for (size_t i = 0; i < 41; i++) {
     int *ptr = calloc(1, sizeof(int));
@@ -97,6 +109,8 @@ void test_tree_apply() {
 
   int param = 0;
   tree_apply(tree, test_tree_apply_func, &param);
+
+  tree_delete(tree, true);
 }
 
 int main(int argc, char *argv[]) {

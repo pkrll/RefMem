@@ -13,7 +13,7 @@ struct node {
 
 struct tree {
   node_t *root;
-
+  tree_free_func free;
 } typedef tree_t;
 
 // -------------------------------
@@ -32,14 +32,20 @@ static int node_height(node_t *node);
 static int node_get_balance(node_t *node);
 static int node_size(node_t *node, int acc);
 static bool node_remove(node_t **node, T elem);
-static void node_delete(node_t *node);
+static void node_delete(node_t *node, tree_free_func free_func, bool delete_elems);
 static void node_apply(node_t *node, tree_apply_func function, void *data);
 // -------------------------------
 // Public functions
 // -------------------------------
 
-tree_t *tree_new() {
-  return calloc(1, sizeof(tree_t));
+tree_t *tree_new(tree_free_func free_func) {
+  tree_t *tree = calloc(1, sizeof(tree_t));
+
+  if (tree) {
+    tree->free = free_func;
+  }
+
+  return tree;
 }
 
 bool tree_insert(tree_t *tree, T elem) {
@@ -79,9 +85,9 @@ int tree_height(tree_t *tree) {
   return tree->root->height;
 }
 
-void tree_delete(tree_t *tree) {
+void tree_delete(tree_t *tree, bool delete_elems) {
   if (tree) {
-    node_delete(tree->root);
+    node_delete(tree->root, tree->free, delete_elems);
     free(tree);
   }
 }
@@ -305,14 +311,18 @@ static int node_size(node_t *node, int acc) {
   return acc;
 }
 
-static void node_delete(node_t *node) {
+static void node_delete(node_t *node, tree_free_func free_func, bool delete_elems) {
   if (node) {
     if (node->left) {
-      node_delete(node->left);
+      node_delete(node->left, free_func, delete_elems);
     }
 
     if (node->right) {
-      node_delete(node->right);
+      node_delete(node->right, free_func, delete_elems);
+    }
+
+    if (delete_elems) {
+      free_func(node->element);
     }
 
     free(node);
