@@ -1,7 +1,7 @@
 # Compiler & compiler flags
 CC=gcc
-CFLAGS=-Wall -pedantic
-TFLAGS=-lcunit #--coverage
+CFLAGS= -std=c11 -Wall -pedantic
+TFLAGS= -std=c11 -lcunit -lm #--coverage, lm needed to link math lib
 TEST=test/test_refmen
 
 # Directories
