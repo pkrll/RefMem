@@ -131,6 +131,7 @@ int main(int argc, char *argv[]) {
   // Set up suites and tests
   CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL); //The tests more or less checks if min and max values of unsigned int pass.
   CU_add_test(creation, "Allocation", test_allocate);
+  CU_add_test(creation, "Deallocation", test_deallocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
