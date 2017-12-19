@@ -7,9 +7,9 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
-/**  
+/**
 * @brief cascade_limit represent the amount of free's
-         that's the program is allowed to do in a 
+         that's the program is allowed to do in a
          sequence.
 */
 static size_t cascade_limit = 1000;
@@ -80,7 +80,7 @@ void set_cascade_limit(size_t limit) {
 * @brief Returns the cascade limit
 * @return cascade limit.
 */
-size_t get_cascade_limit(){
+size_t get_cascade_limit() {
   return cascade_limit;
 }
 
