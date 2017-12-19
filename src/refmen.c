@@ -8,7 +8,7 @@
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
 /**  
-* @brief CASCADE_LIMIT represent the amount of free's
+* @brief cascade_limit represent the amount of free's
          that's the program is allowed to do in a 
          sequence.
 */
