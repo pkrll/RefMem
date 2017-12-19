@@ -23,15 +23,9 @@ void test_allocate() {
 
   //Tests of weird data that shall pass even if they make no sense.
   test_t *test_zero = allocate(0, NULL);
-  test_t *test_neg = allocate(-1, NULL);
-  test_t *test_float = allocate(1.8, NULL);
-  test_t *test_string = allocate("pass", NULL);
   test_t *test_null = allocate(sizeof(NULL), NULL);
 
   CU_ASSERT_NOT_EQUAL(test_zero, NULL);
-  CU_ASSERT_NOT_EQUAL(test_neg, NULL);
-  CU_ASSERT_NOT_EQUAL(test_float, NULL);
-  CU_ASSERT_NOT_EQUAL(test_string, NULL);
   CU_ASSERT_NOT_EQUAL(test_null, NULL);
 }
 
@@ -49,17 +43,9 @@ void test_allocate_array() {
   
   //Tests weird input data, I'm more or less clueless on what the actual edge-cases are by now.
   int* test_no_slots = (int*) allocate_array(0, sizeof(int), NULL);
-  int* test_neg_slots = (int*) allocate_array(-1, sizeof(int), NULL);
-  int* test_float_slots = (int*) allocate_array(3.14, sizeof(int), NULL);
-  int* test_string_slots = (int*) allocate_array("number", sizeof(int), NULL);
-  int* test_null_slots = (int*) allocate_array(NULL, sizeof(int), NULL);
-  int* test_void_slots = (int*) allocate_array(sizeof(void), sizeof(int), NULL);
+  int* test_void_slots = (int*) allocate_array(sizeof(0), sizeof(int), NULL);
 
   CU_ASSERT_NOT_EQUAL(test_no_slots, NULL);
-  CU_ASSERT_NOT_EQUAL(test_neg_slots, NULL);
-  CU_ASSERT_NOT_EQUAL(test_float_slots, NULL);
-  CU_ASSERT_NOT_EQUAL(test_string_slots, NULL);
-  CU_ASSERT_NOT_EQUAL(test_null_slots, NULL);
   CU_ASSERT_NOT_EQUAL(test_void_slots, NULL);
 
   for(int i = 0; i < 4; i++) {
@@ -75,19 +61,15 @@ void test_retain() {
 
   //Testing the independance of retain. Making sure that it doesn't care what or what size was allocated.
   test_t *test_zero = allocate(0, NULL);
-  test_t *test_null = allocate(NULL, NULL);
   test_t *test_large = allocate(pow(2, 63), NULL);
 
   retain(test_zero);
-  retain(test_null);
-  retain(test_null);
   retain(test_large);
   retain(test_large);
   retain(test_large);
   retain(test_large);
   
   CU_ASSERT_EQUAL(rc(test_zero), 1);
-  CU_ASSERT_EQUAL(rc(test_null), 2);
   CU_ASSERT_EQUAL(rc(test_large), 4);
   
   for (size_t i = 1; i < 10; i++) {
@@ -134,26 +116,9 @@ void test_set_cascade_limit(){
   set_cascade_limit(0);
   CU_ASSERT_EQUAL(get_cascade_limit(), 0);
 
-  set_cascade_limit(2.7);
-
-  CU_ASSERT_NOT_EQUAL(get_cascade_limit(), 2.7);
-
-  set_cascade_limit(-10);
-  CU_ASSERT_NOT_EQUAL(get_cascade_limit(), -10);
-
-  printf("\ncascade limit: %d\n", get_cascade_limit());
 
   set_cascade_limit('1');
   CU_ASSERT_NOT_EQUAL(get_cascade_limit(), 1);
-
-  printf("\ncascade limit: %d\n", get_cascade_limit());
-
-  set_cascade_limit((long long int)NULL);
-  printf("\ncascade limit of NULL: %lul\n", get_cascade_limit());
-
-
-
-   
 
 }
 
