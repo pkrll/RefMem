@@ -99,6 +99,24 @@ When you're satisfied with your changes and want to incorporate those to the ``m
 
 But always have someone else to review your changes before merging them.
 
+##### What to look at when reviewing?
+
+Use the following as a guide for when reviewing someone else's code (but also before creating a pull request).
+
+* Is the code documented correctly?
+* Are there any unit tests?
+* Does the code run correctly on your own computer?
+* Dead code?
+* Does it follow our coding convention?
+* Does the code apply lagom defensive programming?
+
+##### Who to choose as reviewer?
+
+* Not you.
+* Someone not involved in the coding
+* Preferably someone on a different platform
+* Do not choose the same person every time!
+
 ###### How do I do it?
 After pushing all your changes to the repository, do the following:
 
