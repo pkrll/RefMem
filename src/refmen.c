@@ -7,9 +7,9 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
-/**  
+/**
 * @brief CASCADE_LIMIT represent the amount of free's
-         that's the program is allowed to do in a 
+         that's the program is allowed to do in a
          sequence.
 */
 static size_t CASCADE_LIMIT = 1000;
@@ -67,7 +67,7 @@ obj allocate(size_t bytes, function1_t destructor) {
   return (obj)record;
 }
 
-/**  
+/**
 * @brief Sets the cascade limit
 * @param limit new cascade limit
 * @return void.
@@ -76,36 +76,36 @@ void set_cascade_limit(size_t limit) {
   CASCADE_LIMIT = limit;
 }
 
-/**  
+/**
 * @brief Returns the cascade limit
 * @return cascade limit.
 */
-size_t get_cascade_limit(){
+size_t get_cascade_limit() {
   return CASCADE_LIMIT;
 }
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
-      record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
-      
+  record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
 
-      record->reference_count = 0;
-      record->destructor = destructor;
 
-      record++;
+  record->reference_count = 0;
+  record->destructor = destructor;
 
-      return (obj)record;
+  record++;
+
+  return (obj)record;
 }
 
 void deallocate(obj object) {
 
   assert(rc(object) == 0);
-  
+
   record_t *record = convert_to_record(object);
 
   if (record->destructor != NULL) {
     (*record->destructor)(object);
   }
-    
+
   free(record);
 }
 
