@@ -98,6 +98,28 @@ void tree_apply(tree_t *tree, tree_apply_func function, void *data) {
   }
 }
 
+static void node_elements(node_t *node, T *elems, int *index) {
+  if (node) {
+    node_elements(node->left, elems, index);
+    elems[*index] = node->element;
+    (*index)++;
+    node_elements(node->right, elems, index);
+  }
+}
+
+T *to_array(tree_t *tree) {
+  int size = tree_size(tree);
+  T *elems = calloc(size, sizeof(T));
+
+  if (tree) {
+    int i = 0;
+    node_elements(tree->root, elems, &i);
+  }
+
+  return elems;
+
+}
+
 // -------------------------------
 // Private functions
 // -------------------------------

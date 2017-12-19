@@ -63,4 +63,10 @@ void tree_delete(tree_t *tree, bool delete_elems);
 /// \param data an extra argument passed to each call to fun (may be NULL)
 void tree_apply(tree_t *tree, tree_apply_func function, void *data);
 
+/// Returns an array with all the elements.
+///
+/// \param tree the tree
+/// \returns: an array with all the elements
+T *to_array(tree_t *tree);
+
 #endif

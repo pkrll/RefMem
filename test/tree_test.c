@@ -115,6 +115,34 @@ void test_tree_apply() {
   tree_delete(tree, true);
 }
 
+void test_tree_to_array() {
+  tree_t *tree = tree_new(NULL);
+
+  int *ptrs[41];
+
+  for (int i = 0; i < 41; i++) {
+    int *ptr = calloc(1, sizeof(int));
+    *ptr = i;
+    ptrs[i] = ptr;
+    tree_insert(tree, ptr);
+  }
+
+  T *array = to_array(tree);
+
+  for (size_t i = 0; i < 41; i++) {
+    bool found = false;
+    for (size_t j = 0; j < 41; j++) {
+      if (array[i] == ptrs[j]) {
+        found = true;
+        break;
+      }
+    }
+
+    CU_ASSERT_TRUE(found);
+  }
+
+}
+
 int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
@@ -123,6 +151,7 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "Tree insert", test_tree_insert);
   CU_add_test(creation, "Tree remove", test_tree_remove);
   CU_add_test(creation, "Tree apply", test_tree_apply);
+  CU_add_test(creation, "Tree array", test_tree_to_array);
 
   CU_basic_run_tests();
   CU_cleanup_registry();
