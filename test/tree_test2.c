@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
-#include "../src/tree.h"
+#include "../src/tree2.h"
 
 int *ptrs[41];
 
@@ -25,7 +25,7 @@ void test_tree_apply_func(T elem, void *data) {
 
 void test_tree_free_func(T elem) {
   int *ptr = (int *)elem;
-  free(ptr);
+  // free(ptr);
 }
 
 void test_tree_new() {
