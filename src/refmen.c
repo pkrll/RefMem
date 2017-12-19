@@ -12,7 +12,7 @@
          that's the program is allowed to do in a 
          sequence.
 */
-static size_t CASCADE_LIMIT = 1000;
+static size_t cascade_limit = 1000;
 
 struct record {
   size_t reference_count;
@@ -73,7 +73,7 @@ obj allocate(size_t bytes, function1_t destructor) {
 * @return void.
 */
 void set_cascade_limit(size_t limit) {
-  CASCADE_LIMIT = limit;
+  cascade_limit = limit;
 }
 
 /**  
@@ -81,7 +81,7 @@ void set_cascade_limit(size_t limit) {
 * @return cascade limit.
 */
 size_t get_cascade_limit(){
-  return CASCADE_LIMIT;
+  return cascade_limit;
 }
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
