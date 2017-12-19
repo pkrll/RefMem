@@ -43,10 +43,8 @@ void test_allocate_array() {
   
   //Tests weird input data, I'm more or less clueless on what the actual edge-cases are by now.
   int* test_no_slots = (int*) allocate_array(0, sizeof(int), NULL);
-  int* test_void_slots = (int*) allocate_array(sizeof(0), sizeof(int), NULL);
 
   CU_ASSERT_NOT_EQUAL(test_no_slots, NULL);
-  CU_ASSERT_NOT_EQUAL(test_void_slots, NULL);
 
   for(int i = 0; i < 4; i++) {
     object[i] = i;
