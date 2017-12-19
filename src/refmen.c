@@ -7,12 +7,18 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
+<<<<<<< HEAD
 /**
 * @brief CASCADE_LIMIT represent the amount of free's
          that's the program is allowed to do in a
+=======
+/**  
+* @brief cascade_limit represent the amount of free's
+         that's the program is allowed to do in a 
+>>>>>>> 32d1e177fd19614a6dabb270970c46e9fc4aa9ef
          sequence.
 */
-static size_t CASCADE_LIMIT = 1000;
+static size_t cascade_limit = 1000;
 
 struct record {
   size_t reference_count;
@@ -73,15 +79,20 @@ obj allocate(size_t bytes, function1_t destructor) {
 * @return void.
 */
 void set_cascade_limit(size_t limit) {
-  CASCADE_LIMIT = limit;
+  cascade_limit = limit;
 }
 
 /**
 * @brief Returns the cascade limit
 * @return cascade limit.
 */
+<<<<<<< HEAD
 size_t get_cascade_limit() {
   return CASCADE_LIMIT;
+=======
+size_t get_cascade_limit(){
+  return cascade_limit;
+>>>>>>> 32d1e177fd19614a6dabb270970c46e9fc4aa9ef
 }
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
