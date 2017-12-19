@@ -7,8 +7,6 @@
 #include <math.h>
 #include "../src/tree.h"
 
-int *ptrs[41];
-
 void test_tree_apply_func(T elem, void *data) {
   int *numbr = (int *)elem;
   int *param = (int *)data;
@@ -16,11 +14,7 @@ void test_tree_apply_func(T elem, void *data) {
   CU_ASSERT_PTR_NOT_NULL(numbr);
   CU_ASSERT_PTR_NOT_NULL(param);
 
-  int i = *param;
-  printf("%p\n", numbr);
-  printf("%p\n\n", ptrs[i]);
-  CU_ASSERT_PTR_EQUAL(numbr, ptrs[i]);
-  (*param)++;
+  *param = *param + *numbr;
 }
 
 void test_tree_free_func(T elem) {
@@ -94,13 +88,9 @@ void test_tree_remove() {
   double c = 1 / log2(p);
   double b = c/2 * log2(5) - 2;
 
-  double lower_limit = log2(n + 1);
-  double upper_limit = c * log2(n + 2) + b;
-  double h = tree_height(tree);
-
-  printf("%f\n", lower_limit);
-  printf("%d\n", tree_height(tree));
-  printf("%f\n", upper_limit);
+  int lower_limit = round(log2(n + 1));
+  int upper_limit = round(c * log2(n + 2) + b);
+  int h = tree_height(tree);
 
   CU_ASSERT_TRUE(h >= lower_limit && h < upper_limit);
 
@@ -110,15 +100,17 @@ void test_tree_remove() {
 void test_tree_apply() {
   tree_t *tree = tree_new(test_tree_free_func);
 
+  int sum = 0;
   for (size_t i = 0; i < 41; i++) {
     int *ptr = calloc(1, sizeof(int));
+    sum = sum + i;
     *ptr = i;
-    ptrs[i] = ptr;
     tree_insert(tree, ptr);
   }
 
   int param = 0;
   tree_apply(tree, test_tree_apply_func, &param);
+  CU_ASSERT_EQUAL(param, sum);
 
   tree_delete(tree, true);
 }

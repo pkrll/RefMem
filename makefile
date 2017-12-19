@@ -45,7 +45,7 @@ $(OBJECTDIR)/%.o: $(TESTDIR)/%.c
 
 test-tree: compile-tests
 test-tree:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree2.o $(OBJECTDIR)/tree_test2.o -o $(BINARYDIR)/test_tree $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree.o $(OBJECTDIR)/tree_test.o -o $(BINARYDIR)/test_tree $(TFLAGS)
 
 test-refmen: compile-tests
 test-refmen:
