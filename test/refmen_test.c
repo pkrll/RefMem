@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <math.h> //for using pow()
 #include "../src/refmen.h"
 
 struct test_struct {
@@ -14,9 +15,24 @@ struct test_struct {
 
 } typedef test_t;
 
+
 void test_allocate() {
+  //Tests of base functionality with common valid data.
   test_t *object = allocate(sizeof(test_t), NULL);
   CU_ASSERT_EQUAL(sizeof(*object), 12);
+
+  //Tests of weird data that shall pass even if they make no sense.
+  test_t *test_zero = allocate(0, NULL);
+  test_t *test_neg = allocate(-1, NULL);
+  test_t *test_float = allocate(1.8, NULL);
+  test_t *test_string = allocate("pass", NULL);
+  test_t *test_null = allocate(sizeof(NULL), NULL);
+
+  CU_ASSERT_NOT_EQUAL(test_zero, NULL);
+  CU_ASSERT_NOT_EQUAL(test_neg, NULL);
+  CU_ASSERT_NOT_EQUAL(test_float, NULL);
+  CU_ASSERT_NOT_EQUAL(test_string, NULL);
+  CU_ASSERT_NOT_EQUAL(test_null, NULL);
 }
 
 void test_allocate_array() {
@@ -24,20 +40,56 @@ void test_allocate_array() {
   char* text = (char*) allocate_array(4, sizeof(char), NULL);
   char* test = "abc";
 
+  //Edge case in terms of memory handling?
+  int* test_high_mem = (int*) allocate_array((pow(2, 63) + 2), sizeof(int), NULL);
+
+  for(long long int i = 0; i < 1000000000000000000; i+= 10000000000000000) {
+    CU_ASSERT_EQUAL(sizeof(test_high_mem[i]), sizeof(int));
+  }
+  
+  //Tests weird input data, I'm more or less clueless on what the actual edge-cases are by now.
+  int* test_no_slots = (int*) allocate_array(0, sizeof(int), NULL);
+  int* test_neg_slots = (int*) allocate_array(-1, sizeof(int), NULL);
+  int* test_float_slots = (int*) allocate_array(3.14, sizeof(int), NULL);
+  int* test_string_slots = (int*) allocate_array("number", sizeof(int), NULL);
+  int* test_null_slots = (int*) allocate_array(NULL, sizeof(int), NULL);
+  int* test_void_slots = (int*) allocate_array(sizeof(void), sizeof(int), NULL);
+
+  CU_ASSERT_NOT_EQUAL(test_no_slots, NULL);
+  CU_ASSERT_NOT_EQUAL(test_neg_slots, NULL);
+  CU_ASSERT_NOT_EQUAL(test_float_slots, NULL);
+  CU_ASSERT_NOT_EQUAL(test_string_slots, NULL);
+  CU_ASSERT_NOT_EQUAL(test_null_slots, NULL);
+  CU_ASSERT_NOT_EQUAL(test_void_slots, NULL);
+
   for(int i = 0; i < 4; i++) {
     object[i] = i;
     text[i] = test[i];
   }
-  
-  for(int i = 0; i < 4; i++){
-    CU_ASSERT_EQUAL(i,object[i]);
-    CU_ASSERT_EQUAL(text[i], test[i]);
-  }
+
 }
 
 void test_retain() {
+  //Testing common functionality.
   test_t *object = allocate(sizeof(test_t), NULL);
 
+  //Testing the independance of retain. Making sure that it doesn't care what or what size was allocated.
+  test_t *test_zero = allocate(0, NULL);
+  test_t *test_null = allocate(NULL, NULL);
+  test_t *test_large = allocate(pow(2, 63), NULL);
+
+  retain(test_zero);
+  retain(test_null);
+  retain(test_null);
+  retain(test_large);
+  retain(test_large);
+  retain(test_large);
+  retain(test_large);
+  
+  CU_ASSERT_EQUAL(rc(test_zero), 1);
+  CU_ASSERT_EQUAL(rc(test_null), 2);
+  CU_ASSERT_EQUAL(rc(test_large), 4);
+  
   for (size_t i = 1; i < 10; i++) {
     retain(object);
     CU_ASSERT_EQUAL(rc(object), i);
@@ -78,6 +130,31 @@ void test_set_cascade_limit(){
     set_cascade_limit(i);
   }
   CU_ASSERT_EQUAL(get_cascade_limit(), 100);
+
+  set_cascade_limit(0);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 0);
+
+  set_cascade_limit(2.7);
+
+  CU_ASSERT_NOT_EQUAL(get_cascade_limit(), 2.7);
+
+  set_cascade_limit(-10);
+  CU_ASSERT_NOT_EQUAL(get_cascade_limit(), -10);
+
+  printf("\ncascade limit: %d\n", get_cascade_limit());
+
+  set_cascade_limit('1');
+  CU_ASSERT_NOT_EQUAL(get_cascade_limit(), 1);
+
+  printf("\ncascade limit: %d\n", get_cascade_limit());
+
+  set_cascade_limit((long long int)NULL);
+  printf("\ncascade limit of NULL: %lul\n", get_cascade_limit());
+
+
+
+   
+
 }
 
 int main(int argc, char *argv[]) {
@@ -85,12 +162,13 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   // Set up suites and tests
-  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
+  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL); //Will mention suite convention on next meeting.
   CU_add_test(creation, "Allocation", test_allocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "RC", test_rc);
+  CU_add_test(creation, "Cascade_lim", test_set_cascade_limit);
 
   CU_basic_run_tests();
 

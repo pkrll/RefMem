@@ -1,7 +1,7 @@
 # Compiler & compiler flags
 CC=gcc
 CFLAGS=-Wall -pedantic
-TFLAGS=-g -lcunit# --coverage
+TFLAGS=-g -lcunit # --coverage
 
 # Directories
 TESTDIR=test
@@ -30,11 +30,8 @@ build: compile
 
 compile: $(OBJECTS)
 
-linux-test:compile
-	gcc -o refmen_test
-
 build-tests: $(OBJECTS) $(OBJECTS_TEST)
-	$(CC) $(CFLAGS) $(TFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTS_TEST) $(OBJECTS) -o $(BINARYDIR)/$(TESTBINARY)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTS_TEST) $(OBJECTS) -o $(BINARYDIR)/$(TESTBINARY) $(TFLAGS)
 
 $(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
