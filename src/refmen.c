@@ -3,10 +3,6 @@
 #include <assert.h>
 #include "refmen.h"
 
-#define COUNT_SIZE 8
-#define DESTR_SIZE 8
-#define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
-
 /**
 * @brief cascade_limit represent the amount of free's
          that's the program is allowed to do in a
@@ -57,7 +53,7 @@ size_t rc(obj object) {
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
-  record_t *record = malloc(HEADER_SIZE + bytes);
+  record_t *record = malloc(sizeof(record_t) + bytes);
 
   record->reference_count = 0;
   record->destructor = destructor;
@@ -76,7 +72,7 @@ size_t get_cascade_limit() {
 }
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
-  record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
+  record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
 
   record->reference_count = 0;
