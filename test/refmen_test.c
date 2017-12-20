@@ -104,6 +104,19 @@ void test_rc() {
   release(object);
 }
 
+// Global object for destructor testing 
+test_t *dealloc_object;
+
+void test_destructor(obj object) {
+  // Make sure the object we get from destructor is the same as the one we deallocated
+  CU_ASSERT_PTR_EQUAL(dealloc_object, object);
+}
+
+void test_deallocate() {
+  dealloc_object = allocate(sizeof(test_t), (function1_t) test_destructor);
+  deallocate(dealloc_object);
+}
+
 void test_set_cascade_limit() {
   set_cascade_limit(2);
   CU_ASSERT_EQUAL(get_cascade_limit(), 2);
