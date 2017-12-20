@@ -104,7 +104,7 @@ void test_rc() {
   release(object);
 }
 
-// Global object for destructor testing 
+// Global object for destructor testing
 test_t *dealloc_object;
 
 void test_destructor(obj object) {
