@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <math.h> //for using pow()
+#include <limits.h>
 #include "../src/refmen.h"
 
 struct test_struct {
@@ -14,9 +16,20 @@ struct test_struct {
 
 } typedef test_t;
 
+
 void test_allocate() {
+  //Tests of base functionality with common valid data.
   test_t *object = allocate(sizeof(test_t), NULL);
   CU_ASSERT_EQUAL(sizeof(*object), 12);
+
+  //Tests of weird data that shall pass even if they make no sense.
+  test_t *test_zero = allocate(0, NULL);
+  test_t *test_null = allocate(sizeof(NULL), NULL);
+  test_t *test_max = allocate(UINT_MAX, NULL);
+
+  CU_ASSERT_NOT_EQUAL(test_zero, NULL);
+  CU_ASSERT_NOT_EQUAL(test_null, NULL);
+  CU_ASSERT_TRUE(sizeof(size_t) <= sizeof(test_max));
 }
 
 void test_allocate_array() {
@@ -24,19 +37,40 @@ void test_allocate_array() {
   char* text = (char*) allocate_array(4, sizeof(char), NULL);
   char* test = "abc";
 
+  //Edge case in terms of memory handling?
+  int* test_high_mem = (int*) allocate_array((pow(2, 63) + 2), sizeof(int), NULL);
+
+  for(long long int i = 0; i < 1000000000000000000; i+= 10000000000000000) {
+    CU_ASSERT_EQUAL(sizeof(test_high_mem[i]), sizeof(int));
+  }
+
+  //Tests weird input data, I'm more or less clueless on what the actual edge-cases are by now.
+  int* test_no_slots = (int*) allocate_array(0, sizeof(int), NULL);
+
+  CU_ASSERT_NOT_EQUAL(test_no_slots, NULL);
+
   for(int i = 0; i < 4; i++) {
     object[i] = i;
     text[i] = test[i];
   }
 
-  for(int i = 0; i < 4; i++) {
-    CU_ASSERT_EQUAL(i,object[i]);
-    CU_ASSERT_EQUAL(text[i], test[i]);
-  }
 }
 
 void test_retain() {
+  //Testing common functionality.
   test_t *object = allocate(sizeof(test_t), NULL);
+
+  test_t *test_zero = allocate(0, NULL);
+  test_t *test_large = allocate(UINT_MAX, NULL);
+
+  retain(test_zero);
+  retain(test_large);
+  retain(test_large);
+  retain(test_large);
+  retain(test_large);
+
+  CU_ASSERT_EQUAL(rc(test_zero), 1);
+  CU_ASSERT_EQUAL(rc(test_large), 4);
 
   for (size_t i = 1; i < 10; i++) {
     retain(object);
@@ -67,6 +101,7 @@ void test_rc() {
   CU_ASSERT_EQUAL(rc(object), 2);
   release(object);
   CU_ASSERT_EQUAL(rc(object), 1);
+  release(object);
 }
 
 // Global object for destructor testing
@@ -82,15 +117,24 @@ void test_deallocate() {
   deallocate(dealloc_object);
 }
 
-void test_cascade() {
-  int base_value = 1000, test1 = 200, test2 = 0, test3 = sizeof(int);
-  CU_ASSERT_EQUAL(base_value, get_cascade_limit());
-  set_cascade_limit(test1);
-  CU_ASSERT_EQUAL(test1, get_cascade_limit());
-  set_cascade_limit(test2);
-  CU_ASSERT_EQUAL(test2, get_cascade_limit());
-  set_cascade_limit(test3);
-  CU_ASSERT_EQUAL(test3, get_cascade_limit());
+void test_set_cascade_limit() {
+  set_cascade_limit(2);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 2);
+
+  set_cascade_limit(3);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 3);
+
+  for(int i= 0; i<=100; i++) {
+    set_cascade_limit(i);
+  }
+  CU_ASSERT_EQUAL(get_cascade_limit(), 100);
+
+  set_cascade_limit(0);
+  CU_ASSERT_EQUAL(get_cascade_limit(), 0);
+
+  set_cascade_limit(UINT_MAX);
+  CU_ASSERT_EQUAL(get_cascade_limit(), UINT_MAX);
+
 }
 
 int main(int argc, char *argv[]) {
@@ -98,14 +142,13 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   // Set up suites and tests
-  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
+  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL); //The tests more or less checks if min and max values of unsigned int pass.
   CU_add_test(creation, "Allocation", test_allocate);
-  CU_add_test(creation, "Deallocation", test_deallocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
-  CU_add_test(creation, "Cascade", test_cascade);
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "RC", test_rc);
+  CU_add_test(creation, "Cascade_lim", test_set_cascade_limit);
 
   CU_basic_run_tests();
 
