@@ -75,32 +75,32 @@ void set_cascade_limit(size_t new_limit) {
 
 //denna heter read för vet inte om det är samma som get ska göra
 //denna används iallafall i mina tester
-size_t get_cascade_limit(){
+size_t get_cascade_limit() {
   return cascade.limit;
 }
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
-      record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
-      
+  record_t *record = calloc(1, ( elem_size * elements + HEADER_SIZE));
 
-      record->reference_count = 0;
-      record->destructor = destructor;
 
-      record++;
+  record->reference_count = 0;
+  record->destructor = destructor;
 
-      return (obj)record;
+  record++;
+
+  return (obj)record;
 }
 
 void deallocate(obj object) {
 
   assert(rc(object) == 0);
-  
+
   record_t *record = convert_to_record(object);
 
   if (record->destructor != NULL) {
     (*record->destructor)(object);
   }
-    
+
   free(record);
 }
 

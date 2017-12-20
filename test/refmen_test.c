@@ -28,8 +28,8 @@ void test_allocate_array() {
     object[i] = i;
     text[i] = test[i];
   }
-  
-  for(int i = 0; i < 4; i++){
+
+  for(int i = 0; i < 4; i++) {
     CU_ASSERT_EQUAL(i,object[i]);
     CU_ASSERT_EQUAL(text[i], test[i]);
   }
@@ -69,7 +69,7 @@ void test_rc() {
   CU_ASSERT_EQUAL(rc(object), 1);
 }
 
-// Global object for destructor testing 
+// Global object for destructor testing
 test_t *dealloc_object;
 
 void test_destructor(obj object) {
@@ -82,12 +82,12 @@ void test_deallocate() {
   deallocate(dealloc_object);
 }
 
-void test_set_cascade_limit(){
+void test_set_cascade_limit() {
   set_cascade_limit(2);
   CU_ASSERT_EQUAL(get_cascade_limit(), 2);
   set_cascade_limit(3);
   CU_ASSERT_EQUAL(get_cascade_limit(), 3);
-  for(int i= 0; i<=100; i++){
+  for(int i= 0; i<=100; i++) {
     set_cascade_limit(i);
   }
   CU_ASSERT_EQUAL(get_cascade_limit(), 100);
