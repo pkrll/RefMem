@@ -67,19 +67,10 @@ obj allocate(size_t bytes, function1_t destructor) {
   return (obj)record;
 }
 
-/**
-* @brief Sets the cascade limit
-* @param limit new cascade limit
-* @return void.
-*/
 void set_cascade_limit(size_t limit) {
   cascade_limit = limit;
 }
 
-/**
-* @brief Returns the cascade limit
-* @return cascade limit.
-*/
 size_t get_cascade_limit() {
   return cascade_limit;
 }
