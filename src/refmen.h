@@ -26,7 +26,7 @@ void release(obj object);
  */
 size_t rc(obj object);
 /**
- * @brief               Allocates memory for an object an its header
+ * @brief               Allocates memory for an object an its record
  *                      that contains the reference counter and the
  *                      function pointer to its destructor.
  * @param bytes         Number of bytes to allocate
@@ -36,7 +36,7 @@ size_t rc(obj object);
 obj allocate(size_t bytes, function1_t destructor);
 /**
  * @brief               Allocates memory for a set number of object,
- *                      an its header that contains the reference
+ *                      an its record that contains the reference
  *                      counter and the function pointer to its destructor.
  * @param elements      Number of elements to allocate
  * @param elem_size     Size of the object to allocate, in byte

@@ -7,6 +7,10 @@
 #define DESTR_SIZE 8
 #define HEADER_SIZE (COUNT_SIZE + DESTR_SIZE)
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 struct record {
   size_t reference_count;
   function1_t destructor;
@@ -22,12 +26,31 @@ struct cascade {
 //du måste set_cascade_limit i början nu annars kommer det fucka uuuuur
 static cascade_t cascade;
 
+// -------------------------------
+// Declarations
+// -------------------------------
+
+/**
+ * @brief                 Redirect object pointer to its record
+ * @param object          Pointer to object
+ * @return                The object's record
+ */
+static record_t *convert_to_record(obj object);
+
+// -------------------------------
+// Private
+// -------------------------------
+
 static record_t *convert_to_record(obj object) {
   record_t *record = object;
   record--;
 
   return record;
 }
+
+// -------------------------------
+// Public
+// -------------------------------
 
 void retain(obj object) {
   if (object != NULL) {
