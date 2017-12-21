@@ -10,25 +10,37 @@
 */
 static size_t cascade_limit = 1000;
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 struct record {
   size_t reference_count;
   function1_t destructor;
 
 } typedef record_t;
 
-static record_t *convert_to_record(obj object) {
-  record_t *record = object;
-  record--;
 
-  return record;
-}
+// -------------------------------
+// Declarations
+// -------------------------------
 
-static obj convert_from_record(record_t *record) {
-  record++;
-  obj object = (obj) record;
+/**
+ * @brief                 Redirect object pointer to its record
+ * @param object          Pointer to object
+ * @return                The object's record
+ */
+static record_t *convert_to_record(obj object);
+/**
+ * @brief                 Redirect record pointer to its object
+ * @param object          Pointer to record
+ * @return                The record's object
+ */
+static obj convert_from_record(record_t *record);
 
-  return object;
-}
+// -------------------------------
+// Public
+// -------------------------------
 
 void retain(obj object) {
   if (object != NULL) {
@@ -109,3 +121,21 @@ void set_cascade_limit(size_t);
 size_t get_cascade_limit();
 void cleanup();
 void shutdown();
+
+// -------------------------------
+// Private
+// -------------------------------
+
+static record_t *convert_to_record(obj object) {
+  record_t *record = object;
+  record--;
+
+  return record;
+}
+
+static obj convert_from_record(record_t *record) {
+  record++;
+  obj object = (obj) record;
+
+  return object;
+}
