@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <math.h> //for using pow()
 #include <limits.h>
-#include "../src/refmen.h"
+#include "../src/refmem.h"
 
 struct test_struct {
 
