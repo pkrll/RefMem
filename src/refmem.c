@@ -23,6 +23,13 @@ static record_t *convert_to_record(obj object) {
   return record;
 }
 
+static obj convert_from_record(record_t *record) {
+  record++;
+  obj object = (obj) record;
+
+  return object;
+}
+
 void retain(obj object) {
   if (object != NULL) {
     record_t *record = convert_to_record(object);
@@ -34,10 +41,12 @@ void release(obj object) {
   if (object != NULL) {
     record_t *record = convert_to_record(object);
 
-    if (record->reference_count > 1) {
-      record->reference_count -= 1;
-    } else {
-      // deallocate(record)
+    record->reference_count -= 1;
+
+    if (record->reference_count == 0) {
+      obj object = convert_from_record(record);
+
+      deallocate(object);
     }
   }
 }
