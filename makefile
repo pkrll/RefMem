@@ -2,7 +2,7 @@
 CC=gcc
 CFLAGS= -std=c11 -Wall -pedantic
 TFLAGS= -std=c11 -lcunit -lm #--coverage, lm needed to link math lib
-TEST=test/test_refmen
+TEST=test/test_refmem
 
 # Directories
 TESTDIR=test
@@ -11,8 +11,8 @@ OBJECTDIR=obj
 BINARYDIR=bin
 
 # Binary names
-BINARY=refmen.out
-TESTBINARY=test_refmen.out
+BINARY=refmem.out
+TESTBINARY=test_refmem.out
 
 # Source & object files
 SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.c')
@@ -47,9 +47,9 @@ test-tree: compile-tests
 test-tree:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree.o $(OBJECTDIR)/tree_test.o -o $(BINARYDIR)/test_tree $(TFLAGS)
 
-test-refmen: compile-tests
-test-refmen:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmen.o $(OBJECTDIR)/refmen_test.o -o $(BINARYDIR)/test_refmen $(TFLAGS)
+test-refmem: compile-tests
+test-refmem:
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
 
 # PHONY TARGETS
 
@@ -61,9 +61,9 @@ clean:
 	rm -f *~
 	rm -rf $(DEBUG_FILES)
 
-test: test-refmen test-tree
-	@echo "--------------------------------------------- RUNNING TESTS ON REFMEN --------------------------------------------"
-	@./$(BINARYDIR)/test_refmen
+test: test-refmem test-tree
+	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
+	@./$(BINARYDIR)/test_refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
 	@./$(BINARYDIR)/test_tree
 
