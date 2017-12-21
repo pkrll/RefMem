@@ -67,5 +67,8 @@ test: test-refmem test-tree
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
 	@./$(BINARYDIR)/test_tree
 
+memtest: test-refmem
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
+
 style:
 	astyle --style=google --indent=spaces=2 $(SOURCES) $(SOURCES_TEST)
