@@ -71,4 +71,4 @@ memtest: test-refmem
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
 
 style:
-	astyle --style=google --indent=spaces=2 $(SOURCES) $(SOURCES_TEST)
+	astyle --style=google --indent=spaces=2 --indent-continuation=2 $(SOURCES) $(SOURCES_TEST)
