@@ -1,0 +1,16 @@
+This project was completed through the agile methodology Kanban with use of Trello.
+We chose Kanban because it was easy to learn and allowed us to work on a distance
+through concrete goals represented as notes on Trello.
+
+The application Trello allowed us to create a board with post it notes. There
+we had different sections depending on which stage current note were on. The
+sections were To do, ToDo: Kod, Doing, Review and Done. Those sections which were
+specially adapted for this project is Doing and Review. Doing is limited to
+only contain six notes. Thereby the group is forced to complete those tasks
+before continuing and limits us to only work with stuff that has a direct
+effect on the current progress. Review is used to guarantee some level
+of correctness in the code. By forcing another project member to verify that
+the code is acceptable. If not it is commented and hopefully fixed. All this
+done through GitHub pull-requests. When a note has passed the review section
+it is moved to Done. That action is represented by the pull request is merged
+to the master branch.
