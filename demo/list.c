@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "list.h"
-#include "refmem.h"
+#include "../src/refmem.h"
 
 typedef struct link link_t;
 

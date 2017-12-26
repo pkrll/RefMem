@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #include "db.h"
-#include "refmem.h"
+#include "../src/refmem.h"
 #include "utils.h"
 #include "list.h"
 #include "tree.h"

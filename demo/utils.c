@@ -1,7 +1,7 @@
 
 #include <assert.h>
 #include "utils.h"
-#include "refmem.h"
+#include "../src/refmem.h"
 
 //enda som är en faktisk funktion
 void destchar(obj obj){

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#include "refmem.h"
+#include "../src/refmem.h"
 #include "tree.h"
 
 typedef struct node node_t;

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../src/refmen.h"
+#include "../src/refmem.h"
 #include "utils.h"
 #include "tree.h"
 #include "list.h"
