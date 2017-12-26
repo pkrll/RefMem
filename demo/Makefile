@@ -24,6 +24,9 @@ lager: lager.c tree.o list.o db.o utils.o refmem.o
 .c.o:
 	$(FLAGS) $< -c
 
+refmem.o:
+	$(FLAGS) $< -c ../src/refmem.c
+
 # kolla efter minnesläckage
 valgrind: clean lager
 	@valgrind --leak-check=yes ./lager

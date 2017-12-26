@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "tree2.h"
+#include "tree.h"
 
 struct node {
   T element;
