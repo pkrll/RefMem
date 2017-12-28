@@ -1,0 +1,29 @@
+4
+Eriksson
+En gammal telefon
+12
+1
+A0
+5
+Google Nexus
+Jaja
+9000
+2
+A9
+99
+A8
+93
+Iphone
+En telefon
+10
+2
+A1
+20
+A3
+23
+Samsung
+En annan telefon
+2
+1
+A2
+23

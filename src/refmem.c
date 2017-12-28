@@ -74,7 +74,7 @@ size_t rc(obj object) {
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
-  record_t *record = malloc(sizeof(record_t) + bytes);
+  record_t *record = calloc(1, sizeof(record_t) + bytes);
 
   record->reference_count = 0;
   record->destructor = destructor;
