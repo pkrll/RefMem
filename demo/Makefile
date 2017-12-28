@@ -56,7 +56,7 @@ profiler:
 ########### Tests
 
 tests: CFLAGS += -g -lcunit --coverage #-fprofile-arcs -ftest-coverage
-tests: refmem.o test_action #test_list test_tree test_stack test_item test_utils test_utils_goods test_database
+tests: refmem.o test_action test_stack #test_list test_tree test_item test_utils test_utils_goods test_database
 
 test_tree:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib tree.c tests/test_tree.c -o test_tree
@@ -65,7 +65,7 @@ test_list: refmem.o
 	$(CC) $(CFLAGS) -g -lcunit --coverage -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib ../src/refmem.c list.c tests/test_list.c -o test_list
 
 test_stack:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib stack.c tests/test_stack.c -o test_stack
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib refmem.o utils.c stack.c tests/test_stack.c -o test_stack
 
 test_item:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib item.c list.c tests/test_item.c -o test_item
