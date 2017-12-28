@@ -4,117 +4,129 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../action.h"
+#include "../../src/refmem.h"
 
 void test_action_new() {
   action_t *action = action_new(REMOVE);
-  
+
   CU_ASSERT_PTR_NOT_NULL(action);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
-  
-  action_delete(action);
+
+  deallocate(action);
 }
 
 void test_action_new_add() {
-  elem_t elem = (elem_t) { .i = 5 };
-  
-  action_t *action = action_new_add(elem);
+  int foo = 5;
+
+  action_t *action = action_new_add(&foo);
+  retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), ADD);
 
-  elem_t result = action_get_saved(action);
-  CU_ASSERT_EQUAL(result.i, elem.i);
+  int *result = action_get_saved(action);
+  CU_ASSERT_EQUAL(*result, foo);
 
-  action_delete(action);
+  release(action);
 }
 
 void test_action_new_edit() {
-  elem_t orig_elem = (elem_t) { .i = 15 };
-  elem_t edit_elem = (elem_t) { .i = 16 };
-  
-  action_t *action = action_new_edit(orig_elem, edit_elem);
+  int orig_elem = 15;
+  int edit_elem = 16;
+
+  action_t *action = action_new_edit(&orig_elem, &edit_elem);
+  retain(action);
+
   CU_ASSERT_EQUAL(action_get_type(action), EDIT);
 
-  elem_t orig_result = action_get_original(action);
-  elem_t edit_result = action_get_edited(action);
-  CU_ASSERT_EQUAL(orig_result.i, orig_result.i);
-  CU_ASSERT_EQUAL(edit_result.i, edit_result.i);
-  
-  action_delete(action);
+  int *orig_result = action_get_original(action);
+  int *edit_result = action_get_edited(action);
+  CU_ASSERT_EQUAL(*orig_result, orig_elem);
+  CU_ASSERT_EQUAL(*edit_result, edit_elem);
+
+  release(action);
 }
 
 void test_action_new_remove() {
-  elem_t elem = (elem_t) { .i = 0 };
-  
-  action_t *action = action_new_remove(elem);
+  int elem = 0;
+
+  action_t *action = action_new_remove(&elem);
+  retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
 
-  elem_t result = action_get_saved(action);
-  CU_ASSERT_EQUAL(result.i, elem.i);
+  int *result = action_get_saved(action);
+  CU_ASSERT_EQUAL(*result, elem);
 
-  action_delete(action);
+  release(action);
 }
 
-void test_action_get_type() {  
+void test_action_get_type() {
   action_t *action = action_new(NOTHING);
   CU_ASSERT_EQUAL(action_get_type(action), NOTHING);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), ADD);
-  action_delete(action);
+  deallocate(action);
 
-  elem_t elem = { .i = 5 };
-  action = action_new_add(elem);
+  int elem = 5;
+  action = action_new_add(&elem);
   CU_ASSERT_EQUAL(action_get_type(action), ADD);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), EDIT);
-  action_delete(action);
+  deallocate(action);
 
-  action = action_new_edit(elem, elem);
+  action = action_new_edit(&elem, &elem);
   CU_ASSERT_EQUAL(action_get_type(action), EDIT);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), NOTHING);
-  action_delete(action);
+  deallocate(action);
 
-  action = action_new_remove(elem);
+  action = action_new_remove(&elem);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), ADD);
-  action_delete(action);
+  deallocate(action);
 }
 
 void test_action_get_saved() {
-  elem_t elem = (elem_t) { .i = 5 };
-  action_t *action = action_new_add(elem);
-  elem_t result = action_get_saved(action);
-  CU_ASSERT_EQUAL(result.i, elem.i);
-  action_delete(action);
+  int elem = 5;
+  action_t *action = action_new_add(&elem);
+  int *result = action_get_saved(action);
+  CU_ASSERT_EQUAL(*result, elem);
+  deallocate(action);
 
-  elem = (elem_t) { .i = 15 };
-  action = action_new_remove(elem);
+  elem = 15;
+  action = action_new_remove(&elem);
   result = action_get_saved(action);
-  CU_ASSERT_EQUAL(result.i, elem.i);
-  action_delete(action);
+  CU_ASSERT_EQUAL(*result, elem);
+  deallocate(action);
 
-  elem_t orig_elem = (elem_t) { .i = 11 };
-  elem_t edit_elem = (elem_t) { .i = 99 };
-  action = action_new_edit(orig_elem, edit_elem);
+  int orig_elem = 11;
+  int edit_elem = 99;
+
+  action = action_new_edit(&orig_elem, &edit_elem);
   result = action_get_saved(action);
-  CU_ASSERT_NOT_EQUAL(result.i, orig_elem.i);
-  action_delete(action);
+  CU_ASSERT_NOT_EQUAL(*result, orig_elem);
+  deallocate(action);
 }
 
 void test_action_get_edited() {
-  elem_t orig_elem = (elem_t) { .i = 11 };
-  elem_t edit_elem = (elem_t) { .i = 99 };
-  action_t *action = action_new_edit(orig_elem, edit_elem);
-  elem_t result    = action_get_edited(action);
-  CU_ASSERT_EQUAL(result.i, edit_elem.i);
-  CU_ASSERT_NOT_EQUAL(result.i, orig_elem.i);
-  action_delete(action);
+  int orig_elem = 11;
+  int edit_elem = 99;
+
+  action_t *action = action_new_edit(&orig_elem, &edit_elem);
+  int *result      = action_get_edited(action);
+
+  CU_ASSERT_EQUAL(*result, edit_elem);
+  CU_ASSERT_NOT_EQUAL(*result, orig_elem);
+
+  deallocate(action);
 }
 
 void test_action_get_original() {
-  elem_t orig_elem = (elem_t) { .i = 11 };
-  elem_t edit_elem = (elem_t) { .i = 99 };
-  action_t *action = action_new_edit(orig_elem, edit_elem);
-  elem_t result    = action_get_original(action);
-  CU_ASSERT_EQUAL(result.i, orig_elem.i);
-  CU_ASSERT_NOT_EQUAL(result.i, edit_elem.i);
-  action_delete(action);
+  int orig_elem = 11;
+  int edit_elem = 99;
+
+  action_t *action = action_new_edit(&orig_elem, &edit_elem);
+  int *result      = action_get_original(action);
+
+  CU_ASSERT_EQUAL(*result, orig_elem);
+  CU_ASSERT_NOT_EQUAL(*result, edit_elem);
+
+  deallocate(action);
 }
 
 int main(int argc, char *argv[]) {
@@ -129,11 +141,11 @@ int main(int argc, char *argv[]) {
   CU_add_test(action, "Get Saved", test_action_get_saved);
   CU_add_test(action, "Get Edited", test_action_get_edited);
   CU_add_test(action, "Get Original", test_action_get_original);
-  
+
   CU_basic_run_tests();
 
   CU_cleanup_registry();
-  
+
   return CU_get_error();
 
 }
