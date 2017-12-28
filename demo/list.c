@@ -118,6 +118,8 @@ void list_remove(list_t *list, int index, bool delete) {
         release(list->first);
         list->first = *link;
         retain(list->first);
+      } else {
+        release(link_to_remove);
       }
 
       if (index + 1 == size) {
@@ -127,7 +129,6 @@ void list_remove(list_t *list, int index, bool delete) {
       }
 
       list->size = list->size - 1;
-      release(link_to_remove);
     }
   }
 }
