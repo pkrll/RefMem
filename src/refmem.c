@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "refmem.h"
+#include "tree.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -9,6 +10,8 @@
          sequence.
 */
 static size_t cascade_limit = 1000;
+
+static tree_t *mem_register = NULL;
 
 // -------------------------------
 // Structs
@@ -37,6 +40,8 @@ static record_t *convert_to_record(obj object);
  * @return                The record's object
  */
 static obj convert_from_record(record_t *record);
+
+static void tree_free(obj input);
 
 // -------------------------------
 // Public
@@ -81,6 +86,10 @@ obj allocate(size_t bytes, function1_t destructor) {
 
   record++;
 
+  if (mem_register == NULL) mem_register = tree_new(tree_free);
+
+  tree_insert(mem_register, (obj)record);
+
   return (obj)record;
 }
 
@@ -101,6 +110,10 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
 
   record++;
 
+  if (mem_register == NULL) mem_register = tree_new(tree_free);
+
+  tree_insert(mem_register, (obj)record);
+  
   return (obj)record;
 }
 
@@ -114,7 +127,8 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  free(record);
+  record++;
+  tree_remove(mem_register, (obj)record);
 }
 
 void set_cascade_limit(size_t);
@@ -138,4 +152,9 @@ static obj convert_from_record(record_t *record) {
   obj object = (obj) record;
 
   return object;
+}
+
+static void tree_free(obj input) {
+  record_t* record = convert_to_record(input);
+  free(record);
 }
