@@ -11,7 +11,7 @@
 */
 static size_t cascade_limit = 1000;
 
-tree_t *mem_register = NULL;
+static tree_t *mem_register = NULL;
 
 // -------------------------------
 // Structs
@@ -86,8 +86,7 @@ obj allocate(size_t bytes, function1_t destructor) {
 
   record++;
 
-  if (mem_register == NULL) 
-    mem_register = tree_new(tree_free);
+  if (mem_register == NULL) mem_register = tree_new(tree_free);
 
   tree_insert(mem_register, (obj)record);
 
@@ -111,8 +110,7 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
 
   record++;
 
-  if (mem_register == NULL) 
-    mem_register = tree_new(tree_free);
+  if (mem_register == NULL) mem_register = tree_new(tree_free);
 
   tree_insert(mem_register, (obj)record);
   
