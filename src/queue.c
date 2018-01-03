@@ -2,6 +2,10 @@
 #include "queue.h"
 #include <stdio.h>
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 struct item {
   void *content;
   struct item* next;
@@ -12,20 +16,26 @@ struct queue {
   item_t* last;
 } typedef queue_t;
 
+// -------------------------------
+// Public
+// -------------------------------
+
 queue_t *create_queue() {
   queue_t *queue = malloc(sizeof(queue_t));
-  *queue = (queue_t) {.first = NULL,
-                      .last = NULL};
+  *queue = (queue_t) {
+    .first = NULL,
+     .last = NULL
+  };
 
   return queue;
-    
+
 }
 
 void enqueue(queue_t *queue, void *input) {
   item_t *item = malloc(sizeof(item));
   item->content = input;
   item->next = NULL;
-  
+
   if (queue->first == NULL) {
     queue->first = item;
     queue->last = item;
@@ -37,7 +47,7 @@ void enqueue(queue_t *queue, void *input) {
 
 void *dequeue(queue_t *queue) {
   item_t *next_item;
-  
+
   if (queue->first != NULL) {
     next_item = queue->first;
 
@@ -47,7 +57,7 @@ void *dequeue(queue_t *queue) {
       queue->first = NULL;
       queue->last = NULL;
     }
-  
+
     return next_item->content;
   }
 
@@ -69,6 +79,6 @@ void apply(queue_t *queue, queue_apply_func func, void *data) {
     func(cursor->content, data);
     cursor = cursor->next;
   }
-   
+
 }
 
