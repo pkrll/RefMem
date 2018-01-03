@@ -40,15 +40,17 @@ void *dequeue(queue_t *queue) {
   
   if (queue->first != NULL) {
     next_item = queue->first;
-
+   
     if (queue->first->next != NULL) {
       queue->first = queue->first->next;
     } else {
       queue->first = NULL;
       queue->last = NULL;
     }
-  
-    return next_item->content;
+
+    void *content = next_item->content;
+    free(next_item);
+    return content;
   }
 
   return NULL;
