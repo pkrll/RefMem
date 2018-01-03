@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "refmem.h"
-#include "treeset.h"
+#include "queue.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -11,7 +11,7 @@
 */
 static size_t cascade_limit = 1000;
 static size_t cascade_counter = 0;
-static treeset_t *mem_register = NULL;
+static queue_t *mem_register = NULL;
 
 // -------------------------------
 // Structs
@@ -49,7 +49,6 @@ static void save_object(obj object);
  * @brief         The free function for the mem register tree.
  * @param elem    The element to free.
  */
-static void tree_free(obj element);
 
 // -------------------------------
 // Public
@@ -154,14 +153,10 @@ static obj convert_from_record(record_t *record) {
   return object;
 }
 
-static void tree_free(obj object) {
-  free(object);
-}
-
 static void save_object(obj object) {
   if (mem_register == NULL) {
-    mem_register = treeset_new(tree_free);
+    mem_register = create_queue();
   }
 
-  treeset_insert(mem_register, object);
+  enqueue(mem_register, object);
 }
