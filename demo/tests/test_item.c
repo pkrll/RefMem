@@ -12,19 +12,21 @@
 bool test_item_shelf_apply_fun(char *shelf, int amount, void *data) {
   int *test_data = data;
   (*test_data)++;
-  
+
   return (strcmp(shelf, "A1") == 0 && amount == 1);
 }
 
 void test_item_new() {
   item_t *item = item_new();
+  retain(item);
+
   CU_ASSERT_PTR_NOT_NULL(item);
 
   CU_ASSERT_PTR_NULL(item_get_name(item));
   CU_ASSERT_PTR_NULL(item_get_desc(item));
   CU_ASSERT_EQUAL(item_get_cost(item), 0);
-  
-  item_delete(item);
+
+  release(item);
 }
 
 void test_item_copy() {
@@ -35,7 +37,7 @@ void test_item_copy() {
   int cost = 100;
   char *shelf = "F1";
   int amount = 10000;
-  
+
   item_set_name(item, name);
   item_set_desc(item, desc);
   item_set_cost(item, cost);
@@ -55,7 +57,7 @@ void test_item_copy() {
   cost = 99999;
   shelf = "F2";
   amount = 200;
-  
+
   item_set_name(item, name);
   item_set_desc(item, desc);
   item_set_cost(item, cost);
@@ -72,27 +74,20 @@ void test_item_copy() {
   CU_ASSERT_FALSE(item_has_shelf(copied_item, shelf));
 
   // Testing deleting the old item
-  item_delete(item);
+  deallocate(item);
 
   name = "Foo";
   desc = "Bar";
   cost = 100;
   shelf = "F1";
   amount = 10000;
-  
+
   CU_ASSERT_STRING_EQUAL(item_get_name(copied_item), name);
   CU_ASSERT_STRING_EQUAL(item_get_desc(copied_item), desc);
   CU_ASSERT_EQUAL(item_get_cost(copied_item), cost);
   CU_ASSERT_TRUE(item_has_shelf(copied_item, shelf));
-  
-  item_delete(copied_item);
-}
 
-void test_item_delete() {
-  // TODO: How can you test this?
-  item_t *item = item_new();
-  
-  item_delete(item);
+  deallocate(copied_item);
 }
 
 void test_item_total() {
@@ -102,7 +97,7 @@ void test_item_total() {
   int A2 = 20;
   int A3 = 30;
   int A4 = 40;
-  
+
   item_set_shelves(item, "A1", A1, false);
   item_set_shelves(item, "A2", A2, false);
   item_set_shelves(item, "A3", A3, false);
@@ -119,17 +114,17 @@ void test_item_total() {
 
   item_set_shelves(item, "A5", 50, false);
   CU_ASSERT_EQUAL(item_total(item), 50);
-  
-  item_delete(item);
+
+  deallocate(item);
 }
 
 void test_item_set_name() {
   item_t *item = item_new();
   CU_ASSERT_FALSE(item_set_name(item, ""));
-  
+
   char *name = calloc(3, sizeof(char*));
   name = "Foo";
-  
+
   CU_ASSERT_TRUE(item_set_name(item, name));
   CU_ASSERT_STRING_EQUAL(item_get_name(item), name);
 
@@ -140,7 +135,7 @@ void test_item_set_name() {
   CU_ASSERT_TRUE(item_set_name(item, name));
   CU_ASSERT_STRING_EQUAL(item_get_name(item), name);
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_get_name() {
@@ -150,16 +145,16 @@ void test_item_get_name() {
   item_set_name(item, "Hello");
   CU_ASSERT_STRING_EQUAL(item_get_name(item), "Hello");
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_set_desc() {
   item_t *item = item_new();
   CU_ASSERT_FALSE(item_set_desc(item, ""));
-  
+
   char *desc = calloc(3, sizeof(char*));
   desc = "Foo";
-  
+
   CU_ASSERT_TRUE(item_set_desc(item, desc));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item), desc);
 
@@ -170,7 +165,7 @@ void test_item_set_desc() {
   CU_ASSERT_TRUE(item_set_desc(item, desc));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item), desc);
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_get_desc() {
@@ -180,7 +175,7 @@ void test_item_get_desc() {
   item_set_desc(item, "Hello");
   CU_ASSERT_STRING_EQUAL(item_get_desc(item), "Hello");
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_set_cost() {
@@ -199,7 +194,7 @@ void test_item_set_cost() {
   CU_ASSERT_TRUE(item_set_cost(item, 10000000));
   CU_ASSERT_EQUAL(item_get_cost(item), 10000000);
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_get_cost() {
@@ -211,8 +206,8 @@ void test_item_get_cost() {
 
   item_set_cost(item, 150);
   CU_ASSERT_NOT_EQUAL(item_get_cost(item), 100);
-  
-  item_delete(item);
+
+  deallocate(item);
 }
 
 void test_item_set_shelves() {
@@ -221,14 +216,14 @@ void test_item_set_shelves() {
 
   char *shelf = calloc(2, sizeof(char*));
   shelf = "A1";
-  
+
   item_set_shelves(item, shelf, 150, false);
   CU_ASSERT_TRUE(item_has_shelf(item, "A1"));
 
   shelf = "A2";
   CU_ASSERT_TRUE(item_has_shelf(item, "A1"));
   CU_ASSERT_FALSE(item_has_shelf(item, "A2"));
-  
+
   item_set_shelves(item, "A1", 0, false);
   CU_ASSERT_FALSE(item_has_shelf(item, "A1"));
 
@@ -254,8 +249,8 @@ void test_item_set_shelves() {
 
   item_set_shelves(item, "I8", 15, true);
   CU_ASSERT_EQUAL(item_total(item), 15);
-  
-  item_delete(item);
+
+  deallocate(item);
 }
 
 void test_item_has_shelf() {
@@ -274,7 +269,7 @@ void test_item_has_shelf() {
   item_set_shelves(item, "A1", 0, false);
   CU_ASSERT_FALSE(item_has_shelf(item, "A1"));
 
-  item_delete(item);
+  deallocate(item);
 }
 
 void test_item_apply_on_shelves() {
@@ -285,7 +280,7 @@ void test_item_apply_on_shelves() {
   item_set_shelves(item, "A3", 3, false);
   item_set_shelves(item, "A4", 4, false);
 
-  int index = 0;   
+  int index = 0;
   CU_ASSERT_TRUE(item_apply_on_shelves(item, test_item_shelf_apply_fun, &index));
   CU_ASSERT_EQUAL(index, 4);
 
@@ -293,8 +288,8 @@ void test_item_apply_on_shelves() {
   index = 0;
   CU_ASSERT_FALSE(item_apply_on_shelves(item, test_item_shelf_apply_fun, &index));
   CU_ASSERT_EQUAL(index, 3);
-  
-  item_delete(item);
+
+  deallocate(item);
 }
 
 int main(int argc, char *argv[]) {
@@ -305,7 +300,6 @@ int main(int argc, char *argv[]) {
   CU_pSuite creation = CU_add_suite("Test creation and delete", NULL, NULL);
   CU_add_test(creation, "Creation", test_item_new);
   CU_add_test(creation, "Copy", test_item_copy);
-  CU_add_test(creation, "Delete", test_item_delete);
 
   CU_pSuite properties = CU_add_suite("Test properties", NULL, NULL);
   CU_add_test(properties, "Total", test_item_total);
@@ -318,11 +312,11 @@ int main(int argc, char *argv[]) {
   CU_add_test(properties, "Set shelves", test_item_set_shelves);
   CU_add_test(properties, "Has shelf", test_item_has_shelf);
   CU_add_test(properties, "Apply", test_item_apply_on_shelves);
-  
+
   CU_basic_run_tests();
-  
+
   // Tear down
   CU_cleanup_registry();
-  
+
   return CU_get_error();
 }

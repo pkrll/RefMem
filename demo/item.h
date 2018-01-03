@@ -31,14 +31,6 @@ item_t *item_new();
  */
 item_t *item_copy(item_t *item);
 /**
- * @brief Deletes the item.
- *
- * @param  item The item to remove.
- *
- * @return void
- */
-void item_delete(item_t *item);
-/**
  * @brief Returns the total amount of an item.
  *
  * @param  item An item.
