@@ -90,7 +90,7 @@ obj allocate(size_t bytes, function1_t destructor) {
     mem_register = treeset_new(NULL);
   }
 
-  // tree_insert(mem_register, (obj)record);
+  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
