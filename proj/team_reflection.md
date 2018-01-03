@@ -1,17 +1,14 @@
 # 1 Göktytorna
 ## 1.1 Participant List
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-
-Martin Larsson, 11/12-17-8/1-18 
-Nicklas Renger, 11/12-17-8/1-18 
-Elisabeth Ryan, ebethryan@gmail.com, 11/12-17-8/1-18 
-Max Rylander, 11/12-17-8/1-18 
-Ardalan Samimi, 11/12-17-8/1-18 
-Mika Skjelnes, 11/12-17-8/1-18 
+| Name | Email | Dates active|
+| ------------- | ------------- | ------------- |
+| Martin Larsson | email | 11/12-17-8/1-18 |
+| Nicklas Renger  | email  | 11/12-17-8/1-18 |  
+| Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 | 
+| Max Rylander | email  | 11/12-17-8/1-18 | 
+| Ardalan Samimi | email  | 11/12-17-8/1-18 | 
+| Mika Skjelnes | email | 11/12-17-8/1-18 |
 
 # 2 Quantification
 # 3 Process
