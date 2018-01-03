@@ -104,7 +104,6 @@ size_t get_cascade_limit() {
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
-
   record->reference_count = 0;
   record->destructor = destructor;
 
@@ -113,7 +112,7 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   if (mem_register == NULL) mem_register = tree_new(tree_free);
 
   tree_insert(mem_register, (obj)record);
-  
+
   return (obj)record;
 }
 
@@ -127,8 +126,9 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  record++;
-  tree_remove(mem_register, (obj)record);
+  tree_remove(mem_register, object);
+
+  free(record);
 }
 
 void cleanup();
