@@ -25,6 +25,8 @@ For keeping track of what tasks were left and who did what
 For more or less all communication, within the group and with Elias.
 ## Github
 For merging our code, review added code and documenting changes.
+# 5 Communication, Cooperation and Coordination
+Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if thye wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on git hub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
 # 6 Work Breakdown Structure
 Since we added all our tasks to trello it was easy to see what was left to be done. If something had to be completed before the project could be moved along slack was used to make sure someone was at least working on that part.
 Slack was also used for communicating problems and splitting the work load, as trello makes it hard to discuss, it is more of a documenting tool.
