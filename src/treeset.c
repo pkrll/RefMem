@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "tree.h"
+#include "treeset.h"
 
 struct node {
   T element;
@@ -11,10 +11,10 @@ struct node {
 
 } typedef node_t;
 
-struct tree {
+struct treeset {
   node_t *root;
-  tree_free_func free;
-} typedef tree_t;
+  treeset_free_func free;
+};
 
 // -------------------------------
 // Declarations
@@ -32,14 +32,14 @@ static int node_height(node_t *node);
 static int node_get_balance(node_t *node);
 static int node_size(node_t *node, int acc);
 static bool node_remove(node_t **node, T elem);
-static void node_delete(node_t *node, tree_free_func free_func, bool delete_elems);
-static void node_apply(node_t *node, tree_apply_func function, void *data);
+static void node_delete(node_t *node, treeset_free_func free_func, bool delete_elems);
+static void node_apply(node_t *node, treeset_apply_func function, void *data);
 // -------------------------------
 // Public functions
 // -------------------------------
 
-tree_t *tree_new(tree_free_func free_func) {
-  tree_t *tree = calloc(1, sizeof(tree_t));
+treeset_t *treeset_new(treeset_free_func free_func) {
+  treeset_t *tree = calloc(1, sizeof(treeset_t));
 
   if (tree) {
     tree->free = free_func;
@@ -48,7 +48,7 @@ tree_t *tree_new(tree_free_func free_func) {
   return tree;
 }
 
-bool tree_insert(tree_t *tree, T elem) {
+bool treeset_insert(treeset_t *tree, T elem) {
   if (tree->root == NULL) {
     tree->root = node_new(elem);
     return true;
@@ -57,7 +57,7 @@ bool tree_insert(tree_t *tree, T elem) {
   return node_insert(&(tree->root), elem);
 }
 
-bool tree_has_key(tree_t *tree, T elem) {
+bool treeset_has_key(treeset_t *tree, T elem) {
   if (tree != NULL) {
     node_t *head  = tree->root;
     node_t **node = node_get(&head, elem);
@@ -68,11 +68,11 @@ bool tree_has_key(tree_t *tree, T elem) {
   return false;
 }
 
-bool tree_remove(tree_t *tree, T elem) {
+bool treeset_remove(treeset_t *tree, T elem) {
   return node_remove(&(tree->root), elem);
 }
 
-int tree_size(tree_t *tree) {
+int treeset_size(treeset_t *tree) {
   if (tree) {
     return node_size(tree->root, 0);
   }
@@ -80,19 +80,19 @@ int tree_size(tree_t *tree) {
   return 0;
 }
 
-int tree_height(tree_t *tree) {
+int treeset_height(treeset_t *tree) {
   if (tree->root == NULL) return 0;
   return tree->root->height;
 }
 
-void tree_delete(tree_t *tree, bool delete_elems) {
+void treeset_delete(treeset_t *tree, bool delete_elems) {
   if (tree) {
     node_delete(tree->root, tree->free, delete_elems);
     free(tree);
   }
 }
 
-void tree_apply(tree_t *tree, tree_apply_func function, void *data) {
+void treeset_apply(treeset_t *tree, treeset_apply_func function, void *data) {
   if (tree) {
     node_apply(tree->root, function, data);
   }
@@ -107,8 +107,8 @@ static void node_elements(node_t *node, T *elems, int *index) {
   }
 }
 
-T *to_array(tree_t *tree) {
-  int size = tree_size(tree);
+T *to_array(treeset_t *tree) {
+  int size = treeset_size(tree);
   T *elems = calloc(size, sizeof(T));
 
   if (tree) {
@@ -333,7 +333,7 @@ static int node_size(node_t *node, int acc) {
   return acc;
 }
 
-static void node_delete(node_t *node, tree_free_func free_func, bool delete_elems) {
+static void node_delete(node_t *node, treeset_free_func free_func, bool delete_elems) {
   if (node) {
     if (node->left) {
       node_delete(node->left, free_func, delete_elems);
@@ -351,7 +351,7 @@ static void node_delete(node_t *node, tree_free_func free_func, bool delete_elem
   }
 }
 
-static void node_apply(node_t *node, tree_apply_func function, void *data) {
+static void node_apply(node_t *node, treeset_apply_func function, void *data) {
   if (node) {
     node_apply(node->left, function, data);
     function(node->element, data);
