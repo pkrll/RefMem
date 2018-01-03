@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "refmem.h"
 #include "treeset.h"
+#include "list.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -10,6 +11,8 @@
          sequence.
 */
 static size_t cascade_limit = 1000;
+
+static list_t *destr_register = NULL;
 
 static treeset_t *mem_register = NULL;
 
@@ -19,7 +22,7 @@ static treeset_t *mem_register = NULL;
 
 struct record {
   size_t reference_count;
-  function1_t destructor;
+  short id;
 
 } typedef record_t;
 
@@ -79,7 +82,7 @@ obj allocate(size_t bytes, function1_t destructor) {
   record_t *record = calloc(1, sizeof(record_t) + bytes);
 
   record->reference_count = 0;
-  record->destructor = destructor;
+  record->id = list_expand(destr_register,&destructor);
 
   record++;
 
@@ -104,7 +107,7 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
   record->reference_count = 0;
-  record->destructor = destructor;
+  record->id = list_expand(destr_register,&destructor);
 
   record++;
 
@@ -122,9 +125,10 @@ void deallocate(obj object) {
   assert(rc(object) == 0);
 
   record_t *record = convert_to_record(object);
+  function1_t *destr = (function1_t *)list_get(destr_register,record->id);
 
-  if (record->destructor != NULL) {
-    (*record->destructor)(object);
+  if (destr != NULL) {
+    (*destr)(object);
   }
 
   record++;
