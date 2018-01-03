@@ -131,8 +131,6 @@ void deallocate(obj object) {
   tree_remove(mem_register, (obj)record);
 }
 
-void set_cascade_limit(size_t);
-size_t get_cascade_limit();
 void cleanup();
 void shutdown();
 
