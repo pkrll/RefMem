@@ -14,7 +14,7 @@ struct node {
 struct tree {
   node_t *root;
   tree_free_func free;
-} typedef tree_t;
+};
 
 // -------------------------------
 // Declarations
