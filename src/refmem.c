@@ -126,7 +126,7 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  if (cascade_counter >= cascade_limit) {
+  if (cascade_counter > cascade_limit) {
     save_object(record);
   } else {
     cascade_counter += 1;
