@@ -69,13 +69,13 @@ void release(obj object) {
 }
 
 size_t rc(obj object) {
-  // Should we assert object?
   if (object != NULL) {
     record_t *record = convert_to_record(object);
     return record->reference_count;
   }
-
-  return 0;
+  else {
+    assert(false);
+  }
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
