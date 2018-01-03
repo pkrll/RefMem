@@ -2,6 +2,10 @@
 #include "queue.h"
 #include <stdio.h>
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 struct item {
   void *content;
   struct item* next;
@@ -12,20 +16,26 @@ struct queue {
   item_t* last;
 } typedef queue_t;
 
+// -------------------------------
+// Public
+// -------------------------------
+
 queue_t *queue_create() {
   queue_t *queue = malloc(sizeof(queue_t));
-  *queue = (queue_t) {.first = NULL,
-                      .last = NULL};
+  *queue = (queue_t) {
+    .first = NULL,
+     .last = NULL
+  };
 
   return queue;
-    
+
 }
 
 void queue_enqueue(queue_t *queue, void *input) {
   item_t *item = malloc(sizeof(item));
   item->content = input;
   item->next = NULL;
-  
+
   if (queue->first == NULL) {
     queue->first = item;
     queue->last = item;
@@ -37,7 +47,7 @@ void queue_enqueue(queue_t *queue, void *input) {
 
 void *queue_dequeue(queue_t *queue) {
   item_t *next_item;
-  
+
   if (queue->first != NULL) {
     next_item = queue->first;
    
@@ -71,18 +81,18 @@ void queue_apply(queue_t *queue, queue_apply_func func, void *data) {
     func(cursor->content, data);
     cursor = cursor->next;
   }
-
 }
-static void purge_aux(item_t *content) {
+
+static void delete_aux(item_t *content) {
   if (content->next) {
-    purge_aux(content->next);
+    delete_aux(content->next);
   }
   free(content);
 }
 
 void queue_delete(queue_t *queue) {
   if (queue->first) {
-    purge_aux(queue->first);
+    delete_aux(queue->first);
   }
   free(queue);
 }
