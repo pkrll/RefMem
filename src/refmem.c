@@ -106,7 +106,6 @@ size_t get_cascade_limit() {
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
-
   record->reference_count = 0;
   record->destructor = destructor;
 
@@ -135,8 +134,6 @@ void deallocate(obj object) {
   treeset_remove(mem_register, (obj)record);
 }
 
-void set_cascade_limit(size_t);
-size_t get_cascade_limit();
 void cleanup();
 void shutdown();
 

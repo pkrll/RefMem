@@ -3,9 +3,6 @@
 
 typedef void *obj;
 typedef void(*function1_t)(obj);
-
-typedef void *obj;
-typedef void(*function1_t)(obj);
 /**
  * @brief               Increase an object reference count
  *                      by one.

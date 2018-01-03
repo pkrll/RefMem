@@ -47,6 +47,11 @@ void test_destructor(obj object) {
   CU_ASSERT_PTR_EQUAL(dealloc_object, object);
 }
 
+int teardown() {
+  shutdown();
+  return 0;
+}
+
 void test_allocate() {
   //Tests of base functionality with common valid data.
   test_t *object = allocate(sizeof(test_t), test_t_destructor);
@@ -207,7 +212,7 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   // Set up suites and tests
-  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, NULL);
+  CU_pSuite creation = CU_add_suite("Test allocation, deallocation", NULL, teardown);
   CU_add_test(creation, "Allocation", test_allocate);
   CU_add_test(creation, "Allocation array", test_allocate_array);
   CU_add_test(creation, "Retain", test_retain);
