@@ -59,4 +59,12 @@ The tasks were of very varying size, but because different memebers of the group
 The work was not completely balanced. Partly because team members were at times busy with other things during christmas and partly because we are not equally good at programming in c.
 
 # 7 Quality Assurance
+
+Where is the spec unclear?
+In how to save our allocations t.ex?
+How many PRs did we do, by how many people, how many reviews, how many comments on prs?
+what did we change beause of PRs
+What were our best and worst pr names?
+What did we learn?
+
 # 8 Reflection
