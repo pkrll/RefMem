@@ -269,7 +269,7 @@ short list_expand(list_t *list, L elem) {
   link_t *link = list->first;
   short index = 0;
 
-  while(link->next != NULL) {
+  while(link != NULL) {
     if(link->pointer == elem) return index;
     link = link->next;
     index++;

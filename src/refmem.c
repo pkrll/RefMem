@@ -81,6 +81,8 @@ size_t rc(obj object) {
 obj allocate(size_t bytes, function1_t destructor) {
   record_t *record = calloc(1, sizeof(record_t) + bytes);
 
+  if(destr_register == NULL) destr_register = list_new();
+
   record->reference_count = 0;
   record->id = list_expand(destr_register,&destructor);
 
@@ -106,6 +108,8 @@ size_t get_cascade_limit() {
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
+  if(destr_register == NULL) destr_register = list_new();
+
   record->reference_count = 0;
   record->id = list_expand(destr_register,&destructor);
 
@@ -128,6 +132,7 @@ void deallocate(obj object) {
   function1_t *destr = (function1_t *)list_get(destr_register,record->id);
 
   if (destr != NULL) {
+    printf("%p\n", destr);
     (*destr)(object);
   }
 
