@@ -1,7 +1,7 @@
 # 1 Göktytorna
 ## 1.1 Participant List
 
-| Name | Email | Dates active|
+| Name | Email | Dates active |
 | ------------- | ------------- | ------------- |
 | Martin Larsson | email | 11/12-17-8/1-18 |
 | Nicklas Renger  | email  | 11/12-17-8/1-18 |  
@@ -11,6 +11,20 @@
 | Mika Skjelnes | email | 11/12-17-8/1-18 |
 
 # 2 Quantification
+
+| Type | Info |
+|------|------|
+| Start date | 11/12-17 |
+| End date | 8/1-18 FYLL I |
+| Sprints | 0 or 1 FYLL I |
+| Lines of code | FYLL I |
+| Lines of tests | FYLL I |
+| Lines of script | FYLL I |
+| Hours Worked | FYLL I |
+| Git commits | FYLL I |
+| Pull Requests | FYLL I |
+| GitHub Issues | FYLL I |
+
 # 3 Process
 ## 3.1 Inception
 This project was conducted with the agile methodology Kanban with Trello as platform.
