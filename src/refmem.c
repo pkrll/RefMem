@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "refmem.h"
-#include "tree.h"
+#include "treeset.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -11,7 +11,7 @@
 */
 static size_t cascade_limit = 1000;
 
-static tree_t *mem_register = NULL;
+static treeset_t *mem_register = NULL;
 
 // -------------------------------
 // Structs
@@ -86,9 +86,11 @@ obj allocate(size_t bytes, function1_t destructor) {
 
   record++;
 
-  if (mem_register == NULL) mem_register = tree_new(tree_free);
+  if (mem_register == NULL) {
+    mem_register = treeset_new(NULL);
+  }
 
-  tree_insert(mem_register, (obj)record);
+  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -109,9 +111,11 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
 
   record++;
 
-  if (mem_register == NULL) mem_register = tree_new(tree_free);
+  if (mem_register == NULL) {
+    mem_register = treeset_new(tree_free);
+  }
 
-  tree_insert(mem_register, (obj)record);
+  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -126,9 +130,8 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  tree_remove(mem_register, object);
-
-  free(record);
+  record++;
+  treeset_remove(mem_register, (obj)record);
 }
 
 void cleanup();

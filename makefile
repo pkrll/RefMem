@@ -43,13 +43,13 @@ $(OBJECTDIR)/%.o: $(TESTDIR)/%.c
 
 # TEST TARGETS
 
-test-tree: compile-tests
-test-tree:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree.o $(OBJECTDIR)/tree_test.o -o $(BINARYDIR)/test_tree $(TFLAGS)
+test-treeset: compile-tests
+test-treeset:
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/treeset.o $(OBJECTDIR)/treeset_test.o -o $(BINARYDIR)/test_treeset $(TFLAGS)
 
 test-refmem: compile-tests
 test-refmem:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/tree.o $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/treeset.o $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
 
 # PHONY TARGETS
 
@@ -61,11 +61,11 @@ clean:
 	rm -f *~
 	rm -rf $(DEBUG_FILES)
 
-test: test-refmem test-tree
+test: test-refmem test-treeset
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
 	@./$(BINARYDIR)/test_refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
-	@./$(BINARYDIR)/test_tree
+	@./$(BINARYDIR)/test_treeset
 
 memtest: test-refmem
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem

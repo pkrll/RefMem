@@ -7,11 +7,14 @@ all: goods
 debug: CFLAGS += -g
 debug: goods
 
-goods: goods.o database.o item.o stack.o list.o tree.o utils.o utils_goods.o file.o action.o refmem.o
+goods: goods.o database.o item.o stack.o list.o tree.o utils.o utils_goods.o file.o action.o refmem.o treeset.o
 # Ovan regel kör nedan command automatiskt:
 # gcc   goods.o item.o list.o tree.o utils.o utils_db.o   -o goods
 
 refmem.o: ../src/refmem.c
+	$(CC) $(CFLAGS) -c $<
+
+treeset.o: ../src/treeset.c
 	$(CC) $(CFLAGS) -c $<
 
 goods.o: goods.c
