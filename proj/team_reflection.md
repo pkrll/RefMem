@@ -1,5 +1,11 @@
 # 1 Göktytorna
 ## 1.1 Participant List
+Martin Larsson, 11/12-17-8/1-18 
+Nicklas Renger, 11/12-17-8/1-18 
+Elisabeth Ryan, ebethryan@gmail.com, 11/12-17-8/1-18 
+Max Rylander, 11/12-17-8/1-18 
+Ardalan Samimi, 11/12-17-8/1-18 
+Mika Skjelnes, 11/12-17-8/1-18 
 
 # 2 Quantification
 # 3 Process
