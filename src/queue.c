@@ -28,7 +28,6 @@ queue_t *queue_create() {
   };
 
   return queue;
-
 }
 
 void queue_enqueue(queue_t *queue, void *input) {
@@ -50,7 +49,7 @@ void *queue_dequeue(queue_t *queue) {
 
   if (queue->first != NULL) {
     next_item = queue->first;
-   
+
     if (queue->first->next != NULL) {
       queue->first = queue->first->next;
     } else {
@@ -96,4 +95,3 @@ void queue_delete(queue_t *queue) {
   }
   free(queue);
 }
-

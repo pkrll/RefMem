@@ -97,10 +97,10 @@ obj allocate(size_t bytes, function1_t destructor) {
   if (mem_register == NULL) {
     mem_register = queue_create();
   }
-    
+
   clean_mem();
-  
-  
+
+
   record++;
 
   return (obj)record;
@@ -140,7 +140,7 @@ void deallocate(obj object) {
   } else {
 
     free(record);
-    
+
     cascade_counter += 1;
   }
 }
