@@ -48,8 +48,9 @@ static void save_object(obj object);
 
 /**
  * @brief         Free cascade_limit amount of objects in mem_register
+ * @return        void
  */
-static void clean_mem();
+static void clear_mem_register();
 
 // -------------------------------
 // Public
@@ -92,14 +93,7 @@ obj allocate(size_t bytes, function1_t destructor) {
   record->reference_count = 0;
   record->destructor = destructor;
 
-  cascade_counter = 0;
-
-  if (mem_register == NULL) {
-    mem_register = queue_create();
-  }
-
-  clean_mem();
-
+  clear_mem_register();
 
   record++;
 
@@ -120,6 +114,8 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record->reference_count = 0;
   record->destructor = destructor;
 
+  clear_mem_register();
+
   record++;
 
   return (obj)record;
@@ -135,7 +131,7 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  if (cascade_counter > cascade_limit) {
+  if (cascade_counter >= cascade_limit) {
     save_object(record);
   } else {
 
@@ -145,10 +141,8 @@ void deallocate(obj object) {
   }
 }
 
-void clean_mem() {
-  for (size_t i = 0; i < cascade_limit; ++i) {
-    free(queue_dequeue(mem_register));
-  }
+bool mem_register_is_empty() {
+  return queue_is_empty(mem_register);
 }
 
 void cleanup();
@@ -178,4 +172,16 @@ static void save_object(obj object) {
   }
 
   queue_enqueue(mem_register, object);
+}
+
+void clear_mem_register() {
+  cascade_counter = 0;
+
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+
+  for (size_t i = 0; i < cascade_limit; ++i) {
+    free(queue_dequeue(mem_register));
+  }
 }

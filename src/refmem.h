@@ -1,5 +1,6 @@
 #pragma once
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef void *obj;
 typedef void(*function1_t)(obj);
@@ -81,3 +82,8 @@ void cleanup();
  * @return              void
  */
 void shutdown();
+/**
+ * @brief checks if mem register is empty.
+ * @return true if empty, else false
+ */
+bool mem_register_is_empty();

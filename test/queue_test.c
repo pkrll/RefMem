@@ -20,13 +20,13 @@ void test_enqueue() {
   queue_t *queue = queue_create();
   int numbers[4] = {1,2,3,4};
 
-  
+
   queue_enqueue(queue, &numbers[0]);
   queue_enqueue(queue, &numbers[1]);
   queue_enqueue(queue, &numbers[2]);
   queue_enqueue(queue, &numbers[3]);
 
-  
+
   CU_ASSERT_FALSE(queue_is_empty(queue));
 
   CU_ASSERT_EQUAL((*(int *) queue_first(queue)), 1);
@@ -60,14 +60,14 @@ void apply_func(void *item, void *data) {
 void test_apply() {
   queue_t *queue = queue_create();
   int numbers[4] = {1,2,3,4};
-  
+
   queue_enqueue(queue, &numbers[0]);
   queue_enqueue(queue, &numbers[1]);
   queue_enqueue(queue, &numbers[2]);
   queue_enqueue(queue, &numbers[3]);
 
   queue_apply(queue, apply_func, NULL);
-  
+
   CU_ASSERT_EQUAL((*(int *) queue_first(queue)), 2);
   CU_ASSERT_EQUAL((*(int *) queue_dequeue(queue)), 2);
   CU_ASSERT_EQUAL((*(int *) queue_first(queue)), 3);
@@ -77,7 +77,7 @@ void test_apply() {
   CU_ASSERT_EQUAL((*(int *) queue_first(queue)), 5);
   CU_ASSERT_EQUAL((*(int *) queue_dequeue(queue)), 5);
 
-  
+
   queue_delete(queue);
 }
 
