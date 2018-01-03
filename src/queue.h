@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct queue queue_t;
 typedef void(*queue_apply_func)(void *item, void *data);
@@ -24,6 +25,13 @@ void queue_enqueue(queue_t *queue, void *input);
  * @return          Content of first object
  */
 void *queue_first(queue_t *queue);
+
+/**
+ * @brief           Counts the number of elements in the queue
+ * @param queue     Pointer to queue
+ * @return          The length of the current queue
+ */
+size_t queue_length(queue_t *queue);
 
 /**
  * @brief           Removes first object of the queue and return

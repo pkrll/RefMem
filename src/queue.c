@@ -65,6 +65,18 @@ void *queue_dequeue(queue_t *queue) {
   return NULL;
 }
 
+size_t queue_length(queue_t *queue) {
+  size_t counter = 0;
+  item_t *cursor = queue->first;
+        
+  while (cursor) {
+    cursor = cursor->next;
+    counter++;
+  }
+  
+  return counter;
+}
+
 void *queue_first(queue_t *queue) {
   return queue->first->content;
 }
