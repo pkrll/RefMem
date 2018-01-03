@@ -45,10 +45,11 @@ static obj convert_from_record(record_t *record);
  * @param object  Pointer to the object.
  */
 static void save_object(obj object);
+
 /**
- * @brief         The free function for the mem register tree.
- * @param elem    The element to free.
+ * @brief         Free cascade_limit amount of objects in mem_register
  */
+static void clean_mem();
 
 // -------------------------------
 // Public
@@ -91,6 +92,15 @@ obj allocate(size_t bytes, function1_t destructor) {
   record->reference_count = 0;
   record->destructor = destructor;
 
+  cascade_counter = 0;
+
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+    
+  clean_mem();
+  
+  
   record++;
 
   return (obj)record;
@@ -128,7 +138,16 @@ void deallocate(obj object) {
   if (cascade_counter > cascade_limit) {
     save_object(record);
   } else {
+
+    free(record);
+    
     cascade_counter += 1;
+  }
+}
+
+void clean_mem() {
+  for (size_t i = 0; i < cascade_limit; ++i) {
+    free(queue_dequeue(mem_register));
   }
 }
 
@@ -155,8 +174,8 @@ static obj convert_from_record(record_t *record) {
 
 static void save_object(obj object) {
   if (mem_register == NULL) {
-    mem_register = create_queue();
+    mem_register = queue_create();
   }
 
-  enqueue(mem_register, object);
+  queue_enqueue(mem_register, object);
 }

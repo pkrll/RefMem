@@ -12,7 +12,7 @@ struct queue {
   item_t* last;
 } typedef queue_t;
 
-queue_t *create_queue() {
+queue_t *queue_create() {
   queue_t *queue = malloc(sizeof(queue_t));
   *queue = (queue_t) {.first = NULL,
                       .last = NULL};
@@ -21,7 +21,7 @@ queue_t *create_queue() {
     
 }
 
-void enqueue(queue_t *queue, void *input) {
+void queue_enqueue(queue_t *queue, void *input) {
   item_t *item = malloc(sizeof(item));
   item->content = input;
   item->next = NULL;
@@ -35,7 +35,7 @@ void enqueue(queue_t *queue, void *input) {
   }
 }
 
-void *dequeue(queue_t *queue) {
+void *queue_dequeue(queue_t *queue) {
   item_t *next_item;
   
   if (queue->first != NULL) {
@@ -56,21 +56,34 @@ void *dequeue(queue_t *queue) {
   return NULL;
 }
 
-void *peak_next(queue_t *queue) {
+void *queue_first(queue_t *queue) {
   return queue->first->content;
 }
 
-bool is_empty(queue_t *input) {
+bool queue_is_empty(queue_t *input) {
   return (input->first == NULL) ? true : false;
 }
 
-void apply(queue_t *queue, queue_apply_func func, void *data) {
+void queue_apply(queue_t *queue, queue_apply_func func, void *data) {
   item_t *cursor = queue->first;
 
   while (cursor) {
     func(cursor->content, data);
     cursor = cursor->next;
   }
-   
+
+}
+static void purge_aux(item_t *content) {
+  if (content->next) {
+    purge_aux(content->next);
+  }
+  free(content);
+}
+
+void queue_delete(queue_t *queue) {
+  if (queue->first) {
+    purge_aux(queue->first);
+  }
+  free(queue);
 }
 
