@@ -20,9 +20,12 @@ it is moved to Done. That action is represented by the pull request is merged
 to the master branch.
 # 4 Use of Tools
 We used the tools:
-##Trello, for keeping track of what tasks were left and who did what
-##Slack, for more or less all communication, within the group and with Elias.
-##Github, for merging our code, review added code and documenting changes.
+## Trello
+For keeping track of what tasks were left and who did what
+## Slack
+For more or less all communication, within the group and with Elias.
+## Github
+For merging our code, review added code and documenting changes.
 # 6 Work Breakdown Structure
 Since we added all our tasks to trello it was easy to see what was left to be done. If something had to be completed before the project could be moved along slack was used to make sure someone was at least working on that part.
 Slack was also used for communicating problems and splitting the work load, as trello makes it hard to discuss, it is more of a documenting tool.
