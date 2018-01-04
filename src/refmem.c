@@ -45,7 +45,7 @@ static record_t *convert_to_record(obj object);
 static obj convert_from_record(record_t *record);
 
 static void tree_free(obj input);
-
+static bool compare_destructor(element_t elem1, element_t elem2);
 // -------------------------------
 // Public
 // -------------------------------
@@ -81,10 +81,11 @@ size_t rc(obj object) {
 obj allocate(size_t bytes, function1_t destructor) {
   record_t *record = calloc(1, sizeof(record_t) + bytes);
 
-  if(destr_register == NULL) destr_register = list_new();
-
   record->reference_count = 0;
-  record->id = list_expand(destr_register,&destructor);
+  element_t elem = {.f = destructor};
+  if (destr_register == NULL) destr_register = list_new();
+
+  record->id = list_expand(destr_register, elem, compare_destructor);
 
   record++;
 
@@ -108,10 +109,11 @@ size_t get_cascade_limit() {
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record_t *record = calloc(1, ( elem_size * elements + sizeof(record_t)));
 
-  if(destr_register == NULL) destr_register = list_new();
-
   record->reference_count = 0;
-  record->id = list_expand(destr_register,&destructor);
+  element_t elem = {.f = destructor};
+  if (destr_register == NULL) destr_register = list_new();
+
+  record->id = list_expand(destr_register, elem, compare_destructor);
 
   record++;
 
@@ -129,9 +131,12 @@ void deallocate(obj object) {
   assert(rc(object) == 0);
 
   record_t *record = convert_to_record(object);
-  function1_t *destr = (function1_t *)list_get(destr_register,record->id);
+  element_t elem = list_get(destr_register,record->id);
+  function1_t destr = NULL;
+  destr = elem.f;
 
   if (destr != NULL) {
+
     (*destr)(object);
   }
 
@@ -163,4 +168,8 @@ static obj convert_from_record(record_t *record) {
 static void tree_free(obj input) {
   record_t* record = convert_to_record(input);
   free(record);
+}
+
+static bool compare_destructor(element_t elem1, element_t elem2) {
+  return elem1.f == elem2.f;
 }

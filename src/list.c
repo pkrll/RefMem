@@ -12,7 +12,7 @@ typedef struct link link_t;
  * @var link::next A pointer to the next link.
  */
 struct link {
-  void *pointer;
+  element_t pointer;
   link_t *next;
 };
 
@@ -30,11 +30,11 @@ struct list {
   link_t *last;
 };
 
-link_t *link_new(void *elem, link_t *next) {
+link_t *link_new(element_t elem, link_t *next) {
   link_t *new_link = calloc(1, sizeof(link_t));
   new_link->pointer = elem;
   new_link->next = next;
-  
+
   return new_link;
 }
 
@@ -43,39 +43,42 @@ list_t *list_new() {
 }
 
 short list_length(list_t *list) {
-    return list->size;
+  return list->size;
 }
 
-short list_expand(list_t *list, void *elem) {
-    if(list == NULL) list = list_new();
-    
-    link_t *link = list->first;
-    short index = 0;
+short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
+  short index = 0;
+  link_t *link = list->first;
 
-    if(link == NULL) {
-        link = link_new(elem, NULL);
-        list->first = link;
-        list->last = link;
-        return index;
-    }
-
-    while(link != NULL) {
-        index += 1;
-        link = link->next;
-    }
-
-    link = link_new(elem, NULL);
+  if (link == NULL) {
+    link_t *link = link_new(elem, NULL);
+    list->first = link;
     list->last = link;
     list->size += 1;
     return index;
+  }
+
+  while (link->next != NULL) {
+    if (cmp(link->pointer, elem) == true) return index;
+    index += 1;
+    link = link->next;
+  }
+
+  link_t *newlink = link_new(elem, NULL);
+  link->next = newlink;
+  list->last = newlink;
+  list->size += 1;
+  return index;
 }
 
-void *list_get(list_t *list, short id) {
-    if(list == NULL || id >= list->size || id < 0) return NULL;
+element_t list_get(list_t *list, short id) {
 
-    link_t *link = list->first;
+  link_t *link = list->first;
+  short i = 0;
+  while (i <= id && link->next != NULL) {
+    link = link->next;
+    i += 1;
+  }
 
-    for(short i = 0; i < id; i++) link = link->next;
-
-    return link->pointer;
+  return link->pointer;
 }
