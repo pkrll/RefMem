@@ -241,14 +241,14 @@ void clear_mem_register(size_t request) {
   } else {
 
     size_t size_sum = 0;
-    
+
     for (unsigned short i = 0; i < cascade_limit && queue_is_empty(mem_register) == false; i++) {
       size_sum += free_record(queue_dequeue(mem_register));
     }
-    
+
     while (size_sum < request && queue_is_empty(mem_register) == false) {
       size_sum += free_record(queue_dequeue(mem_register));
-    } 
+    }
   }
 }
 

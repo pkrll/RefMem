@@ -77,7 +77,7 @@ void test_allocate() {
 }
 
 void test_mem_reg_size_clear() {
-  
+
   set_cascade_limit(1);
 
   test_t *test1 = allocate(sizeof(test_t), NULL);
@@ -86,10 +86,10 @@ void test_mem_reg_size_clear() {
   test_t *test4 = allocate(sizeof(test_t), NULL);
 
   deallocate(test1);
-  
+
   // These should end up in mem_register
-  deallocate(test2); 
-  deallocate(test3); 
+  deallocate(test2);
+  deallocate(test3);
   deallocate(test4);
 
   CU_ASSERT_FALSE(mem_register_is_empty());
