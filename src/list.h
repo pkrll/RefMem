@@ -7,7 +7,8 @@ typedef struct list list_t;
 
 union element
 {
-  void          *p; 
+  void          *p;
+  size_t         s;
   void(*f)(void *);
 } typedef element_t;
 
