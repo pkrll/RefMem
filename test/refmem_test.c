@@ -208,6 +208,26 @@ void test_set_cascade_limit() {
   CU_ASSERT_EQUAL(get_cascade_limit(), UINT_MAX);
 }
 
+void test_cascade_limit() {
+  set_cascade_limit(2);
+  test_t *test1 = allocate(sizeof(test_t), test_t_destructor);
+  retain(test1);
+  test_t *test2 = allocate(sizeof(test_t), test_t_destructor);
+  retain(test2);
+  test_t *test3 = allocate(sizeof(test_t), test_t_destructor);
+  retain(test3);
+
+  release(test1);
+  release(test2);
+  release(test3);
+  CU_ASSERT_FALSE(mem_register_is_empty());
+
+  test_t *test4 = allocate(sizeof(test_t), test_t_destructor);
+  retain(test4);
+
+  CU_ASSERT_TRUE(mem_register_is_empty());
+}
+
 int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
@@ -219,7 +239,8 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "Release", test_release);
   CU_add_test(creation, "Deallocate", test_deallocate);
   CU_add_test(creation, "RC", test_rc);
-  CU_add_test(creation, "Cascade_lim", test_set_cascade_limit);
+  CU_add_test(creation, "Set cascade limit", test_set_cascade_limit);
+  CU_add_test(creation, "Cascade limit", test_cascade_limit);
 
   CU_basic_run_tests();
 

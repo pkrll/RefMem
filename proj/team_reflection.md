@@ -3,7 +3,7 @@
 
 | Name | Email | Dates active |
 | ------------- | ------------- | ------------- |
-| Martin Larsson | email | 11/12-17-8/1-18 |
+| Martin Larsson | Martin.Larsson.1498@student.uu.se | 11/12-17-8/1-18 |
 | Nicklas Renger  | email  | 11/12-17-8/1-18 |  
 | Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 | 
 | Max Rylander | email  | 11/12-17-8/1-18 | 
