@@ -67,6 +67,7 @@ We had to decide for ourselves how to keep the overhead down, we solved this by 
 How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue. We realised that the time complexity didnt matter when we changed our integer type to a smaller one, and a queue is much easier to work with.
 ## How many PRs did we do, by how many people, how many reviews, how many comments on prs?
 ## what did we change beause of PRs
+formatering, plattformsskillnadet och minnesläckage och kompletterande test
 ## What were our best and worst pr names?
 We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister"
 the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
