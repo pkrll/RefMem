@@ -21,9 +21,9 @@
 | Lines of tests | FYLL I |
 | Lines of script | FYLL I |
 | Hours Worked | FYLL I |
-| Git commits | FYLL I |
-| Pull Requests | FYLL I |
-| GitHub Issues | FYLL I |
+| Git commits | 155 |
+| Pull Requests | 33 |
+| GitHub Issues | 6 |
 
 # 3 Process
 ## 3.1 Inception
