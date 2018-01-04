@@ -5,9 +5,9 @@
 | ------------- | ------------- | ------------- |
 | Martin Larsson | Martin.Larsson.1498@student.uu.se | 11/12-17-8/1-18 |
 | Nicklas Renger  | email  | 11/12-17-8/1-18 |  
-| Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 | 
-| Max Rylander | max.rylander.2608@student.uu.se  | 11/12-17-8/1-18 | 
-| Ardalan Samimi | email  | 11/12-17-8/1-18 | 
+| Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 |
+| Max Rylander | max.rylander.2608@student.uu.se  | 11/12-17-8/1-18 |
+| Ardalan Samimi | Ardalan.Samimisadeh.1548@student.uu.se  | 11/12-17-8/1-18 | 
 | Mika Skjelnes | email | 11/12-17-8/1-18 |
 
 # 2 Quantification
