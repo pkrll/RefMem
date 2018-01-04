@@ -196,6 +196,7 @@ void shutdown() {
   cleanup();
   queue_delete(mem_register);
   list_delete(destr_register);
+  list_delete(size_register);
 }
 
 // -------------------------------
