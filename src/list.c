@@ -81,6 +81,7 @@ unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
     link = link->next;
   }
 
+  if (cmp(link->pointer, elem) == true) return index;
   link_t *newlink = link_new(elem, NULL);
   link->next = newlink;
   list->last = newlink;
@@ -92,7 +93,7 @@ element_t list_get(list_t *list, unsigned short id) {
 
   link_t *link = list->first;
   unsigned short i = 0;
-  while (i <= id && link->next != NULL) {
+  while (i < id && link->next != NULL) {
     link = link->next;
     i += 1;
   }
