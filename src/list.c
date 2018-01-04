@@ -65,26 +65,16 @@ unsigned short list_length(list_t *list) {
 unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
   assert(cmp != NULL);
   unsigned short index = 0;
-  link_t *link = list->first;
+  link_t **link = &list->first;
 
-  if (link == NULL) {
-    link_t *link = link_new(elem, NULL);
-    list->first = link;
-    list->last = link;
-    list->size += 1;
-    return index;
-  }
-
-  while (link->next != NULL) {
-    if (cmp(link->pointer, elem) == true) return index;
+  while (*link != NULL) {
+    if (cmp((*link)->pointer, elem) == true) return index;
     index += 1;
-    link = link->next;
+    link = &(*link)->next;
   }
 
-  if (cmp(link->pointer, elem) == true) return index;
-  link_t *newlink = link_new(elem, NULL);
-  link->next = newlink;
-  list->last = newlink;
+  *link = link_new(elem, NULL);
+  list->last = *link;
   list->size += 1;
   return index;
 }
