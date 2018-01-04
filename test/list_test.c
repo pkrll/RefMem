@@ -13,6 +13,7 @@ void test_list_new() {
   list = list_new();
   CU_ASSERT_PTR_NOT_NULL(list);
   CU_ASSERT_EQUAL(list_length(list), 0);
+  list_delete(list);
 }
 
 static bool compare_p_test(element_t elem1, element_t elem2) {
@@ -34,6 +35,7 @@ void test_list_expand() {
   CU_ASSERT_EQUAL(placement1, 0);
   CU_ASSERT_EQUAL(placement2, 0);
   CU_ASSERT_EQUAL(placement3, 1);
+  list_delete(list);
 }
 
 void test_list_get() {
@@ -52,6 +54,7 @@ void test_list_get() {
   CU_ASSERT_EQUAL(get_elem1.p, get_elem2.p);
   CU_ASSERT_EQUAL(elem2.s, get_elem3.s);
   CU_ASSERT_TRUE(compare_p_test(get_elem1, get_elem2));
+  list_delete(list);
 }
 
 void test_list_delete() {
