@@ -5,9 +5,9 @@
 | ------------- | ------------- | ------------- |
 | Martin Larsson | Martin.Larsson.1498@student.uu.se | 11/12-17-8/1-18 |
 | Nicklas Renger  | email  | 11/12-17-8/1-18 |  
-| Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 | 
-| Max Rylander | email  | 11/12-17-8/1-18 | 
-| Ardalan Samimi | email  | 11/12-17-8/1-18 | 
+| Elisabeth Ryan  | ebethryan@gmail.com | 11/12-17-8/1-18 |
+| Max Rylander | max.rylander.2608@student.uu.se  | 11/12-17-8/1-18 |
+| Ardalan Samimi | Ardalan.Samimisadeh.1548@student.uu.se  | 11/12-17-8/1-18 | 
 | Mika Skjelnes | email | 11/12-17-8/1-18 |
 
 # 2 Quantification
@@ -60,11 +60,17 @@ The work was not completely balanced. Partly because team members were at times 
 
 # 7 Quality Assurance
 
-Where is the spec unclear?
-In how to save our allocations t.ex?
-How many PRs did we do, by how many people, how many reviews, how many comments on prs?
-what did we change beause of PRs
-What were our best and worst pr names?
-What did we learn?
+underrubrikerna är bara för tydlighet när vi skriver ska inte va kvar
+
+## Where is the spec unclear?
+We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index to the destructors place in the list with our object and not the entire adress.
+How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue. We realised that the time complexity didnt matter when we changed our integer type to a smaller one, and a queue is much easier to work with.
+## How many PRs did we do, by how many people, how many reviews, how many comments on prs?
+## what did we change beause of PRs
+## What were our best and worst pr names?
+We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister"
+the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
+## What did we learn?
+We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
 
 # 8 Reflection

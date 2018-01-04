@@ -168,7 +168,6 @@ void deallocate(obj object) {
   destr = elem.f;
 
   if (destr != NULL) {
-
     (*destr)(object);
   }
 
@@ -195,8 +194,12 @@ void cleanup() {
   }
 }
 
-void shutdown();
-
+void shutdown() {
+  cleanup();
+  queue_delete(mem_register);
+  list_delete(destr_register);
+  list_delete(size_register);
+}
 
 // -------------------------------
 // Private
