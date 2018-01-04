@@ -90,3 +90,15 @@ element_t list_get(list_t *list, unsigned short id) {
 
   return link->pointer;
 }
+
+void list_delete(list_t *list) {
+  link_t *link = list->first;
+  
+  while (link != NULL) {
+    link_t *tmp = link;
+    free(tmp);
+    link = tmp->next;
+  }
+
+  free(list);
+}
