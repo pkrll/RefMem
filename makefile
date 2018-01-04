@@ -51,6 +51,10 @@ test-refmem: compile-tests
 test-refmem:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/list.o $(OBJECTDIR)/treeset.o  $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
 
+test-list: compile-tests
+test-list:
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/list.o $(OBJECTDIR)/list_test.o -o $(BINARYDIR)/test_list $(TFLAGS)
+
 # PHONY TARGETS
 
 .PHONY: clean test
@@ -61,11 +65,13 @@ clean:
 	rm -f *~
 	rm -rf $(DEBUG_FILES)
 
-test: test-refmem test-treeset
+test: test-refmem test-treeset test-list
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
 	@./$(BINARYDIR)/test_refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
 	@./$(BINARYDIR)/test_treeset
+	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
+	@./$(BINARYDIR)/test_list
 
 memtest: test-refmem
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
