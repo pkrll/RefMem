@@ -59,7 +59,6 @@ The tasks were of very varying size, but because different memebers of the group
 The work was not completely balanced. Partly because team members were at times busy with other things during christmas and partly because we are not equally good at programming in c.
 
 # 7 Quality Assurance
-
 ## Where is the spec unclear?
 We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index to the destructors place in the list with our object and not the entire adress.
 How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue. We realised that the time complexity didnt matter when we changed our integer type to a smaller one, and a queue is much easier to work with.
