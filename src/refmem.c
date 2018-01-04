@@ -21,8 +21,8 @@ static treeset_t *mem_register = NULL;
 // -------------------------------
 
 struct record {
-  size_t reference_count;
-  short id;
+  unsigned short reference_count;
+  unsigned short id;
 
 } typedef record_t;
 
@@ -46,6 +46,7 @@ static obj convert_from_record(record_t *record);
 
 static void tree_free(obj input);
 static bool compare_destructor(element_t elem1, element_t elem2);
+
 // -------------------------------
 // Public
 // -------------------------------
@@ -71,7 +72,7 @@ void release(obj object) {
   }
 }
 
-size_t rc(obj object) {
+unsigned short rc(obj object) {
   assert(object != NULL);
 
   record_t *record = convert_to_record(object);

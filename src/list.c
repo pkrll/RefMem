@@ -4,6 +4,10 @@
 
 typedef struct link link_t;
 
+// -------------------------------
+// Structs
+// -------------------------------
+
 /**
  * @struct link
  * @brief A link in a structured list.
@@ -25,10 +29,14 @@ struct link {
  * @var list::size  Size of the list.
  */
 struct list {
-  short size;
+  unsigned short size;
   link_t *first;
   link_t *last;
 };
+
+// -------------------------------
+// Public
+// -------------------------------
 
 link_t *link_new(element_t elem, link_t *next) {
   link_t *new_link = calloc(1, sizeof(link_t));
@@ -42,12 +50,12 @@ list_t *list_new() {
   return calloc(1, sizeof(list_t));
 }
 
-short list_length(list_t *list) {
+unsigned short list_length(list_t *list) {
   return list->size;
 }
 
-short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
-  short index = 0;
+unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
+  unsigned short index = 0;
   link_t *link = list->first;
 
   if (link == NULL) {
@@ -71,10 +79,10 @@ short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
   return index;
 }
 
-element_t list_get(list_t *list, short id) {
+element_t list_get(list_t *list, unsigned short id) {
 
   link_t *link = list->first;
-  short i = 0;
+  unsigned short i = 0;
   while (i <= id && link->next != NULL) {
     link = link->next;
     i += 1;

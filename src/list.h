@@ -3,7 +3,6 @@
 
 #include <stdbool.h>
 
-/// Define struct list in your .c file not here! (why?)
 typedef struct list list_t;
 
 union element
@@ -14,25 +13,44 @@ union element
 
 
 typedef bool(*element_comp_fun)(element_t, element_t);
-/// Change this definition and replace int with the appropriate type
-/// in your program. 
 
-/// This function is used in list_delete() to allow the lists which are
-/// the sole owners of their data to free the data on delete.
-typedef void(*list_action)(element_t elem);
-
-short list_length(list_t *list);
-list_t *list_new();
-void list_delete(list_t *list, list_action cleanup);
 /**
- * @brief Check if list contains elem. If true return its index, if not
- *        append and return its new index.
- * @param list Pointer to list
- * @param elem Object to insert
- * @return index
+ * @brief           Creates a new list
+ * @return          Pointer to list
  */
-short list_expand(list_t *list, element_t elem, element_comp_fun cmp);
+list_t *list_new();
 
-element_t list_get(list_t *list, short id);
+/**
+ * @brief           Return lists length.
+ * @return          length
+ */
+unsigned short list_length(list_t *list);
+
+/**
+ * @brief           Deletes list and free all its links and
+ *                  their element.
+ * @param list      Pointer to list
+ * @return          void
+ */
+void list_delete(list_t *list);
+
+/**
+ * @brief           Check if list contains elem. If true return its index, if not
+ *                  append and return its new index.
+ * @param list      Pointer to list
+ * @param elem      Object to insert
+ * @param cmp       compare function to check if list contains elem
+ * @return          index of inserted elem or the placement of the elem
+ */
+unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp);
+
+/**
+ * @brief           Return element at given index
+ * @param           Pointer to list
+ * @param           index
+ * @return          element at index id
+ * 
+ */
+element_t list_get(list_t *list, unsigned short id);
 
 #endif
