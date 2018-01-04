@@ -224,23 +224,28 @@ static void save_object(obj object) {
   queue_enqueue(mem_register, object);
 }
 
+size_t free_record(record_t *record) {
+  element_t size = list_get(size_register, record->size_index);
+  free(record);
+  return size.s;
+}
+
 void clear_mem_register(size_t request) {
   cascade_counter = 0;
 
-  size_t size_sum = 0;
-  
   if (mem_register == NULL) {
     mem_register = queue_create();
-  }
+  } else {
 
-  size_t i = 0;
-
-  while ((i < cascade_limit || size_sum < request) && mem_register_is_empty() == false) {
-    record_t *record = queue_dequeue(mem_register);
-    element_t size = list_get(size_register, record->size_index);
-    size_sum += size.s;
-    free(record);
-    i++;
+    size_t size_sum = 0;
+    
+    for (unsigned short i = 0; i < cascade_limit && queue_is_empty(mem_register) == false; i++) {
+      size_sum += free_record(queue_dequeue(mem_register));
+    }
+    
+    while (size_sum < request && queue_is_empty(mem_register) == false) {
+      size_sum += free_record(queue_dequeue(mem_register));
+    } 
   }
 }
 
