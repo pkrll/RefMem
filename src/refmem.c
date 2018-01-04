@@ -184,8 +184,17 @@ bool mem_register_is_empty() {
   return queue_is_empty(mem_register);
 }
 
-void cleanup();
+void cleanup() {
+  if (mem_register != NULL) {
+    while (mem_register_is_empty() == false) {
+      record_t *object = queue_dequeue(mem_register);
+      free(object);
+    }
+  }
+}
+
 void shutdown();
+
 
 // -------------------------------
 // Private
@@ -220,8 +229,12 @@ void clear_mem_register() {
     mem_register = queue_create();
   }
 
-  for (size_t i = 0; i < cascade_limit; ++i) {
-    free(queue_dequeue(mem_register));
+  size_t i = 0;
+
+  while (i < cascade_limit && mem_register_is_empty() == false) {
+    record_t *object = queue_dequeue(mem_register);
+    free(object);
+    i++;
   }
 }
 
