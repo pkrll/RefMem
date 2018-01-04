@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "refmem.h"
-#include "treeset.h"
+#include "queue.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -10,8 +10,8 @@
          sequence.
 */
 static size_t cascade_limit = 1000;
-
-static treeset_t *mem_register = NULL;
+static size_t cascade_counter = 0;
+static queue_t *mem_register = NULL;
 
 // -------------------------------
 // Structs
@@ -40,8 +40,17 @@ static record_t *convert_to_record(obj object);
  * @return                The record's object
  */
 static obj convert_from_record(record_t *record);
+/**
+ * @brief         Puts an object in the mem register tree.
+ * @param object  Pointer to the object.
+ */
+static void save_object(obj object);
 
-static void tree_free(obj input);
+/**
+ * @brief         Free cascade_limit amount of objects in mem_register
+ * @return        void
+ */
+static void clear_mem_register();
 
 // -------------------------------
 // Public
@@ -81,13 +90,9 @@ obj allocate(size_t bytes, function1_t destructor) {
   record->reference_count = 0;
   record->destructor = destructor;
 
+  clear_mem_register();
+
   record++;
-
-  if (mem_register == NULL) {
-    mem_register = treeset_new(NULL);
-  }
-
-  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -106,13 +111,9 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record->reference_count = 0;
   record->destructor = destructor;
 
+  clear_mem_register();
+
   record++;
-
-  if (mem_register == NULL) {
-    mem_register = treeset_new(tree_free);
-  }
-
-  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -127,8 +128,18 @@ void deallocate(obj object) {
     (*record->destructor)(object);
   }
 
-  record++;
-  treeset_remove(mem_register, (obj)record);
+  if (cascade_counter >= cascade_limit) {
+    save_object(record);
+  } else {
+
+    free(record);
+
+    cascade_counter += 1;
+  }
+}
+
+bool mem_register_is_empty() {
+  return queue_is_empty(mem_register);
 }
 
 void cleanup();
@@ -152,7 +163,22 @@ static obj convert_from_record(record_t *record) {
   return object;
 }
 
-static void tree_free(obj input) {
-  record_t* record = convert_to_record(input);
-  free(record);
+static void save_object(obj object) {
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+
+  queue_enqueue(mem_register, object);
+}
+
+void clear_mem_register() {
+  cascade_counter = 0;
+
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+
+  for (size_t i = 0; i < cascade_limit; ++i) {
+    free(queue_dequeue(mem_register));
+  }
 }
