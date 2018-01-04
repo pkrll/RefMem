@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "refmem.h"
-#include "treeset.h"
+#include "queue.h"
 #include "list.h"
 
 /**
@@ -16,7 +16,9 @@ static list_t *destr_register = NULL;
 
 static list_t *size_register = NULL;
 
-static treeset_t *mem_register = NULL;
+static queue_t *mem_register = NULL;
+
+static size_t cascade_counter = 0;
 
 // -------------------------------
 // Structs
@@ -47,8 +49,17 @@ static record_t *convert_to_record(obj object);
  * @return                The record's object
  */
 static obj convert_from_record(record_t *record);
+/**
+ * @brief         Puts an object in the mem register tree.
+ * @param object  Pointer to the object.
+ */
+static void save_object(obj object);
 
-static void tree_free(obj input);
+/**
+ * @brief         Free cascade_limit amount of objects in mem_register
+ * @return        void
+ */
+static void clear_mem_register();
 
 /**
  * @brief                 Compare two elements by their destructor function
@@ -108,13 +119,9 @@ obj allocate(size_t bytes, function1_t destructor) {
   record->id = list_expand(destr_register, elem, compare_destructor);
   record->size_index = list_expand(size_register, size, compare_size);
 
+  clear_mem_register();
+
   record++;
-
-  if (mem_register == NULL) {
-    mem_register = treeset_new(NULL);
-  }
-
-  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -142,13 +149,9 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record->id = list_expand(destr_register, elem, compare_destructor);
   record->size_index = list_expand(size_register, size, compare_size);
 
+  clear_mem_register();
+
   record++;
-
-  if (mem_register == NULL) {
-    mem_register = treeset_new(tree_free);
-  }
-
-  treeset_insert(mem_register, (obj)record);
 
   return (obj)record;
 }
@@ -167,8 +170,18 @@ void deallocate(obj object) {
     (*destr)(object);
   }
 
-  record++;
-  treeset_remove(mem_register, (obj)record);
+  if (cascade_counter >= cascade_limit) {
+    save_object(record);
+  } else {
+
+    free(record);
+
+    cascade_counter += 1;
+  }
+}
+
+bool mem_register_is_empty() {
+  return queue_is_empty(mem_register);
 }
 
 void cleanup();
@@ -192,9 +205,24 @@ static obj convert_from_record(record_t *record) {
   return object;
 }
 
-static void tree_free(obj input) {
-  record_t* record = convert_to_record(input);
-  free(record);
+static void save_object(obj object) {
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+
+  queue_enqueue(mem_register, object);
+}
+
+void clear_mem_register() {
+  cascade_counter = 0;
+
+  if (mem_register == NULL) {
+    mem_register = queue_create();
+  }
+
+  for (size_t i = 0; i < cascade_limit; ++i) {
+    free(queue_dequeue(mem_register));
+  }
 }
 
 static bool compare_destructor(element_t elem1, element_t elem2) {
