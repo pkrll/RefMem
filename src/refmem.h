@@ -28,8 +28,7 @@ void release(obj object);
  * @param object        Pointer to which object to extract count from
  * @return              number of reference
  */
-size_t rc(obj object);
-
+unsigned short rc(obj object);
 /**
  * @brief               Allocates memory for an object an its record
  *                      that contains the reference counter and the
