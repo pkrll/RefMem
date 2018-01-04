@@ -76,6 +76,33 @@ void test_allocate() {
   deallocate(test_zero);
 }
 
+void test_mem_reg_size_clear() {
+
+  set_cascade_limit(1);
+
+  test_t *test1 = allocate(sizeof(test_t), NULL);
+  test_t *test2 = allocate(sizeof(test_t), NULL);
+  test_t *test3 = allocate(sizeof(test_t), NULL);
+  test_t *test4 = allocate(sizeof(test_t), NULL);
+
+  deallocate(test1);
+
+  // These should end up in mem_register
+  deallocate(test2);
+  deallocate(test3);
+  deallocate(test4);
+
+  CU_ASSERT_FALSE(mem_register_is_empty());
+
+  // Since the 3 items in the mem_register are the same size as we are requesting now
+  // the mem_register should be cleared
+  test_t *test5 = allocate(sizeof(test_t) * 3, NULL);
+
+  CU_ASSERT_TRUE(mem_register_is_empty());
+
+  deallocate(test5);
+}
+
 void test_allocate_array() {
   int *numbers = (int *) allocate_array(4, sizeof(int), NULL);
   char *string = (char *)allocate_array(4, sizeof(char), NULL);
@@ -265,6 +292,7 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "RC", test_rc);
   CU_add_test(creation, "Set cascade limit", test_set_cascade_limit);
   CU_add_test(creation, "Cascade limit", test_cascade_limit);
+  CU_add_test(creation, "Mem reg clear with size", test_mem_reg_size_clear);
   CU_add_test(creation, "Cleanup", test_cleanup);
 
   CU_basic_run_tests();

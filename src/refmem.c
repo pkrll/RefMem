@@ -56,10 +56,11 @@ static obj convert_from_record(record_t *record);
 static void save_object(obj object);
 
 /**
- * @brief         Free cascade_limit amount of objects in mem_register
+ * @brief         Free cascade_limit amount of objects in mem_register or clear until limit is reached
+ * @param request Upper limit of number of bytes to clear.
  * @return        void
  */
-static void clear_mem_register();
+static void clear_mem_register(size_t request);
 
 /**
  * @brief                 Compare two elements by their destructor function
@@ -106,6 +107,9 @@ unsigned short rc(obj object) {
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
+
+  clear_mem_register(bytes);
+
   record_t *record = calloc(1, sizeof(record_t) + bytes);
 
   record->reference_count = 0;
@@ -118,8 +122,6 @@ obj allocate(size_t bytes, function1_t destructor) {
 
   record->id = list_expand(destr_register, elem, compare_destructor);
   record->size_index = list_expand(size_register, size, compare_size);
-
-  clear_mem_register();
 
   record++;
 
@@ -136,6 +138,8 @@ size_t get_cascade_limit() {
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   size_t allocated_size = elem_size * elements;
+  clear_mem_register(allocated_size);
+
   record_t *record = calloc(1, ( allocated_size + sizeof(record_t)));
 
   record->reference_count = 0;
@@ -148,8 +152,6 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
 
   record->id = list_expand(destr_register, elem, compare_destructor);
   record->size_index = list_expand(size_register, size, compare_size);
-
-  clear_mem_register();
 
   record++;
 
@@ -225,19 +227,28 @@ static void save_object(obj object) {
   queue_enqueue(mem_register, object);
 }
 
-void clear_mem_register() {
+size_t free_record(record_t *record) {
+  element_t size = list_get(size_register, record->size_index);
+  free(record);
+  return size.s;
+}
+
+void clear_mem_register(size_t request) {
   cascade_counter = 0;
 
   if (mem_register == NULL) {
     mem_register = queue_create();
-  }
+  } else {
 
-  size_t i = 0;
+    size_t size_sum = 0;
 
-  while (i < cascade_limit && mem_register_is_empty() == false) {
-    record_t *object = queue_dequeue(mem_register);
-    free(object);
-    i++;
+    for (unsigned short i = 0; i < cascade_limit && queue_is_empty(mem_register) == false; i++) {
+      size_sum += free_record(queue_dequeue(mem_register));
+    }
+
+    while (size_sum < request && queue_is_empty(mem_register) == false) {
+      size_sum += free_record(queue_dequeue(mem_register));
+    }
   }
 }
 
