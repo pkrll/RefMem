@@ -193,7 +193,10 @@ void cleanup() {
   }
 }
 
-void shutdown();
+void shutdown() {
+  cleanup();
+  queue_delete(mem_register);
+}
 
 
 // -------------------------------
