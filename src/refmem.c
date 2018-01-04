@@ -132,7 +132,6 @@ void deallocate(obj object) {
   function1_t *destr = (function1_t *)list_get(destr_register,record->id);
 
   if (destr != NULL) {
-    printf("%p\n", destr);
     (*destr)(object);
   }
 
