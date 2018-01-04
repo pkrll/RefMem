@@ -6,10 +6,12 @@
 // Structs
 // -------------------------------
 
+typedef struct item item_t;
+
 struct item {
   void *content;
-  struct item* next;
-} typedef item_t;
+  item_t *next;
+};
 
 struct queue {
   item_t* first;
@@ -31,9 +33,8 @@ queue_t *queue_create() {
 }
 
 void queue_enqueue(queue_t *queue, void *input) {
-  item_t *item = malloc(sizeof(item));
+  item_t *item = calloc(1, sizeof(item_t));
   item->content = input;
-  item->next = NULL;
 
   if (queue->first == NULL) {
     queue->first = item;
@@ -59,7 +60,7 @@ void *queue_dequeue(queue_t *queue) {
 
     void *content = next_item->content;
     free(next_item);
-    
+
     return content;
   }
 
