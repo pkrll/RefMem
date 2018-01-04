@@ -7,7 +7,7 @@
 #include <math.h>
 #include "../src/queue.h"
 
-void test_create_queue() {
+void test_queue_create() {
   queue_t *queue = queue_create();
 
   CU_ASSERT_PTR_NOT_NULL(queue);
@@ -16,16 +16,14 @@ void test_create_queue() {
   queue_delete(queue);
 }
 
-void test_enqueue() {
+void test_queue_enqueue() {
   queue_t *queue = queue_create();
   int numbers[4] = {1,2,3,4};
-
 
   queue_enqueue(queue, &numbers[0]);
   queue_enqueue(queue, &numbers[1]);
   queue_enqueue(queue, &numbers[2]);
   queue_enqueue(queue, &numbers[3]);
-
 
   CU_ASSERT_FALSE(queue_is_empty(queue));
 
@@ -41,7 +39,7 @@ void test_enqueue() {
   queue_delete(queue);
 }
 
-void test_dequeue() {
+void test_queue_first() {
   queue_t *queue = queue_create();
   int testobject = 10;
 
@@ -49,6 +47,64 @@ void test_dequeue() {
 
   CU_ASSERT_FALSE(queue_is_empty(queue));
   CU_ASSERT_EQUAL((*(int *) queue_first(queue)), 10);
+
+  queue_delete(queue);
+}
+
+void test_queue_length() {
+  queue_t *queue = queue_create();
+  CU_ASSERT_EQUAL(queue_length(queue), 0);
+
+  int numbers[4] = {1,2,3,4};
+
+  queue_enqueue(queue, &numbers[0]);
+  CU_ASSERT_EQUAL(queue_length(queue), 1);
+  queue_enqueue(queue, &numbers[1]);
+  CU_ASSERT_EQUAL(queue_length(queue), 2);
+  queue_enqueue(queue, &numbers[2]);
+  CU_ASSERT_EQUAL(queue_length(queue), 3);
+  queue_enqueue(queue, &numbers[3]);
+  CU_ASSERT_EQUAL(queue_length(queue), 4);
+
+  int *number = queue_dequeue(queue);
+  CU_ASSERT_EQUAL(queue_length(queue), 3);
+  number = queue_dequeue(queue);
+  number = queue_dequeue(queue);
+  number = queue_dequeue(queue);
+  CU_ASSERT_EQUAL(queue_length(queue), 0);
+
+  queue_delete(queue);
+}
+
+void test_queue_dequeue() {
+  queue_t *queue = queue_create();
+
+  int numbers[4] = {1,2,3,4};
+
+  queue_enqueue(queue, &numbers[0]);
+  queue_dequeue(queue);
+  CU_ASSERT_EQUAL(queue_length(queue), 0);
+  queue_enqueue(queue, &numbers[1]);
+  queue_enqueue(queue, &numbers[2]);
+  queue_enqueue(queue, &numbers[3]);
+
+  CU_ASSERT_EQUAL(queue_length(queue), 3);
+  queue_dequeue(queue);
+  queue_dequeue(queue);
+  queue_dequeue(queue);
+  CU_ASSERT_EQUAL(queue_length(queue), 0);
+
+  queue_delete(queue);
+}
+
+void test_queue_is_empty() {
+  queue_t *queue = queue_create();
+  CU_ASSERT_TRUE(queue_is_empty(queue));
+
+  int numbers[4] = {1,2,3,4};
+  queue_enqueue(queue, &numbers[0]);
+
+  CU_ASSERT_FALSE(queue_is_empty(queue));
 
   queue_delete(queue);
 }
@@ -85,9 +141,11 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   CU_pSuite creation = CU_add_suite("Test creation", NULL, NULL);
-  CU_add_test(creation, "Queue new", test_create_queue);
-  CU_add_test(creation, "Queue enqueue", test_enqueue);
-  CU_add_test(creation, "Queue dequeue", test_dequeue);
+  CU_add_test(creation, "Queue new", test_queue_create);
+  CU_add_test(creation, "Queue enqueue", test_queue_enqueue);
+  CU_add_test(creation, "Queue dequeue", test_queue_dequeue);
+  CU_add_test(creation, "Queue length", test_queue_length);
+  CU_add_test(creation, "Queue is empty", test_queue_is_empty);
   CU_add_test(creation, "Queue apply", test_apply);
 
   CU_basic_run_tests();

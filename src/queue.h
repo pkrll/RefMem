@@ -57,4 +57,9 @@ bool queue_is_empty(queue_t *queue);
  */
 void queue_apply(queue_t *queue, queue_apply_func func, void *data);
 
+/**
+ * @brief           Deletes the queue
+ * @param queue     Pointer to queue
+ * @return          void
+ */
 void queue_delete(queue_t *queue);

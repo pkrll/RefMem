@@ -14,7 +14,7 @@ struct item {
 struct queue {
   item_t* first;
   item_t* last;
-} typedef queue_t;
+};
 
 // -------------------------------
 // Public
@@ -59,6 +59,7 @@ void *queue_dequeue(queue_t *queue) {
 
     void *content = next_item->content;
     free(next_item);
+    
     return content;
   }
 
@@ -98,6 +99,7 @@ static void delete_aux(item_t *content) {
   if (content->next) {
     delete_aux(content->next);
   }
+
   free(content);
 }
 
@@ -105,5 +107,6 @@ void queue_delete(queue_t *queue) {
   if (queue->first) {
     delete_aux(queue->first);
   }
+
   free(queue);
 }
