@@ -57,12 +57,12 @@ void test_list_get() {
 void test_list_delete() {
   list_t *list = list_new();
   element_t elem = {.p = NULL};
-  for(int i = 0; i <= 50; i++) {
-    list_expand(list, elem, compare_test);
+  for(int i = 0; i < 50; i++) {
+    list_expand(list, elem, compare_p_test);
   }
-  CU_ASSERT_EQUAL(list_length(list), 50);
-  list_delete(list);
-  CU_ASSERT_EQUAL(list_length(list), 0);
+  CU_ASSERT_EQUAL(list_length(list), 1);
+
+  list_delete(list);  
 }
 
 int main(int argc, char *argv[]) {
