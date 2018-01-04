@@ -129,7 +129,7 @@ void deallocate(obj object) {
   }
 
   if (cascade_counter >= cascade_limit) {
-    save_object(object);
+    save_object(record);
   } else {
 
     free(record);
@@ -145,9 +145,8 @@ bool mem_register_is_empty() {
 void cleanup() {
   if (mem_register != NULL) {
     while (mem_register_is_empty() == false) {
-      obj object = queue_dequeue(mem_register);
-      record_t *record = convert_to_record(object);
-      free(record);
+      record_t *object = queue_dequeue(mem_register);
+      free(object);
     }
   }
 }
@@ -191,9 +190,8 @@ void clear_mem_register() {
   size_t i = 0;
 
   while (i < cascade_limit && mem_register_is_empty() == false) {
-    obj object = queue_dequeue(mem_register);
-    record_t *record = convert_to_record(object);
-    free(record);
+    record_t *object = queue_dequeue(mem_register);
+    free(object);
     i++;
   }
 }

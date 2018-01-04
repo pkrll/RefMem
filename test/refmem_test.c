@@ -227,6 +227,8 @@ void test_cascade_limit() {
   retain(test4);
 
   CU_ASSERT_TRUE(mem_register_is_empty());
+
+  release(test4);
 }
 
 void test_cleanup() {
