@@ -67,21 +67,13 @@ clean:
 	rm -f *~
 	rm -rf $(DEBUG_FILES)
 
-<<<<<<< HEAD
-test: test-refmem test-treeset test-list
-	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
-	@./$(BINARYDIR)/test_refmem
-	@echo "--------------------------------------------- RUNNING TESTS ON TREE   --------------------------------------------"
-	@./$(BINARYDIR)/test_treeset
-	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
-	@./$(BINARYDIR)/test_list
-=======
-test: test-refmem test-queue
+test: test-refmem test-queue test-list
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
 	@./$(BINARYDIR)/test_refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON queue   --------------------------------------------"
 	@./$(BINARYDIR)/test_queue
->>>>>>> 0aee06a5a91173db3b976e58b508b45d7565f8a8
+	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
+	@./$(BINARYDIR)/test_list
 
 memtest: test-refmem
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem

@@ -12,6 +12,7 @@ void test_list_new(){
     CU_ASSERT_PTR_NULL(list);
     list = list_new();
     CU_ASSERT_PTR_NOT_NULL(list);
+    CU_ASSERT_EQUAL(list_length(list), 0);
 }
 
 bool compare_test(element_t elem1, element_t elem2){
@@ -51,13 +52,26 @@ void test_list_get(){
     CU_ASSERT_TRUE(compare_test(get_elem1, get_elem2));
 }
 
+void test_list_delete(){
+    list_t *list = list_new();
+    element_t elem = {.p = NULL};
+    for(int i = 0; i <= 50; i++) {
+        list_expand(list, elem, compare_test);
+    }
+    CU_ASSERT_EQUAL(list_length(list), 50);
+    list_delete(list);
+    CU_ASSERT_EQUAL(list_length(list), 0);
+
+}
+
 int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   CU_pSuite creation = CU_add_suite("Test creation", NULL, NULL);
-  CU_add_test(creation, "List new", test_list_new);
+  CU_add_test(creation, "List new and length", test_list_new);
   CU_add_test(creation, "List expand", test_list_expand);
   CU_add_test(creation, "List get", test_list_get);
+  CU_add_test(creation, "List delete", test_list_delete);
 
   CU_basic_run_tests();
   CU_cleanup_registry();
