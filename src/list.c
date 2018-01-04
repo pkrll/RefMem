@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "list.h"
 
 typedef struct link link_t;
@@ -35,7 +36,7 @@ struct list {
 };
 
 // -------------------------------
-// Public
+// Private
 // -------------------------------
 
 link_t *link_new(element_t elem, link_t *next) {
@@ -46,8 +47,15 @@ link_t *link_new(element_t elem, link_t *next) {
   return new_link;
 }
 
+// -------------------------------
+// Public
+// -------------------------------
+
+
 list_t *list_new() {
-  return calloc(1, sizeof(list_t));
+  list_t *list = calloc(1, sizeof(list_t));
+  list->size = 0;
+  return list;
 }
 
 unsigned short list_length(list_t *list) {
@@ -55,26 +63,18 @@ unsigned short list_length(list_t *list) {
 }
 
 unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
+  assert(cmp != NULL);
   unsigned short index = 0;
-  link_t *link = list->first;
+  link_t **link = &list->first;
 
-  if (link == NULL) {
-    link_t *link = link_new(elem, NULL);
-    list->first = link;
-    list->last = link;
-    list->size += 1;
-    return index;
-  }
-
-  while (link->next != NULL) {
-    if (cmp(link->pointer, elem) == true) return index;
+  while (*link != NULL) {
+    if (cmp((*link)->pointer, elem) == true) return index;
     index += 1;
-    link = link->next;
+    link = &(*link)->next;
   }
 
-  link_t *newlink = link_new(elem, NULL);
-  link->next = newlink;
-  list->last = newlink;
+  *link = link_new(elem, NULL);
+  list->last = *link;
   list->size += 1;
   return index;
 }
@@ -83,7 +83,7 @@ element_t list_get(list_t *list, unsigned short id) {
 
   link_t *link = list->first;
   unsigned short i = 0;
-  while (i <= id && link->next != NULL) {
+  while (i < id && link->next != NULL) {
     link = link->next;
     i += 1;
   }
