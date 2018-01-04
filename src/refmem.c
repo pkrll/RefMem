@@ -166,7 +166,6 @@ void deallocate(obj object) {
   destr = elem.f;
 
   if (destr != NULL) {
-
     (*destr)(object);
   }
 
@@ -184,8 +183,21 @@ bool mem_register_is_empty() {
   return queue_is_empty(mem_register);
 }
 
-void cleanup();
-void shutdown();
+void cleanup() {
+  if (mem_register != NULL) {
+    while (mem_register_is_empty() == false) {
+      record_t *object = queue_dequeue(mem_register);
+      free(object);
+    }
+  }
+}
+
+void shutdown() {
+  cleanup();
+  queue_delete(mem_register);
+  list_delete(destr_register);
+  list_delete(size_register);
+}
 
 // -------------------------------
 // Private
@@ -220,8 +232,12 @@ void clear_mem_register() {
     mem_register = queue_create();
   }
 
-  for (size_t i = 0; i < cascade_limit; ++i) {
-    free(queue_dequeue(mem_register));
+  size_t i = 0;
+
+  while (i < cascade_limit && mem_register_is_empty() == false) {
+    record_t *object = queue_dequeue(mem_register);
+    free(object);
+    i++;
   }
 }
 
