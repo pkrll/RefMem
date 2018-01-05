@@ -27,20 +27,24 @@ static bool compare_s_test(element_t elem1, element_t elem2) {
 void test_listset_expand() {
   listset_t *list = listset_new();
   CU_ASSERT_EQUAL(listset_length(list), 0);
+  
   element_t elem1 = {.p = NULL};
   element_t elem2 = {.s = 1};
   unsigned short placement1 = listset_expand(list, elem1, compare_p_test);
   unsigned short placement2 = listset_expand(list, elem1, compare_p_test);
   unsigned short placement3 = listset_expand(list, elem2, compare_s_test);
+  
   CU_ASSERT_EQUAL(placement1, 0);
   CU_ASSERT_EQUAL(placement2, 0);
   CU_ASSERT_EQUAL(placement3, 1);
+  
   listset_delete(list);
 }
 
 void test_listset_get() {
   listset_t *list = listset_new();
   CU_ASSERT_EQUAL(listset_length(list), 0);
+  
   element_t elem1 = {.p = NULL};
   element_t elem2 = {.s = 1};
   unsigned short placement1 = listset_expand(list, elem1, compare_p_test);
@@ -49,17 +53,20 @@ void test_listset_get() {
   element_t get_elem1 = listset_get(list, placement1);
   element_t get_elem2 = listset_get(list, placement2);
   element_t get_elem3 = listset_get(list, placement3);
+  
   CU_ASSERT_EQUAL(elem1.p, get_elem1.p);
   CU_ASSERT_EQUAL(elem1.p, get_elem2.p);
   CU_ASSERT_EQUAL(get_elem1.p, get_elem2.p);
   CU_ASSERT_EQUAL(elem2.s, get_elem3.s);
   CU_ASSERT_TRUE(compare_p_test(get_elem1, get_elem2));
+  
   listset_delete(list);
 }
 
 void test_listset_delete() {
   listset_t *list = listset_new();
   element_t elem = {.p = NULL};
+  
   for(int i = 0; i < 50; i++) {
     listset_expand(list, elem, compare_p_test);
   }
