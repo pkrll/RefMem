@@ -36,7 +36,7 @@ obj copy_fun(obj e) {
 }
 
 bool apply_fun(obj key, obj elem, void *data) {
-  CU_ASSERT_EQUAL(data, "Hello World");
+  CU_ASSERT_STRING_EQUAL(data, "Hello World");
   return true;
 }
 
@@ -396,7 +396,8 @@ void test_tree_balance() {
   release(tree);
 
   tree = tree_new(NULL, NULL, NULL, comp_fun_int);
-
+  retain(tree);
+  
   tree_insert(tree, new_integer(15), string_duplicate("bb"));
   tree_insert(tree, new_integer(17), string_duplicate("cc"));
   tree_insert(tree, new_integer(34), string_duplicate("dd"));

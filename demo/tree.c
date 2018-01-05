@@ -274,6 +274,9 @@ bool tree_balance(tree_t *tree) {
   obj *elements = allocate_array(size, sizeof(obj), NULL);
   tree_key_t *keys = allocate_array(size, sizeof(tree_key_t), NULL);
 
+  retain(elements);
+  retain(keys);
+
   int i = 0, x = 0;
 
   node_elements(tree->root, elements, &i);
@@ -293,8 +296,8 @@ bool tree_balance(tree_t *tree) {
     release(keys[i]);
   }
 
-  deallocate(elements);
-  deallocate(keys);
+  release(elements);
+  release(keys);
 
   return true;
 }
@@ -422,8 +425,8 @@ static void node_delete(node_t *node, element_free_fun elem_free, key_free_fun k
     node_delete(node->left, elem_free, key_free);
     node_delete(node->right, elem_free, key_free);
 
-    // if (elem_free) elem_free(node->elem);
-    // if (key_free)  key_free(node->key);
+    node->left = NULL;
+    node->right = NULL;
 
     release(node);
   }
@@ -477,21 +480,4 @@ static void node_destructor(obj object) {
   release(node->elem);
   release(node->right);
   release(node->left);
-}
-
-
-void node_print(node_t *node) {
-  if (node) {
-    printf("Left: \n");
-    node_print(node->left);
-    printf("- Root: %d\n", *(int*)node->key);
-    printf("Right: \n");
-    node_print(node->right);
-  } else {
-    printf("-");
-  }
-}
-
-void tree_print(tree_t *tree) {
-  node_print(tree->root);
 }
