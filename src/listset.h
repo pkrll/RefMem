@@ -1,9 +1,9 @@
-#ifndef __list_h__
-#define __list_h__
+#ifndef __listset_h__
+#define __listset_h__
 
 #include <stdbool.h>
 
-typedef struct list list_t;
+typedef struct listset listset_t;
 
 union element
 {
@@ -19,13 +19,13 @@ typedef bool(*element_comp_fun)(element_t, element_t);
  * @brief           Creates a new list
  * @return          Pointer to list
  */
-list_t *list_new();
+listset_t *listset_new();
 
 /**
  * @brief           Return lists length.
  * @return          length
  */
-unsigned short list_length(list_t *list);
+unsigned short listset_length(listset_t *list);
 
 /**
  * @brief           Deletes list and free all its links and
@@ -33,7 +33,7 @@ unsigned short list_length(list_t *list);
  * @param list      Pointer to list
  * @return          void
  */
-void list_delete(list_t *list);
+void listset_delete(listset_t *list);
 
 /**
  * @brief           Check if list contains elem. If true return its index, if not
@@ -43,15 +43,15 @@ void list_delete(list_t *list);
  * @param cmp       compare function to check if list contains elem
  * @return          index of inserted elem or the placement of the elem
  */
-unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp);
+unsigned short listset_expand(listset_t *list, element_t elem, element_comp_fun cmp);
 
 /**
  * @brief           Return element at given index
  * @param           Pointer to list
  * @param           index
  * @return          element at index id
- * 
+ *
  */
-element_t list_get(list_t *list, unsigned short id);
+element_t listset_get(listset_t *list, unsigned short id);
 
 #endif

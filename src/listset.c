@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "list.h"
+#include "listset.h"
 
 typedef struct link link_t;
 
@@ -29,7 +29,7 @@ struct link {
  * @var list::last  The last link in the list.
  * @var list::size  Size of the list.
  */
-struct list {
+struct listset {
   unsigned short size;
   link_t *first;
   link_t *last;
@@ -52,17 +52,17 @@ link_t *link_new(element_t elem, link_t *next) {
 // -------------------------------
 
 
-list_t *list_new() {
-  list_t *list = calloc(1, sizeof(list_t));
+listset_t *listset_new() {
+  listset_t *list = calloc(1, sizeof(listset_t));
   list->size = 0;
   return list;
 }
 
-unsigned short list_length(list_t *list) {
+unsigned short listset_length(listset_t *list) {
   return list->size;
 }
 
-unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
+unsigned short listset_expand(listset_t *list, element_t elem, element_comp_fun cmp) {
   assert(cmp != NULL);
   unsigned short index = 0;
   link_t **link = &list->first;
@@ -79,7 +79,7 @@ unsigned short list_expand(list_t *list, element_t elem, element_comp_fun cmp) {
   return index;
 }
 
-element_t list_get(list_t *list, unsigned short id) {
+element_t listset_get(listset_t *list, unsigned short id) {
 
   link_t *link = list->first;
   unsigned short i = 0;
@@ -91,7 +91,7 @@ element_t list_get(list_t *list, unsigned short id) {
   return link->pointer;
 }
 
-void list_delete(list_t *list) {
+void listset_delete(listset_t *list) {
   link_t *link = list->first;
 
   while (link != NULL) {

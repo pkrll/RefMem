@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "refmem.h"
 #include "queue.h"
-#include "list.h"
+#include "listset.h"
 
 /**
 * @brief cascade_limit represent the amount of free's
@@ -12,9 +12,9 @@
 */
 static size_t cascade_limit = 1000;
 
-static list_t *destr_register = NULL;
+static listset_t *destr_register = NULL;
 
-static list_t *size_register = NULL;
+static listset_t *size_register = NULL;
 
 static queue_t *mem_register = NULL;
 
@@ -115,13 +115,13 @@ obj allocate(size_t bytes, function1_t destructor) {
   record->reference_count = 0;
 
   element_t elem = {.f = destructor};
-  if (destr_register == NULL) destr_register = list_new();
+  if (destr_register == NULL) destr_register = listset_new();
 
   element_t size = {.s = bytes};
-  if (size_register == NULL) size_register = list_new();
+  if (size_register == NULL) size_register = listset_new();
 
-  record->id = list_expand(destr_register, elem, compare_destructor);
-  record->size_index = list_expand(size_register, size, compare_size);
+  record->id = listset_expand(destr_register, elem, compare_destructor);
+  record->size_index = listset_expand(size_register, size, compare_size);
 
   record++;
 
@@ -145,13 +145,13 @@ obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   record->reference_count = 0;
 
   element_t elem = {.f = destructor};
-  if (destr_register == NULL) destr_register = list_new();
+  if (destr_register == NULL) destr_register = listset_new();
 
   element_t size = {.s = allocated_size};
-  if (size_register == NULL) size_register = list_new();
+  if (size_register == NULL) size_register = listset_new();
 
-  record->id = list_expand(destr_register, elem, compare_destructor);
-  record->size_index = list_expand(size_register, size, compare_size);
+  record->id = listset_expand(destr_register, elem, compare_destructor);
+  record->size_index = listset_expand(size_register, size, compare_size);
 
   record++;
 
@@ -163,7 +163,7 @@ void deallocate(obj object) {
   assert(rc(object) == 0);
 
   record_t *record = convert_to_record(object);
-  element_t elem = list_get(destr_register,record->id);
+  element_t elem = listset_get(destr_register,record->id);
   function1_t destr = NULL;
   destr = elem.f;
 
@@ -197,8 +197,8 @@ void cleanup() {
 void shutdown() {
   cleanup();
   queue_delete(mem_register);
-  list_delete(destr_register);
-  list_delete(size_register);
+  listset_delete(destr_register);
+  listset_delete(size_register);
 }
 
 // -------------------------------
@@ -228,7 +228,7 @@ static void save_object(obj object) {
 }
 
 size_t free_record(record_t *record) {
-  element_t size = list_get(size_register, record->size_index);
+  element_t size = listset_get(size_register, record->size_index);
   free(record);
   return size.s;
 }
