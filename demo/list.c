@@ -115,9 +115,13 @@ void list_remove(list_t *list, int index, bool delete) {
 
       if (index == 0) {
         list->first = *link;
-        retain(list->first);
+        if (list->first) {
+          retain(list->first);
+        }
       } else {
-        retain(link_to_remove->next); // fixes issue
+        if (link_to_remove->next) {
+          retain(link_to_remove->next); // fixes issue
+        }
       }
 
       release(link_to_remove);
@@ -125,7 +129,10 @@ void list_remove(list_t *list, int index, bool delete) {
       if (index + 1 == size) {
         release(list->last);
         list->last = head;
-        retain(list->last);
+
+        if (list->last) {
+          retain(list->last);
+        }
       }
 
       list->size = list->size - 1;
@@ -242,7 +249,9 @@ static link_t *link_new(obj elem, link_t *next, element_copy_fun copy) {
     link->elem = (copy) ? copy(elem) : elem;
     link->next = next;
 
-    retain(link->next);
+    if (link->next) {
+      retain(link->next);
+    }
     retain(elem);
   }
 
