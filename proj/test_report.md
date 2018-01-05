@@ -9,6 +9,8 @@
 
 ## Intro
 Since the beginning of this project (And any other serious projects), tests have been manually written to backup the reliability of the components of the program. Tests were first written to require base functionality of the functions while later tests of the same functions focus on solidness and that the functions don't crash when receiving random type-correct data.
+
+There are three types of testing methods that have been required to take into consideration in the project; Unit Testing, Integration Testing and Regression Testing. Generally speaking, the testing methods focus on vastly different levels of the code, and by that they achieve to catch certain errors that may not be present in the other methods.
 **TODO; What to answer on how we automated the tests. Wot?**
 
 #### Unit Testing
@@ -44,10 +46,8 @@ The function ``set_cascade_limit`` is a low-level component which is used in hig
 The integration testing of this project followed a clear bottom-up model. Components responsible for core functionality were tested first, quickly followed by higher-level ones.
 
 Finally, functions combining multiple modules were tested as the bottom-up testing model suggests.
-**TODO: Write a valid example which runs the program and tests if the GC works as intended when making the components work together. I fear that the demo falls under vertification and validation which is higher level testing than integration testing. However, it shouldn't take much time to make a modified sub-version of the demo that performs some checks during runtime.**
 
-
-```
+```c
 database_t *database_new(char *file_path) {
   database_t *database = allocate(sizeof(database_t), database_destructor);
 
@@ -78,11 +78,18 @@ void test_database_new() {
 The database program is tested for expected behaviour and absence of memory leaks.
 
 #### Regression Testing
-Higher level regression test haven't been made yet. From a certain perspective, regression testing has always been here as a side effect of our pull request conditions and our unit tests. Since our unit tests both cover common and uncommon inputs, combined with Cunit always being monitored when changes have been made before approving a pull request, regression testing is in effect. Pull requests with code that has been tagged as faulty due to results from Cunit will not be approved.
+From a certain perspective, regression testing has always been here as a side effect of our pull request conditions and our unit tests. Since our unit tests both cover common and uncommon inputs, combined with Cunit always being monitored when changes have been made before approving a pull request, regression testing is in effect. Pull requests with code that has been tagged as faulty due to results from Cunit will not be approved.
 
 High-level regression testing was taken into consideration when modifications to the demo was made. The demo itself, is a simulation on how a user may use the GC for memory handling in their database. If any changes are made to the GC, the demo tests will tell if everything's still works after the changes.
 
 TODO; Regression testing in optimizations. (Perhaps where it plays a larger role since this is where changes will be made without actually changing how the program works from a end user's perspective.)
+
+## Summary of How Well The Various Testing Types Were Used
+Since day one, we've been made sure to actually write some kinds of tests in symbiosis with the functions. A rule was set requiring tests for all written functions when performing a pull request from the working branch. Anything that didn't follow this rule would not be merged into the master branch. Later on, tests targeting edge-cases were written for eligible functions.
+
+Due to the PR-condition, our project naturally followed a bottom-up structure of integration testing. Higher level testing of how well modules functioned together didn't start until the modules were more or less finished. There was simply no other method to actually do this since the demo, which combined the written modules, wouldn't work at all if the lower-level modules weren't already completed.
+
+Regression testing wasn't actively enforced until later in the project. Until that point, it had only been a non-intended side effect of the set rules.
 
 ## Handled bugs and other nasties
 **TODO List the most significant bugs encountered and how they were defeated.  Also, code coverage.**
