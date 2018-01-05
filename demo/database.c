@@ -90,7 +90,7 @@ database_t *database_new(char *file_path) {
 
 bool database_insert_item(database_t *database, item_t *item) {
   bool result = false;
-  
+
   if (item) {
     retain(item);
 
@@ -220,11 +220,10 @@ bool database_undo_action(database_t *database) {
 
   if (database) {
     action_t *action = stack_top(database->actions);
-    retain(action);
-
-    stack_pop(database->actions); // Fixes memleak as database doesnt have ownership of action before hand.
-
     if (action == NULL) return false;
+
+    retain(action);
+    stack_pop(database->actions); // Fixes memleak as database doesnt have ownership of action before hand.
 
     action_type type = action_get_type(action);
 

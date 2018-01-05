@@ -384,14 +384,14 @@ int main(int argc, char *argv[]) {
   CU_pSuite database = CU_add_suite("Test database", NULL, NULL);
   CU_add_test(database, "New", test_database_new);
   CU_add_test(database, "Insert", test_database_insert_item);
-  // CU_add_test(database, "Update", test_database_update_item);
-  // CU_add_test(database, "Remove", test_database_remove_item);
-  // CU_add_test(database, "Has item", test_database_has_item);
-  // CU_add_test(database, "Get item", test_database_get_item);
-  // CU_add_test(database, "Location valid", test_database_location_is_valid);
-  // CU_add_test(database, "Undo action", test_database_undo_action);
-  // CU_add_test(database, "Is sorted", test_database_is_sorted);
-  // CU_add_test(database, "Sort", test_database_sort);
+  CU_add_test(database, "Update", test_database_update_item);
+  CU_add_test(database, "Remove", test_database_remove_item);
+  CU_add_test(database, "Has item", test_database_has_item);
+  CU_add_test(database, "Get item", test_database_get_item);
+  CU_add_test(database, "Location valid", test_database_location_is_valid);
+  CU_add_test(database, "Undo action", test_database_undo_action);
+  CU_add_test(database, "Is sorted", test_database_is_sorted);
+  CU_add_test(database, "Sort", test_database_sort);
 
   CU_basic_run_tests();
 
