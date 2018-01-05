@@ -53,3 +53,5 @@ This contains three unsigned shorts:
 ## Graphical example
 
 ![record](flow.png?)
+
+The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. 
