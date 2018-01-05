@@ -43,6 +43,7 @@ the code is acceptable. If not it is commented and hopefully fixed. All this is
 done through GitHubs pull-request function. When a note has passed the review section
 it is moved to Done. That action is represented by the pull request is merged
 to the master branch.
+## 3.2 Implementation
 # 4 Use of Tools
 ## Trello
 For keeping track of what tasks were left and who did what
