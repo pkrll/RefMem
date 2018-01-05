@@ -7,6 +7,12 @@
 #include "../../demo/action.h"
 #include "../../src/refmem.h"
 
+int *new_integer(int number) {
+  int *integer = allocate(sizeof(int), NULL);
+  *integer = number;
+  return integer;
+}
+
 void test_action_new() {
   action_t *action = action_new(REMOVE);
 
@@ -17,21 +23,21 @@ void test_action_new() {
 }
 
 void test_action_new_add() {
-  int foo = 5;
+  int *foo = new_integer(5);
 
-  action_t *action = action_new_add(&foo);
+  action_t *action = action_new_add(foo);
   retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), ADD);
 
   int *result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, foo);
+  CU_ASSERT_EQUAL(*result, *foo);
 
   release(action);
 }
 
 void test_action_new_edit() {
-  int orig_elem = 15;
-  int edit_elem = 16;
+  int *orig_elem = new_integer(15);
+  int *edit_elem = new_integer(16);
 
   action_t *action = action_new_edit(&orig_elem, &edit_elem);
   retain(action);
@@ -40,21 +46,21 @@ void test_action_new_edit() {
 
   int *orig_result = action_get_original(action);
   int *edit_result = action_get_edited(action);
-  CU_ASSERT_EQUAL(*orig_result, orig_elem);
-  CU_ASSERT_EQUAL(*edit_result, edit_elem);
+  CU_ASSERT_EQUAL(*orig_result, *orig_elem);
+  CU_ASSERT_EQUAL(*edit_result, *edit_elem);
 
   release(action);
 }
 
 void test_action_new_remove() {
-  int elem = 0;
+  int *elem = new_integer(0);
 
   action_t *action = action_new_remove(&elem);
   retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
 
   int *result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, elem);
+  CU_ASSERT_EQUAL(*result, *elem);
 
   release(action);
 }
