@@ -1,6 +1,6 @@
 # Compiler & compiler flags
 CC=gcc
-CFLAGS= -Wall -pedantic
+CFLAGS= -Wall -pedantic -fprofile-arcs -ftest-coverage
 TFLAGS= -lcunit -lm #--coverage, lm needed to link math lib
 TEST=test/test_refmem
 
@@ -43,7 +43,6 @@ $(OBJECTDIR)/%.o: $(TESTDIR)/%.c
 
 # TEST TARGETS
 
-
 test-queue: compile-tests
 test-queue:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/queue.o $(OBJECTDIR)/queue_test.o -o $(BINARYDIR)/test_queue $(TFLAGS)
@@ -65,7 +64,11 @@ clean:
 	rm -f $(OBJECTDIR)/*.o
 	rm -f $(BINARYDIR)/*
 	rm -f *~
-	rm -rf $(DEBUG_FILES)
+	rm -f $(DEBUG_FILES)
+	rm -f $(OBJECTDIR)/*.gcno
+	rm -f $(OBJECTDIR)/*.gcda
+	rm -rf ./out
+	rm coverage.info
 
 test: test-refmem test-queue test-listset
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
@@ -83,3 +86,13 @@ memtest-queue: test-queue
 
 style:
 	astyle --style=google --indent=spaces=2 --indent-continuation=2 $(SOURCES) $(SOURCES_TEST)
+
+# GCOV - requires LCOV installed
+
+compile-gcov: compile-tests test
+compile-gcov: 
+		cd bin
+		$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/listset.o $(OBJECTDIR)/queue.o  $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
+		lcov --capture --directory ./obj --output-file coverage.info
+		genhtml coverage.info --output-directory out
+
