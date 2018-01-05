@@ -194,10 +194,10 @@ bool tree_remove(tree_t *tree, tree_key_t key, obj *result) {
 
       if (node_to_delete->left == NULL) {
         *child = node_to_delete->right;
-        retain(*child);
+        if (*child) retain(*child);
       } else if (node_to_delete->right == NULL) {
         *child = node_to_delete->left;
-        retain(*child);
+        if (*child) retain(*child);
       } else {
         node_t *minimum_root = node_to_delete->right;
         node_t *minimum_node = *node_minimum(&minimum_root);
@@ -210,8 +210,8 @@ bool tree_remove(tree_t *tree, tree_key_t key, obj *result) {
         minimum_node->left = node_to_delete->left;
         *child = minimum_node;
 
-        retain(node_to_delete->left);
-        retain(node_to_delete->right);
+        if (node_to_delete->left)   retain(node_to_delete->left);
+        if (node_to_delete->right)  retain(node_to_delete->right);
       }
 
       if (result) *result = node_to_delete->elem;

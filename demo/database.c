@@ -90,18 +90,22 @@ database_t *database_new(char *file_path) {
 
 bool database_insert_item(database_t *database, item_t *item) {
   bool result = false;
-  retain(item);
+  
+  if (item) {
+    retain(item);
 
-  if (database_insert(database, item)) {
-    action_t *action = action_new_add(item);
-    retain(action);
-    add_undo(database, action);
-    release(action);
+    if (database_insert(database, item)) {
+      action_t *action = action_new_add(item);
+      retain(action);
+      add_undo(database, action);
+      release(action);
 
-    result = true;
+      result = true;
+    }
+
+    release(item);
   }
 
-  release(item);
   return result;
 }
 
