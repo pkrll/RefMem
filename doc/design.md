@@ -11,7 +11,10 @@ The refmem module contains five static variables:
 - ``size_register`` is a linked list containing all different sizes passed to allocate.
 
 ## Structs
-To keep track of each objects reference count some overhead is necessary which is contained in a struct called ``record_t``. 
+
+![record](record.png?)
+
+To keep track of each objects reference count some overhead is necessary which is contained in what we call a record. 
 This contains three unsigned shorts: 
 - ``reference_count`` for keeping track of the number of references to this object.
 - ``destr_index`` is the index of the objects destructor function in ``destr_register``.
