@@ -49,3 +49,7 @@ This contains three unsigned shorts:
 
 **Shutdown**
 - Run ``cleanup`` and delete ``mem_register``, ``destr_register`` and ``size_register``.
+
+## Graphical example
+
+![record](flow.png?)
