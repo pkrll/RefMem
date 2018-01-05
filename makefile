@@ -1,6 +1,6 @@
 # Compiler & compiler flags
 CC=gcc
-CFLAGS= -Wall -pedantic -fprofile-arcs -ftest-coverage
+CFLAGS= -Wall -pedantic
 TFLAGS= -lcunit -lm #--coverage, lm needed to link math lib
 TEST=test/test_refmem
 
@@ -157,6 +157,7 @@ style:
 
 # GCOV - requires LCOV installed
 
+compile-gcov: CFLAGS +=-fprofile-arcs -ftest-coverage
 compile-gcov: compile-tests test
 compile-gcov:
 		cd bin
