@@ -146,4 +146,6 @@ bool tree_balance(tree_t *tree);
 
 void print_tree(tree_t *tree);
 
+void tree_print(tree_t *node);
+
 #endif

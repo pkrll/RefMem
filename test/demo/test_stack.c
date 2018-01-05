@@ -3,8 +3,8 @@
 #include <CUnit/Automated.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../stack.h"
-#include "../utils.h"
+#include "../../demo/stack.h"
+#include "../../demo/utils.h"
 #include "../../src/refmem.h"
 
 // -------------------------------

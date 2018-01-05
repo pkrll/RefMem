@@ -7,7 +7,7 @@
 // Structs & Enums
 // -------------------------------
 
-typedef struct action {
+struct action {
 
   action_type type;
 
@@ -22,7 +22,7 @@ typedef struct action {
     };
 
   };
-} action_t;
+};
 
 // -------------------------------
 // Public

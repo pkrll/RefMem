@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -pedantic
+CFLAGS= -Wall -pedantic
 PROFFL=tree.c
 
 all: goods
@@ -62,7 +62,7 @@ profiler:
 ########### Tests
 
 tests: CFLAGS += -g -lcunit --coverage #-fprofile-arcs -ftest-coverage
-tests: refmem.o listset.o queue.o test_action test_stack test_item test_utils #test_list test_tree   test_utils_goods test_database
+tests: refmem.o listset.o queue.o test_action test_stack test_item test_utils test_database test_utils_goods #test_list test_tree    
 
 test_tree:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib refmem.o listset.o queue.o tree.c tests/test_tree.c -o test_tree

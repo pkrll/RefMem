@@ -216,7 +216,6 @@ bool tree_remove(tree_t *tree, tree_key_t key, obj *result) {
 
       if (result) *result = node_to_delete->elem;
 
-      tree->key_free(node_to_delete->key);
       release(node_to_delete);
 
       return true;
@@ -478,4 +477,21 @@ static void node_destructor(obj object) {
   release(node->elem);
   release(node->right);
   release(node->left);
+}
+
+
+void node_print(node_t *node) {
+  if (node) {
+    printf("Left: \n");
+    node_print(node->left);
+    printf("- Root: %d\n", *(int*)node->key);
+    printf("Right: \n");
+    node_print(node->right);
+  } else {
+    printf("-");
+  }
+}
+
+void tree_print(tree_t *tree) {
+  node_print(tree->root);
 }

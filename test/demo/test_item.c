@@ -2,9 +2,9 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 #include <stdlib.h>
-#include "../utils.h"
-#include "../item.h"
-#include "../list.h"
+#include "../../demo/utils.h"
+#include "../../demo/item.h"
+#include "../../demo/list.h"
 #include "../../src/refmem.h"
 
 // -------------------------------
