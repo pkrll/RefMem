@@ -7,6 +7,11 @@
 #include "../../demo/tree.h"
 #include "../../demo/common.h"
 
+int teardown() {
+  cleanup();
+  return 0;
+}
+
 int *new_integer(int number) {
   int *integer = allocate(sizeof(int), NULL);
   *integer = number;
@@ -82,22 +87,20 @@ void test_tree_size() {
     CU_ASSERT_EQUAL(tree_size(tree), i + 1);
   }
 
-  obj element;
-  tree_remove(tree, strings[5], &element);
+  tree_remove(tree, strings[5], NULL);
   CU_ASSERT_EQUAL(tree_size(tree), 5);
 
-  tree_remove(tree, strings[1], &element);
+  tree_remove(tree, strings[1], NULL);
   CU_ASSERT_EQUAL(tree_size(tree), 4);
 
   tree_insert(tree, string_duplicate(strings[1]), string_duplicate(strings[1]));
   CU_ASSERT_EQUAL(tree_size(tree), 5);
 
   for (int i = 0; i < 5; i++) {
-    tree_remove(tree, strings[i], &element);
+    tree_remove(tree, strings[i], NULL);
   }
 
   CU_ASSERT_EQUAL(tree_size(tree), 0);
-
   release(tree);
 }
 
@@ -153,13 +156,12 @@ void test_tree_insert() {
   retain(tree);
 
   int **numbers = allocate_array(1000, sizeof(int*), NULL);
+  retain(numbers);
 
   // Testing inserting a lot of stuff
   for (int i = 0; i < 1000; i++) {
-    numbers[i] = allocate(sizeof(int), NULL);
+    numbers[i] = new_integer(i);
     retain(numbers[i]);
-    *numbers[i] = i;
-
     CU_ASSERT_TRUE(tree_insert(tree, numbers[i], numbers[i]));
     CU_ASSERT_EQUAL(tree_size(tree), i + 1);
   }
@@ -181,6 +183,7 @@ void test_tree_insert() {
 
   // With copy, compare functions
   tree = tree_new(copy_fun, NULL, NULL, comp_fun_int);
+  retain(tree);
 
   CU_ASSERT_TRUE(tree_insert(tree, numbers[10], numbers[10]));
   CU_ASSERT_TRUE(tree_insert(tree, numbers[5], numbers[5]));
@@ -227,13 +230,13 @@ void test_tree_get() {
   tree_t *tree = tree_new(NULL, NULL, NULL, comp_fun_int);
   retain(tree);
 
-  int *number = new_integer(50);
+  int *number = new_integer(55);
 
   tree_insert(tree, number, number);
 
   obj elem;
   CU_ASSERT_TRUE(tree_get(tree, number, &elem));
-  CU_ASSERT_EQUAL(*(int *)elem, 50);
+  CU_ASSERT_EQUAL(*(int *)elem, 55);
 
   tree_insert(tree, new_integer(40), new_integer(40));
   tree_insert(tree, new_integer(20), new_integer(20));
@@ -256,8 +259,10 @@ void test_tree_get() {
   deallocate(key);
 
   key = new_integer(30);
+  retain(key);
   tree_remove(tree, key, NULL);
   CU_ASSERT_FALSE(tree_get(tree, key, &elem));
+  release(key);
 
   release(tree);
 }
@@ -267,6 +272,7 @@ void test_tree_remove() {
   retain(tree);
 
   int **numbers = allocate_array(1000, sizeof(int*), NULL);
+  retain(numbers);
 
   // Testing inserting a lot of stuff
   for (int i = 0; i < 100; i++) {
@@ -316,6 +322,13 @@ void test_tree_remove() {
   CU_ASSERT_EQUAL(tree_size(tree), 3);
   CU_ASSERT_EQUAL(tree_depth(tree), 2);
 
+
+  for (int i = 0; i < 100; i++) {
+    release(numbers[i]);
+  }
+
+  release(numbers);
+
   release(tree);
 }
 
@@ -328,12 +341,14 @@ void test_tree_keys() {
   }
 
   tree_key_t *keys = tree_keys(tree);
+  retain(keys);
 
   for (int i = 0; i < tree_size(tree); i++) {
     int *key = (int *)keys[i];
     CU_ASSERT_EQUAL(*key, i);
   }
 
+  release(keys);
   release(tree);
 }
 
@@ -346,12 +361,14 @@ void test_tree_elements() {
   }
 
   obj *elems = tree_elements(tree);
+  retain(elems);
 
   for (int i = 0; i < 100; i++) {
     int *elem = (int *)elems[i];
     CU_ASSERT_EQUAL(*elem, i);
   }
 
+  release(elems);
   release(tree);
 }
 
@@ -397,7 +414,7 @@ void test_tree_balance() {
 
   tree = tree_new(NULL, NULL, NULL, comp_fun_int);
   retain(tree);
-  
+
   tree_insert(tree, new_integer(15), string_duplicate("bb"));
   tree_insert(tree, new_integer(17), string_duplicate("cc"));
   tree_insert(tree, new_integer(34), string_duplicate("dd"));
@@ -431,24 +448,24 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   // Set up suites and tests
-  CU_pSuite creation = CU_add_suite("Test creation, delete, size and depth", NULL, NULL);
+  CU_pSuite creation = CU_add_suite("Test creation, delete, size and depth", NULL, teardown);
   CU_add_test(creation, "Creation", test_tree_creation);
   CU_add_test(creation, "Delete", test_tree_delete);
   CU_add_test(creation, "Size", test_tree_size);
   CU_add_test(creation, "Depth", test_tree_depth);
   CU_add_test(creation, "Has key", test_tree_has_key);
 
-  CU_pSuite manipulation = CU_add_suite("Test manipulation and retrieval", NULL, NULL);
+  CU_pSuite manipulation = CU_add_suite("Test manipulation and retrieval", NULL, teardown);
   CU_add_test(manipulation, "Insert", test_tree_insert);
   CU_add_test(manipulation, "Get", test_tree_get);
   CU_add_test(manipulation, "Remove", test_tree_remove);
 
-  CU_pSuite others = CU_add_suite("Test other functions", NULL, NULL);
+  CU_pSuite others = CU_add_suite("Test other functions", NULL, teardown);
   CU_add_test(others, "Keys", test_tree_keys);
   CU_add_test(others, "Elements", test_tree_elements);
   CU_add_test(others, "Apply", test_tree_apply);
 
-  CU_pSuite balance = CU_add_suite("Test balancing", NULL, NULL);
+  CU_pSuite balance = CU_add_suite("Test balancing", NULL, teardown);
   CU_add_test(balance, "Balance", test_tree_balance);
   CU_add_test(balance, "Is balanced", test_tree_is_balanced);
 
@@ -456,5 +473,8 @@ int main(int argc, char *argv[]) {
 
   // Tear down
   CU_cleanup_registry();
+
+  shutdown();
+
   return CU_get_error();
 }
