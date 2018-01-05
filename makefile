@@ -74,15 +74,15 @@ test-listset:
 
 # TEST TARGETS (FOR DEMO)
 
-test-action: compile-tests $(OBJECTDIR)/test_action.o
+test-action: compile-tests compile-demo-tests
 test-action:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/action.c $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)
 
-test-database: compile-tests $(OBJECTDIR)/test_database.o
+test-database: compile-tests compile-demo-tests
 test-database:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/item.c demo/database.c $(OBJECTDIR)/test_database.o -o $(BINARYDIR)/test_database $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/item.c demo/action.c demo/list.c demo/tree.c demo/utils_goods.c demo/file.c demo/stack.c demo/database.c $(OBJECTDIR)/test_database.o -o $(BINARYDIR)/test_database $(TFLAGS)
 
-test-item: compile-tests $(OBJECTDIR)/test_item.o
+test-item: compile-tests compile-demo-tests
 test-item:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/item.c demo/list.c $(OBJECTDIR)/test_item.o -o $(BINARYDIR)/test_item $(TFLAGS)
 
@@ -90,19 +90,19 @@ test-list: compile-tests compile-demo-tests
 test-list:
 	$(CC) $(CFLAGS) -g -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/list.c $(OBJECTDIR)/test_list.o -o $(BINARYDIR)/test_list $(TFLAGS)
 
-test-stack: compile-tests $(OBJECTDIR)/test_stack.o
+test-stack: compile-tests compile-demo-tests
 test-stack:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/stack.c $(OBJECTDIR)/test_stack.o -o $(BINARYDIR)/test_stack $(TFLAGS)
 
-test-tree: compile-tests $(OBJECTDIR)/test_tree.o
+test-tree: compile-tests compile-demo-tests
 test-tree:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/tree.c $(OBJECTDIR)/test_tree.o -o $(BINARYDIR)/test_tree $(TFLAGS)
 
-test-utils-goods: compile-tests $(OBJECTDIR)/test_utils_goods.o
+test-utils-goods: compile-tests compile-demo-tests
 test-utils-goods:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/utils_goods.c $(OBJECTDIR)/test_utils_goods.o -o $(BINARYDIR)/test_utils_goods $(TFLAGS)
 
-test-utils: compile-tests $(OBJECTDIR)/test_utils.o
+test-utils: compile-tests compile-demo-tests
 test-utils:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c $(OBJECTDIR)/test_utils.o -o $(BINARYDIR)/test_utils $(TFLAGS)
 
@@ -116,13 +116,31 @@ clean:
 	rm -f *~
 	rm -rf $(DEBUG_FILES)
 
-test: test-refmem test-queue test-listset test-action
+test: test-refmem test-queue test-listset
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
 	@./$(BINARYDIR)/test_refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON queue   --------------------------------------------"
 	@./$(BINARYDIR)/test_queue
 	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
 	@./$(BINARYDIR)/test_listset
+
+test-demo: test-action test-stack test-utils test-utils-goods test-tree test-list test-item test-database
+	@echo "--------------------------------------------- RUNNING TESTS ON UTILS --------------------------------------------"
+	@./$(BINARYDIR)/test_utils
+	@echo "--------------------------------------------- RUNNING TESTS ON UTILS GOODS --------------------------------------"
+	@./$(BINARYDIR)/test_utils_goods
+	@echo "--------------------------------------------- RUNNING TESTS ON ACTION -------------------------------------------"
+	@./$(BINARYDIR)/test_action
+	@echo "--------------------------------------------- RUNNING TESTS ON STACK --------------------------------------------"
+	@./$(BINARYDIR)/test_stack
+	@echo "--------------------------------------------- RUNNING TESTS ON LIST ---------------------------------------------"
+	@./$(BINARYDIR)/test_list
+	@echo "--------------------------------------------- RUNNING TESTS ON TREE ---------------------------------------------"
+	@./$(BINARYDIR)/test_tree
+	@echo "--------------------------------------------- RUNNING TESTS ON ITEM ---------------------------------------------"
+	@./$(BINARYDIR)/test_item
+	@echo "--------------------------------------------- RUNNING TESTS ON DATABASE -----------------------------------------"
+	@./$(BINARYDIR)/test_database
 
 memtest: test-refmem
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
