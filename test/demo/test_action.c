@@ -3,8 +3,15 @@
 #include <CUnit/Automated.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../action.h"
+#include "../../demo/utils.h"
+#include "../../demo/action.h"
 #include "../../src/refmem.h"
+
+int *new_integer(int number) {
+  int *integer = allocate(sizeof(int), NULL);
+  *integer = number;
+  return integer;
+}
 
 void test_action_new() {
   action_t *action = action_new(REMOVE);
@@ -16,44 +23,44 @@ void test_action_new() {
 }
 
 void test_action_new_add() {
-  int foo = 5;
+  int *foo = new_integer(5);
 
-  action_t *action = action_new_add(&foo);
+  action_t *action = action_new_add(foo);
   retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), ADD);
 
   int *result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, foo);
+  CU_ASSERT_EQUAL(*result, *foo);
 
   release(action);
 }
 
 void test_action_new_edit() {
-  int orig_elem = 15;
-  int edit_elem = 16;
+  int *orig_elem = new_integer(15);
+  int *edit_elem = new_integer(16);
 
-  action_t *action = action_new_edit(&orig_elem, &edit_elem);
+  action_t *action = action_new_edit(orig_elem, edit_elem);
   retain(action);
 
   CU_ASSERT_EQUAL(action_get_type(action), EDIT);
 
   int *orig_result = action_get_original(action);
   int *edit_result = action_get_edited(action);
-  CU_ASSERT_EQUAL(*orig_result, orig_elem);
-  CU_ASSERT_EQUAL(*edit_result, edit_elem);
+  CU_ASSERT_EQUAL(*orig_result, *orig_elem);
+  CU_ASSERT_EQUAL(*edit_result, *edit_elem);
 
   release(action);
 }
 
 void test_action_new_remove() {
-  int elem = 0;
+  int *elem = new_integer(0);
 
-  action_t *action = action_new_remove(&elem);
+  action_t *action = action_new_remove(elem);
   retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
 
   int *result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, elem);
+  CU_ASSERT_EQUAL(*result, *elem);
 
   release(action);
 }
@@ -64,67 +71,80 @@ void test_action_get_type() {
   CU_ASSERT_NOT_EQUAL(action_get_type(action), ADD);
   deallocate(action);
 
-  int elem = 5;
-  action = action_new_add(&elem);
+  char *string = string_duplicate("Hello World");
+  retain(string); // Must retain this, as it will be released by action
+
+  action = action_new_add(string);
   CU_ASSERT_EQUAL(action_get_type(action), ADD);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), EDIT);
   deallocate(action);
 
-  action = action_new_edit(&elem, &elem);
+  action = action_new_edit(string, string);
   CU_ASSERT_EQUAL(action_get_type(action), EDIT);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), NOTHING);
   deallocate(action);
 
-  action = action_new_remove(&elem);
+  action = action_new_remove(string);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
   CU_ASSERT_NOT_EQUAL(action_get_type(action), ADD);
   deallocate(action);
+
+  release(string); // Fixes a bug
 }
 
 void test_action_get_saved() {
-  int elem = 5;
-  action_t *action = action_new_add(&elem);
-  int *result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, elem);
+  char *string = string_duplicate("Hello World");
+  retain(string); // Must retain this, as it will be released by action
+
+  action_t *action = action_new_add(string);
+  char *result = action_get_saved(action);
+  CU_ASSERT_STRING_EQUAL(result, string);
   deallocate(action);
 
-  elem = 15;
-  action = action_new_remove(&elem);
+  release(string);
+
+  string = string_duplicate("Foo bar!");
+  retain(string); // Must retain this, as it will be released by action
+
+  action = action_new_remove(string);
   result = action_get_saved(action);
-  CU_ASSERT_EQUAL(*result, elem);
+  CU_ASSERT_STRING_EQUAL(result, string);
   deallocate(action);
 
-  int orig_elem = 11;
-  int edit_elem = 99;
+  release(string);
 
-  action = action_new_edit(&orig_elem, &edit_elem);
+  char *orig_string = string_duplicate("Original string!");
+  char *edit_string = string_duplicate("Edited string!");
+
+  action = action_new_edit(orig_string, edit_string);
   result = action_get_saved(action);
-  CU_ASSERT_NOT_EQUAL(*result, orig_elem);
+  CU_ASSERT_STRING_NOT_EQUAL(result, orig_string);
+
   deallocate(action);
 }
 
 void test_action_get_edited() {
-  int orig_elem = 11;
-  int edit_elem = 99;
+  char *orig_string = string_duplicate("Original string!");
+  char *edit_string = string_duplicate("Edited string!");
 
-  action_t *action = action_new_edit(&orig_elem, &edit_elem);
-  int *result      = action_get_edited(action);
+  action_t *action = action_new_edit(orig_string, edit_string);
+  char *result = action_get_edited(action);
 
-  CU_ASSERT_EQUAL(*result, edit_elem);
-  CU_ASSERT_NOT_EQUAL(*result, orig_elem);
+  CU_ASSERT_STRING_EQUAL(result, edit_string);
+  CU_ASSERT_STRING_NOT_EQUAL(result, orig_string);
 
   deallocate(action);
 }
 
 void test_action_get_original() {
-  int orig_elem = 11;
-  int edit_elem = 99;
+  char *orig_string = string_duplicate("Original string!");
+  char *edit_string = string_duplicate("Edited string!");
 
-  action_t *action = action_new_edit(&orig_elem, &edit_elem);
-  int *result      = action_get_original(action);
+  action_t *action = action_new_edit(orig_string, edit_string);
+  char *result      = action_get_original(action);
 
-  CU_ASSERT_EQUAL(*result, orig_elem);
-  CU_ASSERT_NOT_EQUAL(*result, edit_elem);
+  CU_ASSERT_STRING_EQUAL(result, orig_string);
+  CU_ASSERT_STRING_NOT_EQUAL(result, edit_string);
 
   deallocate(action);
 }

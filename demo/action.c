@@ -7,7 +7,7 @@
 // Structs & Enums
 // -------------------------------
 
-typedef struct action {
+struct action {
 
   action_type type;
 
@@ -22,7 +22,7 @@ typedef struct action {
     };
 
   };
-} action_t;
+};
 
 // -------------------------------
 // Public
@@ -33,7 +33,7 @@ void action_destructor(obj object) {
   if (action->type == EDIT) {
     release(action->edited);
     release(action->original);
-  } else {
+  } else if (action->type == ADD || action->type == REMOVE) {
     release(action->saved);
   }
 }

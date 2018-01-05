@@ -3,8 +3,15 @@
 #include <CUnit/Automated.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../list.h"
-#include "../common.h"
+#include "../../demo/list.h"
+#include "../../demo/utils.h"
+#include "../../demo/common.h"
+
+int *new_integer(int number) {
+  int *integer = allocate(sizeof(int), NULL);
+  *integer = number;
+  return integer;
+}
 
 bool apply_fun(obj object, void *data) {
   char *string = data;
@@ -13,7 +20,10 @@ bool apply_fun(obj object, void *data) {
   return (element == 1 && strcmp(string, "Hello World!") == 0);
 }
 
-int comp_fun(obj a, obj b) {
+int comp_fun(obj x, obj y) {
+  int a = *(int*)x;
+  int b = *(int*)y;
+
   if (a > b) return -1;
   if (a < b) return 1;
 
@@ -34,11 +44,12 @@ void test_list_creation() {
 
 void test_list_length() {
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
+
   CU_ASSERT_EQUAL(list_length(list), 0);
 
-  char *object = "Hello World!";
-  list_append(list, object);
-  printf("RC: %zu\n", rc(object));
+  int *n = new_integer(15);
+  list_append(list, n);
 
   CU_ASSERT_EQUAL(list_length(list), 1);
 
@@ -46,9 +57,7 @@ void test_list_length() {
   CU_ASSERT_EQUAL(list_length(list), 0);
 
   for (int i = 0; i < 1500; i++) {
-    int *x = NULL;
-    *x = i;
-
+    int *x = new_integer(i);
     list_append(list, x);
   }
 
@@ -60,56 +69,51 @@ void test_list_length() {
   list_remove(list, 0, false);
   CU_ASSERT_EQUAL(list_length(list), 1498);
 
-  int x = 5;
+  int *z = new_integer(-5);
 
-  list_append(list, &x);
+  list_append(list, z);
   CU_ASSERT_EQUAL(list_length(list), 1499);
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_insertion() {
   obj fst;
   obj lst;
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
 
   for (int i = 0; i < 10; i++) {
-    int y = i;
-    list_insert(list, i, &y);
+    list_insert(list, i, new_integer(i));
   }
 
   CU_ASSERT_EQUAL(list_length(list), 10);
 
   list_first(list, &fst);
-  CU_ASSERT_EQUAL(fst, 0);
+  CU_ASSERT_EQUAL(*(int*)fst, 0);
 
   list_last(list, &lst);
-  CU_ASSERT_EQUAL(lst, 9);
+  CU_ASSERT_EQUAL(*(int*)lst, 9);
 
-  char *data1 = "Hello World";
-  char *data2 = "Hello Foo";
-  char *data3 = "Hello Bar";
-
-  list_insert( list, 0, data1);
+  list_insert(list, 0, new_integer(99));
   CU_ASSERT_EQUAL(list_length(list), 11);
 
-  list_insert(list, 0, data2);
+  list_insert(list, 0, new_integer(98));
   CU_ASSERT_EQUAL(list_length(list), 12);
 
-  list_insert(list, -1, data3);
+  list_insert(list, -1, new_integer(934));
   CU_ASSERT_EQUAL(list_length(list), 13);
 
   list_first(list, &fst);
-  CU_ASSERT_STRING_EQUAL(fst, "Hello Foo");
+  CU_ASSERT_EQUAL(*(int*)fst, 98);
 
   list_last(list, &lst);
-  CU_ASSERT_STRING_EQUAL(lst, "Hello Bar");
+  CU_ASSERT_EQUAL(*(int*)lst, 934);
 
   // Testing negative indicies some more
-  int neg = 88;
-  obj test = NULL;
+  obj test;
 
-  list_insert(list, -14, &neg);
+  list_insert(list, -14, new_integer(88));
   list_get(list, 0, &test);
   CU_ASSERT_EQUAL(*(int *)test, 88);
 
@@ -120,12 +124,12 @@ void test_list_insertion() {
   // testing insertion with 500 elems
   // perhaps unneccesary
   for (int i = 0; i < 500; i++) {
-    list_insert(list, i, &i);
+    list_insert(list, i, new_integer(i));
   }
 
   CU_ASSERT_EQUAL(list_length(list), 500);
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_append() {
@@ -133,7 +137,7 @@ void test_list_append() {
   list_t *list = list_new(NULL, NULL, NULL);
 
   for (int i = 0; i < 100; i++) {
-    list_append(list, &i);
+    list_append(list, new_integer(i));
     list_last(list, &elem);
     CU_ASSERT_EQUAL(*(int*)elem, i);
   }
@@ -144,9 +148,10 @@ void test_list_append() {
 void test_list_prepend() {
   obj elem;
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
 
   for (int i = 0; i < 10; i++) {
-    list_prepend(list, &i);
+    list_prepend(list, new_integer(i));
     list_first(list, &elem);
     CU_ASSERT_EQUAL(*(int*)elem, i);
   }
@@ -156,9 +161,10 @@ void test_list_prepend() {
 
 void test_list_remove() {
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
 
   for (int i = 0; i < 10; i++) {
-    list_append(list, &i);
+    list_append(list, new_integer(i));
   }
 
   CU_ASSERT_EQUAL(list_length(list), 10);
@@ -180,12 +186,12 @@ void test_list_remove() {
   }
 
   CU_ASSERT_EQUAL(list_length(list), 0);
-  char *test = "Hello";
+  char *test = string_duplicate("Hello");
 
   list_insert(list, 0, test);
   CU_ASSERT_EQUAL(list_length(list), 1);
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_get() {
@@ -193,9 +199,7 @@ void test_list_get() {
   list_t *list = list_new(NULL, NULL, NULL);
 
   for (int i = 0; i < 10; i++) {
-    int *x = NULL;
-    *x = i;
-    list_append(list, x);
+    list_append(list, new_integer(i));
   }
 
   CU_ASSERT_TRUE(list_get(list, 0, &elem));
@@ -215,10 +219,10 @@ void test_list_get() {
 void test_list_first() {
   obj elem;
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
+
   for (int i = 0; i < 10; i++) {
-    int *x = NULL;
-    *x = i;
-    list_append(list, x);
+    list_append(list, new_integer(i));
   }
 
   CU_ASSERT_TRUE(list_first(list, &elem));
@@ -228,17 +232,16 @@ void test_list_first() {
   CU_ASSERT_TRUE(list_first(list, &elem));
   CU_ASSERT_EQUAL(*(int*)elem, 1);
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_last() {
   obj elem;
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
 
   for (int i = 0; i < 10; i++) {
-    int *x = NULL;
-    *x = i;
-    list_append(list, x);
+    list_append(list, new_integer(i));
   }
 
   CU_ASSERT_TRUE(list_last(list, &elem));
@@ -248,46 +251,40 @@ void test_list_last() {
   CU_ASSERT_TRUE(list_last(list, &elem));
   CU_ASSERT_EQUAL(*(int*)elem, 8);
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_apply() {
   list_t *list = list_new(NULL, NULL, NULL);
-
+  retain(list);
   for (int i = 0; i < 10; i++) {
-    int *x = NULL;
-    *x = i;
-    list_append(list, x);
+    list_append(list, new_integer(i));
   }
 
   CU_ASSERT_TRUE(list_apply(list, apply_fun, "Hello World!"));
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_contains() {
   int index;
   list_t *list = list_new(NULL, NULL, comp_fun);
-
+  retain(list);
   for (int i = 0; i < 10; i++) {
-    int *x = NULL;
-    *x = i;
-    list_append(list, x);
+    list_append(list, new_integer(i));
   }
 
-  int *five = NULL;
-  *five = 5;
+  int *five = new_integer(15);
   list_append(list, five);
-  int *fifteen = NULL;
-  *fifteen = 15;
 
   index = list_contains(list, five);
-  CU_ASSERT_EQUAL(index, 0);
+  CU_ASSERT_EQUAL(index, 10);
 
+  int *fifteen = new_integer(99);
   index = list_contains(list, fifteen);
   CU_ASSERT_EQUAL(index, -1);
 
-  deallocate(list);
+  release(list);
 }
 
 int main(int argc, char *argv[]) {
@@ -298,7 +295,7 @@ int main(int argc, char *argv[]) {
   CU_pSuite creation = CU_add_suite("Test creation and length", NULL, NULL);
   CU_add_test(creation, "Creation", test_list_creation);
   CU_add_test(creation, "Length", test_list_length);
-
+  //
   CU_pSuite manipulation = CU_add_suite("Test insertion, prepend, append and remove", NULL, NULL);
   CU_add_test(manipulation, "Insertion", test_list_insertion);
   CU_add_test(manipulation, "Append", test_list_append);

@@ -75,7 +75,6 @@ void list_insert(list_t *list, int index, obj elem) {
     *next = link_new(elem, *next, list->copy);
 
     if (index == 0) {
-      release(list->first);
       list->first = *next;
       retain(list->first);
     } else {
@@ -115,12 +114,13 @@ void list_remove(list_t *list, int index, bool delete) {
       *link = (*link)->next;
 
       if (index == 0) {
-        release(list->first);
         list->first = *link;
         retain(list->first);
       } else {
-        release(link_to_remove);
+        retain(link_to_remove->next); // fixes issue
       }
+
+      release(link_to_remove);
 
       if (index + 1 == size) {
         release(list->last);

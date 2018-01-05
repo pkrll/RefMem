@@ -97,7 +97,7 @@ bool database_insert_item(database_t *database, item_t *item) {
     retain(action);
     add_undo(database, action);
     release(action);
-    
+
     result = true;
   }
 

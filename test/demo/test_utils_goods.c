@@ -2,8 +2,8 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 #include <stdlib.h>
-#include "../utils_goods.h"
-#include "../utils.h"
+#include "../../demo/utils_goods.h"
+#include "../../demo/utils.h"
 #include <string.h>
 
 void test_is_menu() {
@@ -28,19 +28,19 @@ void test_is_valid_shelf() {
 }
 
 int main(int argc, char *argv[]) {
-  
+
   CU_initialize_registry();
 
   // Set up suites and tests
   CU_pSuite utils = CU_add_suite("Test utils_goods", NULL, NULL);
   CU_add_test(utils, "is menu", test_is_menu);
   CU_add_test(utils, "is valid shelf", test_is_valid_shelf);
-  
+
   CU_basic_run_tests();
-  
+
   // Tear down
   CU_cleanup_registry();
-  
+
   return CU_get_error();
 
 }

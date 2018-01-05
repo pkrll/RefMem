@@ -216,7 +216,6 @@ bool tree_remove(tree_t *tree, tree_key_t key, obj *result) {
 
       if (result) *result = node_to_delete->elem;
 
-      tree->key_free(node_to_delete->key);
       release(node_to_delete);
 
       return true;
@@ -275,6 +274,9 @@ bool tree_balance(tree_t *tree) {
   obj *elements = allocate_array(size, sizeof(obj), NULL);
   tree_key_t *keys = allocate_array(size, sizeof(tree_key_t), NULL);
 
+  retain(elements);
+  retain(keys);
+
   int i = 0, x = 0;
 
   node_elements(tree->root, elements, &i);
@@ -294,8 +296,8 @@ bool tree_balance(tree_t *tree) {
     release(keys[i]);
   }
 
-  deallocate(elements);
-  deallocate(keys);
+  release(elements);
+  release(keys);
 
   return true;
 }
@@ -423,8 +425,8 @@ static void node_delete(node_t *node, element_free_fun elem_free, key_free_fun k
     node_delete(node->left, elem_free, key_free);
     node_delete(node->right, elem_free, key_free);
 
-    // if (elem_free) elem_free(node->elem);
-    // if (key_free)  key_free(node->key);
+    node->left = NULL;
+    node->right = NULL;
 
     release(node);
   }

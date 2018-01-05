@@ -3,8 +3,8 @@
 #include <CUnit/Automated.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../stack.h"
-#include "../utils.h"
+#include "../../demo/stack.h"
+#include "../../demo/utils.h"
 #include "../../src/refmem.h"
 
 // -------------------------------
@@ -21,11 +21,14 @@ void test_stack_new() {
 void test_stack_size() {
   stack_s *stack = stack_new(NULL);
   retain(stack);
+
   CU_ASSERT_EQUAL(stack_size(stack), 0);
 
   char *elem1 = string_duplicate("Foo");
   char *elem2 = string_duplicate("Bar");
   char *elem3 = string_duplicate("Baz");
+
+  retain(elem3);
 
   stack_push(stack, elem1);
   CU_ASSERT_EQUAL(stack_size(stack), 1);
@@ -47,6 +50,7 @@ void test_stack_size() {
   CU_ASSERT_EQUAL(stack_size(stack), 1);
 
   release(stack);
+  release(elem3);
 }
 
 void test_stack_push() {

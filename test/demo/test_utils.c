@@ -2,7 +2,7 @@
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
 #include <stdlib.h>
-#include "../utils.h"
+#include "../../demo/utils.h"
 
 void test_is_digit() {
   char c = 'A';
@@ -21,7 +21,7 @@ void test_is_number() {
 
   str = "1234a";
   CU_ASSERT_FALSE(is_number(str));
-  
+
   str = "ABCDEF";
   CU_ASSERT_FALSE(is_number(str));
 
@@ -60,7 +60,7 @@ void test_toupperchar() {
 }
 
 int main(int argc, char *argv[]) {
-  
+
   CU_initialize_registry();
 
   // Set up suites and tests
@@ -70,12 +70,12 @@ int main(int argc, char *argv[]) {
   CU_add_test(utils, "is char", test_is_char);
   CU_add_test(utils, "not empty", test_not_empty);
   CU_add_test(utils, "to upper char", test_toupperchar);
-  
+
   CU_basic_run_tests();
-  
+
   // Tear down
   CU_cleanup_registry();
-  
+
   return CU_get_error();
 
 }
