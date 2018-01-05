@@ -18,11 +18,11 @@ TESTBINARY=test_refmem.out
 # Source & object files
 SOURCES = $(shell find $(SOURCEDIR) -type f -name '*.c')
 OBJECTS = $(patsubst $(SOURCEDIR)/%.c, $(OBJECTDIR)/%.o, $(SOURCES))
-SOURCES_TEST = $(shell find $(TESTDIR) -type f -name '*.c' -maxdepth 1)
+SOURCES_TEST = $(shell find $(TESTDIR) -maxdepth 1 -type f -name '*.c')
 OBJECTS_TEST = $(patsubst $(TESTDIR)/%.c, $(OBJECTDIR)/%.o, $(SOURCES_TEST))
 
-DEMO_SOURCES = $(shell find $(DEMODIR) -type f -name '*.c')
-DEMO_OBJECTS = $(patsubst $(DEMODIR)/%.c, $(OBJECTDIR)/%.o, $(SOURCES))
+DEMO_SOURCES = $(shell find $(DEMODIR) -maxdepth 1 -type f -name '*.c')
+DEMO_OBJECTS = $(patsubst $(DEMODIR)/%.c, $(OBJECTDIR)/%.o, $(DEMO_SOURCES))
 
 DEMO_SOURCES_TEST = $(shell find $(DEMOTESTDIR) -type f -name '*.c')
 DEMO_OBJECTS_TEST = $(patsubst $(DEMOTESTDIR)/%.c, $(OBJECTDIR)/%.o, $(DEMO_SOURCES_TEST))
@@ -48,14 +48,14 @@ $(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
 $(OBJECTDIR)/%.o: $(TESTDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# $(OBJECTDIR)/%.o: $(DEMODIR)/%.c
-# 	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJECTDIR)/%.o: $(DEMODIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/%.o: $(DEMOTESTDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 compile-demo-tests: CFLAGS +=-g
-compile-demo-tests: $(DEMO_OBJECTS_TEST)
+compile-demo-tests: $(DEMO_OBJECTS) $(DEMO_OBJECTS_TEST)
 
 # TEST TARGETS
 
@@ -76,35 +76,35 @@ test-listset:
 
 test-action: compile-tests compile-demo-tests
 test-action:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/action.c $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/action.o $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)
 
 test-database: compile-tests compile-demo-tests
 test-database:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/item.c demo/action.c demo/list.c demo/tree.c demo/utils_goods.c demo/file.c demo/stack.c demo/database.c $(OBJECTDIR)/test_database.o -o $(BINARYDIR)/test_database $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/item.o $(OBJECTDIR)/action.o $(OBJECTDIR)/list.o $(OBJECTDIR)/tree.o $(OBJECTDIR)/utils_goods.o $(OBJECTDIR)/file.o $(OBJECTDIR)/stack.o $(OBJECTDIR)/database.o $(OBJECTDIR)/test_database.o -o $(BINARYDIR)/test_database $(TFLAGS)
 
 test-item: compile-tests compile-demo-tests
 test-item:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/item.c demo/list.c $(OBJECTDIR)/test_item.o -o $(BINARYDIR)/test_item $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/item.o $(OBJECTDIR)/list.o $(OBJECTDIR)/test_item.o -o $(BINARYDIR)/test_item $(TFLAGS)
 
 test-list: compile-tests compile-demo-tests
 test-list:
-	$(CC) $(CFLAGS) -g -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/list.c $(OBJECTDIR)/test_list.o -o $(BINARYDIR)/test_list $(TFLAGS)
+	$(CC) $(CFLAGS) -g -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/list.o $(OBJECTDIR)/test_list.o -o $(BINARYDIR)/test_list $(TFLAGS)
 
 test-stack: compile-tests compile-demo-tests
 test-stack:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/stack.c $(OBJECTDIR)/test_stack.o -o $(BINARYDIR)/test_stack $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/stack.o $(OBJECTDIR)/test_stack.o -o $(BINARYDIR)/test_stack $(TFLAGS)
 
 test-tree: compile-tests compile-demo-tests
 test-tree:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/tree.c $(OBJECTDIR)/test_tree.o -o $(BINARYDIR)/test_tree $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/tree.o $(OBJECTDIR)/test_tree.o -o $(BINARYDIR)/test_tree $(TFLAGS)
 
 test-utils-goods: compile-tests compile-demo-tests
 test-utils-goods:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c demo/utils_goods.c $(OBJECTDIR)/test_utils_goods.o -o $(BINARYDIR)/test_utils_goods $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/utils_goods.o $(OBJECTDIR)/test_utils_goods.o -o $(BINARYDIR)/test_utils_goods $(TFLAGS)
 
 test-utils: compile-tests compile-demo-tests
 test-utils:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o demo/utils.c $(OBJECTDIR)/test_utils.o -o $(BINARYDIR)/test_utils $(TFLAGS)
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/test_utils.o -o $(BINARYDIR)/test_utils $(TFLAGS)
 
 # PHONY TARGETS
 
@@ -118,7 +118,7 @@ clean:
 	rm -f $(OBJECTDIR)/*.gcno
 	rm -f $(OBJECTDIR)/*.gcda
 	rm -rf ./out
-	rm coverage.info
+	rm -f coverage.info
 
 test: test-refmem test-queue test-listset
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
