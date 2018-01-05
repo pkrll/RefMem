@@ -144,6 +144,7 @@ int main(int argc, char *argv[]) {
   CU_add_test(creation, "Queue new", test_queue_create);
   CU_add_test(creation, "Queue enqueue", test_queue_enqueue);
   CU_add_test(creation, "Queue dequeue", test_queue_dequeue);
+  CU_add_test(creation, "Queue first", test_queue_first);
   CU_add_test(creation, "Queue length", test_queue_length);
   CU_add_test(creation, "Queue is empty", test_queue_is_empty);
   CU_add_test(creation, "Queue apply", test_apply);

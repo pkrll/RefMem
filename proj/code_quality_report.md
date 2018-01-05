@@ -25,7 +25,7 @@ There is no easy answer to the question of what constitutes high quality code. P
 
 For our purposes, though, quality is the same thing as having code that is readable, maintainable and testable.
 
-While performance may also be a key component, it is not always the case that high performance leads to higher quality code, as it may lower readability and maintainability (**KAN NÅN TYP GE ETT EXEMPEL?**). This stands in contrast to readability, which done right should make code easier to maintain.
+While performance may also be a key component, it is not always the case that high performance leads to higher quality code, as it may lower readability and maintainability (**KAN NÅN TYP GE ETT EXEMPEL?**). This stands in contrast to readability, which done right should make code easier to maintain. One clear example where when we tried to implement AVL-tree. It would result in better time complexity but added a whole new level of complexity for a simple task as store and extract elements.
 
 ## Naming things
 > There are only two hard things in Computer Science: cache invalidation and **naming things**.
@@ -34,7 +34,7 @@ While performance may also be a key component, it is not always the case that hi
 
 As *Phil Karlton*, a developer on the web browser Netscape, has often been quoted saying, naming things is hard. Unfortunately, the names we choose to signify variables, functions, data members, etc., are an integral part of achieving high readability.
 
-For that reason, you must take care while declaring, for instance, a variable and pick descriptive names that not only you but also your present and future colleagues understand. At the same time, there is a fine line between being just perfectly descriptive and being too verbose (unless you're an ``Objective-C`` or ``Swift`` developer).
+For that reason, you must take care while declaring, for instance, a variable. Pick a descriptive name that not only you but also your present and future colleagues understand. At the same time, there is a fine line between being just perfectly descriptive and being too verbose (unless you're an ``Objective-C`` or ``Swift`` developer).
 
 In other words, the name should reflect what a function does, or what a variable holds. It should be clear by just reading the name what's going on (to a reasonable degree, of course!). And it is this principle (outlined in our own style guide) that we have tried to follow.
 
@@ -82,8 +82,6 @@ We could have first also declared a new variable, called ``reference_count``, th
 Another important part of keeping the code readable, maintainable and also testable has been through abstraction.
 
 Not only does this allow for us to write simpler functions focused on one specific task, but it is generally easier to test or debug smaller functions.
-
-## Formatting matters
 
 ## Deviations
 
