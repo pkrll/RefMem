@@ -68,6 +68,7 @@ clean:
 	rm -f $(OBJECTDIR)/*.gcno
 	rm -f $(OBJECTDIR)/*.gcda
 	rm -rf ./out
+	rm coverage.info
 
 test: test-refmem test-queue test-listset
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
