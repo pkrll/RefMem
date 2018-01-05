@@ -5,13 +5,13 @@
 * [Unit Testing](#unit-testing)
 * [Integration Testing](#integration-testing)
 * [Regression Testing](#regression-testing)
+* [Usage Summary](#summary-of-how-well-the-various-testing-types-were-used)
 * [Handled Bugs and Other Nasties](#handled-bugs-and-other-nasties)
 
 ## Intro
 Since the beginning of this project (And any other serious projects), tests have been manually written to backup the reliability of the components of the program. Tests were first written to require base functionality of the functions while later tests of the same functions focus on solidness and that the functions don't crash when receiving random type-correct data.
 
 There are three types of testing methods that have been required to take into consideration in the project; Unit Testing, Integration Testing and Regression Testing. Generally speaking, the testing methods focus on vastly different levels of the code, and by that they achieve to catch certain errors that may not be present in the other methods.
-**TODO; What to answer on how we automated the tests. Wot?**
 
 #### Unit Testing
 Common tests and the functions were written side by side, making sure that every component works from the get-go. Later in development, more uncommon type-correct inputs (edge cases) were handled and tested in an attempt to ensure solidness of the functions.
