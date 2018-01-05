@@ -3,6 +3,7 @@
 #include <CUnit/Automated.h>
 #include <stdlib.h>
 #include "../../demo/database.h"
+#include "../../demo/utils.h"
 #include "../../demo/item.h"
 
 item_t *create_item(char *name, char *desc, int cost, char *shelf, int amount) {
@@ -36,19 +37,23 @@ void test_database_insert_item() {
   CU_ASSERT_TRUE(database_insert_item(database, item_add));
   CU_ASSERT_FALSE(database_insert_item(database, item_add));
 
-  item_t *item_get = database_get_item(database, "Test Name");
+  char *name = string_duplicate("Test Name");
+  retain(name);
+
+  item_t *item_get = database_get_item(database, name);
   retain(item_get);
 
-  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), "Test Name");
+  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), name);
   CU_ASSERT_FALSE(database_insert_item(database, NULL));
 
   database_remove_item(database, item_get);
   release(item_get);
 
-  item_get = database_get_item(database, "Test Name");
+  item_get = database_get_item(database, name);
   CU_ASSERT_PTR_NULL(item_get);
 
   release(item_add);
+  release(name);
 
   item_add = create_item("Test Name 2", "Test Desc 2", 2, "A2", 4);
   CU_ASSERT_TRUE(database_insert_item(database, item_add));
@@ -59,14 +64,29 @@ void test_database_insert_item() {
   item_add = create_item("Test Name 5", "Test Desc 2", 2, "A5", 4);
   CU_ASSERT_TRUE(database_insert_item(database, item_add));
 
-  item_get = database_get_item(database, "Test Name 2");
-  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), "Test Name 2");
-  item_get = database_get_item(database, "Test Name 3");
-  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), "Test Name 3");
-  item_get = database_get_item(database, "Test Name 4");
-  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), "Test Name 4");
-  item_get = database_get_item(database, "Test Name 5");
-  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), "Test Name 5");
+  name = string_duplicate("Test Name 2");
+  retain(name);
+  item_get = database_get_item(database, name);
+  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), name);
+  release(name);
+
+  name = string_duplicate("Test Name 3");
+  retain(name);
+  item_get = database_get_item(database, name);
+  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), name);
+  release(name);
+
+  name = string_duplicate("Test Name 4");
+  retain(name);
+  item_get = database_get_item(database, name);
+  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), name);
+  release(name);
+
+  name = string_duplicate("Test Name 5");
+  retain(name);
+  item_get = database_get_item(database, name);
+  CU_ASSERT_STRING_EQUAL(item_get_name(item_get), name);
+  release(name);
 
   release(database);
 }
@@ -78,29 +98,43 @@ void test_database_update_item() {
   item_t *item = create_item("Test Item", "Test Desc", 15, "A5", 1);
   database_insert_item(database, item);
 
-  item = database_get_item(database, "Test Item");
+  char *key1 = string_duplicate("Test Item");
+  char *key2 = string_duplicate("Edited Item");
+  retain(key1);
+  retain(key2);
+
+  item = database_get_item(database, key1);
   item_t *edit = item_copy(item);
 
-  item_set_name(edit, "Edited Item");
+  item_set_name(edit, key2);
   CU_ASSERT_TRUE(database_update_item(database, item, edit));
 
-  item = database_get_item(database, "Edited Item");
-  CU_ASSERT_STRING_EQUAL(item_get_name(item), "Edited Item");
+  item = database_get_item(database, key2);
+  CU_ASSERT_STRING_EQUAL(item_get_name(item), key2);
 
-  item = database_get_item(database, "Test Item");
+  item = database_get_item(database, key1);
   CU_ASSERT_PTR_NULL(item);
+
+  release(key1);
+  release(key2);
+
+  key1 = string_duplicate("Foo");
+  retain(key1);
 
   // Trying to update a non existent item
   item_t *item2 = create_item("Foo", "Bar", 1, "F5", 5);
+  retain(item2);
   edit = item_copy(item2);
 
   CU_ASSERT_FALSE(database_update_item(database, item2, edit));
 
   database_insert_item(database, item2);
-  item = database_get_item(database, "Foo");
+  item = database_get_item(database, key1);
   CU_ASSERT_TRUE(database_update_item(database, item, edit));
 
   release(database);
+  release(key1);
+  release(item2);
 }
 
 void test_database_remove_item() {
@@ -119,11 +153,11 @@ void test_database_remove_item() {
   database_insert_item(database, item_4);
   database_insert_item(database, item_5);
 
-  item_1 = database_get_item(database, "Item 1");
-  item_2 = database_get_item(database, "Item 2");
-  item_3 = database_get_item(database, "Item 3");
-  item_4 = database_get_item(database, "Item 4");
-  item_5 = database_get_item(database, "Item 5");
+  item_1 = database_get_item(database, string_duplicate("Item 1"));
+  item_2 = database_get_item(database, string_duplicate("Item 2"));
+  item_3 = database_get_item(database, string_duplicate("Item 3"));
+  item_4 = database_get_item(database, string_duplicate("Item 4"));
+  item_5 = database_get_item(database, string_duplicate("Item 5"));
 
   CU_ASSERT_TRUE(database_remove_item(database, item_1));
   CU_ASSERT_PTR_NULL(database_get_item(database, item_get_name(item_1)));
@@ -159,17 +193,17 @@ void test_database_has_item() {
   database_insert_item(database, item_3);
   database_insert_item(database, item_4);
 
-  CU_ASSERT_TRUE(database_has_item(database, "Item 1"));
-  CU_ASSERT_TRUE(database_has_item(database, "Item 2"));
-  CU_ASSERT_TRUE(database_has_item(database, "Item 3"));
-  CU_ASSERT_TRUE(database_has_item(database, "Item 4"));
-  CU_ASSERT_FALSE(database_has_item(database, "Item 5"));
+  CU_ASSERT_TRUE(database_has_item(database, string_duplicate("Item 1")));
+  CU_ASSERT_TRUE(database_has_item(database, string_duplicate("Item 2")));
+  CU_ASSERT_TRUE(database_has_item(database, string_duplicate("Item 3")));
+  CU_ASSERT_TRUE(database_has_item(database, string_duplicate("Item 4")));
+  CU_ASSERT_FALSE(database_has_item(database, string_duplicate("Item 5")));
 
-  item_1 = database_get_item(database, "Item 1");
-  CU_ASSERT_TRUE(database_has_item(database, "Item 1"));
+  item_1 = database_get_item(database, string_duplicate("Item 1"));
+  CU_ASSERT_TRUE(database_has_item(database, string_duplicate("Item 1")));
 
   database_remove_item(database, item_1);
-  CU_ASSERT_FALSE(database_has_item(database, "Item 1"));
+  CU_ASSERT_FALSE(database_has_item(database, string_duplicate("Item 1")));
 
   release(database);
 }
@@ -188,10 +222,10 @@ void test_database_get_item() {
   database_insert_item(database, item_3);
   database_insert_item(database, item_4);
 
-  item_t *item_get_1 = database_get_item(database, "Item 1");
-  item_t *item_get_2 = database_get_item(database, "Item 2");
-  item_t *item_get_3 = database_get_item(database, "Item 3");
-  item_t *item_get_4 = database_get_item(database, "Item 4");
+  item_t *item_get_1 = database_get_item(database, string_duplicate("Item 1"));
+  item_t *item_get_2 = database_get_item(database, string_duplicate("Item 2"));
+  item_t *item_get_3 = database_get_item(database, string_duplicate("Item 3"));
+  item_t *item_get_4 = database_get_item(database, string_duplicate("Item 4"));
 
   CU_ASSERT_STRING_EQUAL(item_get_name(item_get_1), "Item 1");
   CU_ASSERT_STRING_EQUAL(item_get_name(item_get_2), "Item 2");
@@ -199,7 +233,7 @@ void test_database_get_item() {
   CU_ASSERT_STRING_EQUAL(item_get_name(item_get_4), "Item 4");
 
   database_remove_item(database, item_get_1);
-  item_get_1 = database_get_item(database, "Item 1");
+  item_get_1 = database_get_item(database, string_duplicate("Item 1"));
   CU_ASSERT_PTR_NULL(item_get_1);
 
   release(database);
@@ -215,9 +249,9 @@ void test_database_location_is_valid() {
   database_insert_item(database, item_1);
   database_insert_item(database, item_2);
 
-  CU_ASSERT_TRUE(database_location_is_valid(database, "Item 1", "A1"));
-  CU_ASSERT_TRUE(database_location_is_valid(database, "Item 1", "A3"));
-  CU_ASSERT_FALSE(database_location_is_valid(database, "Item 1", "A2"));
+  CU_ASSERT_TRUE(database_location_is_valid(database, string_duplicate("Item 1"), string_duplicate("A1")));
+  CU_ASSERT_TRUE(database_location_is_valid(database, string_duplicate("Item 1"), string_duplicate("A3")));
+  CU_ASSERT_FALSE(database_location_is_valid(database, string_duplicate("Item 1"), string_duplicate("A2")));
 
   release(database);
 }
@@ -235,23 +269,23 @@ void test_database_undo_action() {
 
   item_set_desc(item_2_copy, "Edited");
 
-  item_2 = database_get_item(database, "Item 2");
+  item_2 = database_get_item(database, string_duplicate("Item 2"));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item_2), "Desc 2");
   database_update_item(database, item_2, item_2_copy);
 
-  item_2 = database_get_item(database, "Item 2");
+  item_2 = database_get_item(database, string_duplicate("Item 2"));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item_2), "Edited");
 
   CU_ASSERT_TRUE(database_undo_action(database));
 
-  item_2 = database_get_item(database, "Item 2");
+  item_2 = database_get_item(database, string_duplicate("Item 2"));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item_2), "Desc 2");
 
   CU_ASSERT_TRUE(database_undo_action(database));
   CU_ASSERT_TRUE(database_undo_action(database));
 
-  item_1 = database_get_item(database, "Item 1");
-  item_2 = database_get_item(database, "Item 2");
+  item_1 = database_get_item(database, string_duplicate("Item 1"));
+  item_2 = database_get_item(database, string_duplicate("Item 2"));
 
   CU_ASSERT_PTR_NULL(item_1);
   CU_ASSERT_PTR_NULL(item_2);
@@ -264,11 +298,11 @@ void test_database_undo_action() {
 
   item_t *item_3 = create_item("Item 3", "Desc 3", 42, "A3", 5);
   database_insert_item(database, item_3);
-  item_3 = database_get_item(database, "Item 3");
+  item_3 = database_get_item(database, string_duplicate("Item 3"));
   database_remove_item(database, item_3);
 
   CU_ASSERT_TRUE(database_undo_action(database));
-  item_3 = database_get_item(database, "Item 3");
+  item_3 = database_get_item(database, string_duplicate("Item 3"));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item_3), "Desc 3");
 
   release(database);
@@ -328,9 +362,9 @@ void test_database_sort() {
 
   CU_ASSERT_TRUE(database_sort(database));
 
-  item_h = database_get_item(database, "H");
-  item_i = database_get_item(database, "I");
-  item_j = database_get_item(database, "J");
+  item_h = database_get_item(database, string_duplicate("H"));
+  item_i = database_get_item(database, string_duplicate("I"));
+  item_j = database_get_item(database, string_duplicate("J"));
 
   database_remove_item(database, item_h);
   CU_ASSERT_FALSE(database_sort(database));
@@ -351,13 +385,13 @@ int main(int argc, char *argv[]) {
   CU_add_test(database, "New", test_database_new);
   CU_add_test(database, "Insert", test_database_insert_item);
   CU_add_test(database, "Update", test_database_update_item);
-  // CU_add_test(database, "Remove", test_database_remove_item);
-  // CU_add_test(database, "Has item", test_database_has_item);
-  // CU_add_test(database, "Get item", test_database_get_item);
-  // CU_add_test(database, "Location valid", test_database_location_is_valid);
-  // CU_add_test(database, "Undo action", test_database_undo_action);
-  // CU_add_test(database, "Is sorted", test_database_is_sorted);
-  // CU_add_test(database, "Sort", test_database_sort);
+  CU_add_test(database, "Remove", test_database_remove_item);
+  CU_add_test(database, "Has item", test_database_has_item);
+  CU_add_test(database, "Get item", test_database_get_item);
+  CU_add_test(database, "Location valid", test_database_location_is_valid);
+  CU_add_test(database, "Undo action", test_database_undo_action);
+  CU_add_test(database, "Is sorted", test_database_is_sorted);
+  CU_add_test(database, "Sort", test_database_sort);
 
   CU_basic_run_tests();
 
