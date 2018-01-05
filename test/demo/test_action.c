@@ -39,7 +39,7 @@ void test_action_new_edit() {
   int *orig_elem = new_integer(15);
   int *edit_elem = new_integer(16);
 
-  action_t *action = action_new_edit(&orig_elem, &edit_elem);
+  action_t *action = action_new_edit(orig_elem, edit_elem);
   retain(action);
 
   CU_ASSERT_EQUAL(action_get_type(action), EDIT);
@@ -55,7 +55,7 @@ void test_action_new_edit() {
 void test_action_new_remove() {
   int *elem = new_integer(0);
 
-  action_t *action = action_new_remove(&elem);
+  action_t *action = action_new_remove(elem);
   retain(action);
   CU_ASSERT_EQUAL(action_get_type(action), REMOVE);
 
