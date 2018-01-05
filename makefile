@@ -1,6 +1,6 @@
 # Compiler & compiler flags
 CC=gcc
-CFLAGS= -Wall -pedantic -fprofile-arcs -ftest-coverage
+CFLAGS= -Wall -pedantic
 TFLAGS= -lcunit -lm #--coverage, lm needed to link math lib
 TEST=test/test_refmem
 
@@ -34,6 +34,8 @@ compile: $(OBJECTS)
 
 compile-tests: CFLAGS +=-g
 compile-tests: $(OBJECTS) $(OBJECTS_TEST)
+
+compile-gcov: CFLAGS +=-fprofile-arcs -ftest-coverage
 
 $(OBJECTDIR)/%.o: $(SOURCEDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
