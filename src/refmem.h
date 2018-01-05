@@ -7,7 +7,8 @@ typedef void(*function1_t)(obj);
 
 /**
  * @brief               Increase an object reference count
- *                      by one.
+ *                      by one. If param is NULL make an
+ *                      assertion.
  * @param object        Pointer to which object count to increase
  * @return              void
  */

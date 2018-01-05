@@ -79,6 +79,8 @@ static bool compare_size(element_t elem1, element_t elem2);
 // -------------------------------
 
 void retain(obj object) {
+  assert(object == NULL);
+  
   if (object != NULL) {
     record_t *record = convert_to_record(object);
     record->reference_count += 1;
