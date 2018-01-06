@@ -34,6 +34,9 @@ DEBUG_FILES = $(shell find . -type f -name '*.gcda' -o -name '*.gcno' -o -name '
 
 all: build
 
+demonstration:
+	cd demo; make run
+
 build: compile
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BINARYDIR)/$(BINARY)
 
@@ -117,6 +120,8 @@ clean:
 	rm -f $(DEBUG_FILES)
 	rm -f $(OBJECTDIR)/*.gcno
 	rm -f $(OBJECTDIR)/*.gcda
+	rm -rf $(DEMODIR)/*.o
+	rm -rf $(DEMODIR)/goods
 	rm -rf ./out
 	rm -f coverage.info
 
