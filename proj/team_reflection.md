@@ -44,6 +44,14 @@ done through GitHubs pull-request function. When a note has passed the review se
 it is moved to Done. That action is represented by the pull request is merged
 to the master branch.
 ## 3.2 Implementation
+what DID we actuallt implement
+Our planning stategy was less than ideal. We would make loose plans but have no real way of keeping track of what our plans were or who should be doing what to get there. The idea was that it wasnt insanely difficult so we would just do everything one thing at a time. It worked, but far from split the workload evenly over the time frame we had. 
+If we were to start over we would probably work harder before christmas, making us less stressed in the beginning of the new year. Alternatively actually work properly over christmas and new years but that seems harder to make happen. Maybe we would make a plan or two as well.
+The communication within the team worked fairly well.
+
+The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. Descisions were made in person or over slack, we had meetings consistently which made for perfect arenas to bring up choices that needed to be made by the entire group and problems that needed solving. Key descisions such as how to save all our allocations and what to do about the overhead were the type of descisions where everyone was involved, even if some members were working on something unrelated at the time. Other smaller implementations details were decided with a simple message on slack which was approved by the rest of the croup.
+
+
 # 4 Use of Tools
 ## Trello
 For keeping track of what tasks were left and who did what
@@ -62,6 +70,13 @@ The work was not completely balanced. Partly because team members were at times 
 # 7 Quality Assurance
 
 underrubrikerna är bara för tydlighet när vi skriver ska inte va kvar
+
+| Type | Info |
+|------|------|
+| Amount | FYLL I |
+| How many people, pr | FYLL I |
+| Reviews | FYLL I |
+| Comments | FYLL I |
 
 ## Where is the spec unclear?
 We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index to the destructors place in the list with our object and not the entire adress.
