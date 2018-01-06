@@ -387,6 +387,7 @@ static void sort_database(database_t *database) {
 
 static void exit_program(database_t *database) {
   release(database);
+  shutdown();
 }
 
 static void event_loop(database_t *database) {
