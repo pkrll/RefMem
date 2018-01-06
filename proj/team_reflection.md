@@ -1,3 +1,13 @@
+## Table of Contents
+* [Introduction](#introduction)
+  * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
+* [Naming things](#naming-things)
+* [Abstracting stuff](#abstracting-stuff)
+* [Formatting matters](#formatting-matters)
+* [Deviations](#deviations)
+  * [Function names](#function-names)
+
+
 # 1 Göktytorna
 ## 1.1 Participant List
 
