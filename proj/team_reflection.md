@@ -103,7 +103,16 @@ We have switched ruthlessly between lagnuages in our PR:s. Some names were proba
 We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Also naming of branches should have been done better. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
 
 # 8 Reflection
-Ratings:
+
+Groups biggest win:
+Done on time
+No members were useless
+Communication worked fine
+
+What we did the worst:
+Planned badly
+
+## Ratings:
 Our method: kanban:
 5/7 - Very clear method, made it easy to work.
       A downside was that is was hard to judge how much time was needed for each note.
@@ -114,10 +123,3 @@ Our finished product:
 Quality Assurance:
 6/7 - We have used our code standard, we made it maintainable and readable.
 
-Groups biggest win:
-Done on time
-No members were useless
-Communication worked fine
-
-What we did the worst:
-Planned badly
