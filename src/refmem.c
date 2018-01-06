@@ -16,7 +16,7 @@ static listset_t *destr_register = NULL;
 
 static listset_t *size_register = NULL;
 
-static queue_t *mem_register = NULL;
+static queue_t *obj_register = NULL;
 
 static size_t cascade_counter = 0;
 
@@ -24,12 +24,11 @@ static size_t cascade_counter = 0;
 // Structs
 // -------------------------------
 
-struct record {
+struct header {
   unsigned short reference_count;
-  unsigned short id;
+  unsigned short destr_index;
   unsigned short size_index;
-
-} typedef record_t;
+} typedef header_t;
 
 
 // -------------------------------
@@ -37,30 +36,27 @@ struct record {
 // -------------------------------
 
 /**
- * @brief                 Redirect object pointer to its record
+ * @brief                 Redirect object pointer to its header
  * @param object          Pointer to object
- * @return                The object's record
+ * @return                The object's header
  */
-static record_t *convert_to_record(obj object);
-
+static header_t *convert_to_header(obj object);
 /**
- * @brief                 Redirect record pointer to its object
- * @param object          Pointer to record
- * @return                The record's object
- */
-static obj convert_from_record(record_t *record);
-/**
- * @brief         Puts an object in the mem register tree.
+ * @brief         Puts an object in the object register queue.
  * @param object  Pointer to the object.
  */
-static void save_object(obj object);
-
+static void queue_deallocation(obj object);
 /**
- * @brief         Free cascade_limit amount of objects in mem_register or clear until limit is reached
+ * @brief         Prepares the system for allocation.
+ * @param bytes   The number of bytes requested for allocation.
+ */
+static void prepare_for_allocation(size_t bytes);
+/**
+ * @brief         Free cascade_limit amount of objects in obj_register or clear until limit is reached
  * @param request Upper limit of number of bytes to clear.
  * @return        void
  */
-static void clear_mem_register(size_t request);
+static void clear_obj_register(size_t request);
 
 /**
  * @brief                 Compare two elements by their destructor function
@@ -82,20 +78,18 @@ void retain(obj object) {
   assert(object != NULL);
 
   if (object != NULL) {
-    record_t *record = convert_to_record(object);
-    record->reference_count += 1;
+    header_t *header = convert_to_header(object);
+    header->reference_count += 1;
   }
 }
 
 void release(obj object) {
   if (object != NULL) {
-    record_t *record = convert_to_record(object);
+    header_t *header = convert_to_header(object);
 
-    record->reference_count -= 1;
+    header->reference_count -= 1;
 
-    if (record->reference_count == 0) {
-      obj object = convert_from_record(record);
-
+    if (header->reference_count == 0) {
       deallocate(object);
     }
   }
@@ -104,30 +98,27 @@ void release(obj object) {
 unsigned short rc(obj object) {
   assert(object != NULL);
 
-  record_t *record = convert_to_record(object);
-  return record->reference_count;
+  header_t *header = convert_to_header(object);
+  return header->reference_count;
 }
 
 obj allocate(size_t bytes, function1_t destructor) {
-
-  clear_mem_register(bytes);
-
-  record_t *record = calloc(1, sizeof(record_t) + bytes);
-
-  record->reference_count = 0;
+  prepare_for_allocation(bytes);
 
   element_t elem = {.f = destructor};
-  if (destr_register == NULL) destr_register = listset_new();
-
   element_t size = {.s = bytes};
-  if (size_register == NULL) size_register = listset_new();
 
-  record->id = listset_expand(destr_register, elem, compare_destructor);
-  record->size_index = listset_expand(size_register, size, compare_size);
+  header_t *header = calloc(1, sizeof(header_t) + bytes);
 
-  record++;
+  if (header) {
+    header->reference_count = 0;
+    header->destr_index = listset_expand(destr_register, elem, compare_destructor);
+    header->size_index  = listset_expand(size_register, size, compare_size);
 
-  return (obj)record;
+    header++;
+  }
+
+  return (obj)header;
 }
 
 void set_cascade_limit(size_t limit) {
@@ -140,57 +131,51 @@ size_t get_cascade_limit() {
 
 obj allocate_array(size_t elements, size_t elem_size, function1_t destructor) {
   size_t allocated_size = elem_size * elements;
-  clear_mem_register(allocated_size);
-
-  record_t *record = calloc(1, ( allocated_size + sizeof(record_t)));
-
-  record->reference_count = 0;
+  prepare_for_allocation(allocated_size);
 
   element_t elem = {.f = destructor};
-  if (destr_register == NULL) destr_register = listset_new();
-
   element_t size = {.s = allocated_size};
-  if (size_register == NULL) size_register = listset_new();
 
-  record->id = listset_expand(destr_register, elem, compare_destructor);
-  record->size_index = listset_expand(size_register, size, compare_size);
+  header_t *header = calloc(1, ( allocated_size + sizeof(header_t)));
 
-  record++;
+  if (header) {
+    header->reference_count = 0;
+    header->destr_index = listset_expand(destr_register, elem, compare_destructor);
+    header->size_index = listset_expand(size_register, size, compare_size);
 
-  return (obj)record;
+    header++;
+  }
+
+  return (obj)header;
 }
 
 void deallocate(obj object) {
-
   assert(rc(object) == 0);
 
-  record_t *record = convert_to_record(object);
-  element_t elem = listset_get(destr_register,record->id);
-  function1_t destr = NULL;
-  destr = elem.f;
+  header_t *header = convert_to_header(object);
+  element_t elem   = listset_get(destr_register,header->destr_index);
 
-  if (destr != NULL) {
-    (*destr)(object);
+  if (elem.f != NULL) {
+    function1_t destructor = elem.f;
+    (*destructor)(object);
   }
 
   if (cascade_counter >= cascade_limit) {
-    save_object(record);
+    queue_deallocation(header);
   } else {
-
-    free(record);
-
+    free(header);
     cascade_counter += 1;
   }
 }
 
 bool mem_register_is_empty() {
-  return queue_is_empty(mem_register);
+  return queue_is_empty(obj_register);
 }
 
 void cleanup() {
-  if (mem_register != NULL) {
+  if (obj_register != NULL) {
     while (mem_register_is_empty() == false) {
-      record_t *object = queue_dequeue(mem_register);
+      header_t *object = queue_dequeue(obj_register);
       free(object);
     }
   }
@@ -198,7 +183,7 @@ void cleanup() {
 
 void shutdown() {
   cleanup();
-  queue_delete(mem_register);
+  queue_delete(obj_register);
   listset_delete(destr_register);
   listset_delete(size_register);
 }
@@ -207,49 +192,48 @@ void shutdown() {
 // Private
 // -------------------------------
 
-static record_t *convert_to_record(obj object) {
-  record_t *record = object;
-  record--;
+static header_t *convert_to_header(obj object) {
+  header_t *header = object;
+  header--;
 
-  return record;
+  return header;
 }
 
-static obj convert_from_record(record_t *record) {
-  record++;
-  obj object = (obj) record;
-
-  return object;
-}
-
-static void save_object(obj object) {
-  if (mem_register == NULL) {
-    mem_register = queue_create();
+static void queue_deallocation(obj object) {
+  if (obj_register == NULL) {
+    obj_register = queue_create();
   }
 
-  queue_enqueue(mem_register, object);
+  queue_enqueue(obj_register, object);
 }
 
-size_t free_record(record_t *record) {
-  element_t size = listset_get(size_register, record->size_index);
-  free(record);
+static size_t free_header(header_t *header) {
+  element_t size = listset_get(size_register, header->size_index);
+  free(header);
   return size.s;
 }
 
-void clear_mem_register(size_t request) {
+static void prepare_for_allocation(size_t bytes) {
+  if (destr_register == NULL) destr_register = listset_new();
+  if (size_register == NULL)  size_register  = listset_new();
+
+  clear_obj_register(bytes);
+}
+
+static void clear_obj_register(size_t request) {
   cascade_counter = 0;
 
-  if (mem_register == NULL) {
-    mem_register = queue_create();
+  if (obj_register == NULL) {
+    obj_register = queue_create();
   } else {
-
     size_t size_sum = 0;
 
-    for (unsigned short i = 0; i < cascade_limit && queue_is_empty(mem_register) == false; i++) {
-      size_sum += free_record(queue_dequeue(mem_register));
+    for (unsigned short i = 0; i < cascade_limit && queue_is_empty(obj_register) == false; i++) {
+      size_sum += free_header(queue_dequeue(obj_register));
     }
 
-    while (size_sum < request && queue_is_empty(mem_register) == false) {
-      size_sum += free_record(queue_dequeue(mem_register));
+    while (size_sum < request && queue_is_empty(obj_register) == false) {
+      size_sum += free_header(queue_dequeue(obj_register));
     }
   }
 }
