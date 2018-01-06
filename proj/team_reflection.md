@@ -88,10 +88,13 @@ The work was not completely balanced. Partly because all team members didnt put 
 
 | Type | Info |
 |------|------|
-| Amount of PRs | FYLL I |
-| How many people made PRs | FYLL I |
-| Reviews | FYLL I |
-| Comments | FYLL I |
+| Amount of PRs | 43 |
+| How many people made PRs | 6 |
+| Reviewers | 6 |
+| Reviews | 14 |
+| Comments | 55 |
+
+We have reviewed all but we have not always used GitHubs function review, in the table we have written the number of GitHub-reviews.
 
 PR:s helped us change formatting so it was all consistent, making sure the code worked on both Linux and Mac, memory leaks were caught and tests were added to catch more cases.
 
@@ -100,3 +103,21 @@ We have switched ruthlessly between lagnuages in our PR:s. Some names were proba
 We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Also naming of branches should have been done better. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
 
 # 8 Reflection
+Ratings:
+Our method: kanban:
+5/7 - Very clear method, made it easy to work.
+      A downside was that is was hard to judge how much time was needed for each note.
+
+Our finished product:
+6/7 - Our module works and was done on time, very small to no deviations, looks pretty good, we used memory well.
+
+Quality Assurance:
+6/7 - We have used our code standard, we made it maintainable and readable.
+
+Groups biggest win:
+Done on time
+No members were useless
+Communication worked fine
+
+What we did the worst:
+Planned badly
