@@ -30,7 +30,6 @@ struct link {
  * @var list::size  Size of the list.
  */
 struct listset {
-  unsigned short size;
   link_t *first;
   link_t *last;
 };
@@ -41,8 +40,11 @@ struct listset {
 
 link_t *link_new(element_t elem, link_t *next) {
   link_t *new_link = calloc(1, sizeof(link_t));
-  new_link->pointer = elem;
-  new_link->next = next;
+
+  if (new_link) {
+    new_link->pointer = elem;
+    new_link->next = next;
+  }
 
   return new_link;
 }
@@ -54,12 +56,20 @@ link_t *link_new(element_t elem, link_t *next) {
 
 listset_t *listset_new() {
   listset_t *list = calloc(1, sizeof(listset_t));
-  list->size = 0;
+
   return list;
 }
 
 unsigned short listset_length(listset_t *list) {
-  return list->size;
+  unsigned short size = 0;
+  link_t *link = list->first;
+
+  while (link) {
+    link = link->next;
+    size += 1;
+  }
+
+  return size;
 }
 
 unsigned short listset_expand(listset_t *list, element_t elem, element_comp_fun cmp) {
@@ -75,7 +85,7 @@ unsigned short listset_expand(listset_t *list, element_t elem, element_comp_fun 
 
   *link = link_new(elem, NULL);
   list->last = *link;
-  list->size += 1;
+
   return index;
 }
 
@@ -83,6 +93,7 @@ element_t listset_get(listset_t *list, unsigned short id) {
 
   link_t *link = list->first;
   unsigned short i = 0;
+  
   while (i < id && link->next != NULL) {
     link = link->next;
     i += 1;
