@@ -215,6 +215,7 @@ void test_deallocate() {
 
   dealloc_object = string;
   deallocate(dealloc_object);
+
 }
 
 void test_set_cascade_limit() {

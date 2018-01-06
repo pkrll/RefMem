@@ -18,7 +18,7 @@ void test_queue_create() {
 
 void test_queue_enqueue() {
   queue_t *queue = queue_create();
-  int numbers[4] = {1,2,3,4};
+  int numbers[6] = {1,2,3,4, 5, 6};
 
   CU_ASSERT_TRUE(queue_is_empty(queue));
 
@@ -26,6 +26,8 @@ void test_queue_enqueue() {
   queue_enqueue(queue, &numbers[1]);
   queue_enqueue(queue, &numbers[2]);
   queue_enqueue(queue, &numbers[3]);
+  queue_enqueue(queue, &numbers[4]);
+  queue_enqueue(queue, &numbers[5]);
 
   CU_ASSERT_FALSE(queue_is_empty(queue));
 
@@ -83,6 +85,7 @@ void test_queue_length() {
 
 void test_queue_dequeue() {
   queue_t *queue = queue_create();
+  CU_ASSERT_EQUAL(queue_dequeue(queue), NULL);
 
   int numbers[4] = {1,2,3,4};
 

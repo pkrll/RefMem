@@ -1,7 +1,7 @@
 ## Table of Contents
-* [1.--](#introduction)
+* [1. Introduction](#1-göktytorna)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
-* [Naming things](#naming-things)
+* [2. Quantification](#2-quantification)
 * [Abstracting stuff](#abstracting-stuff)
 * [Formatting matters](#formatting-matters)
 * [Deviations](#deviations)
@@ -96,12 +96,5 @@ PR:s helped us change formatting so it was all consistent, making sure the code 
 We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister" the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
 
 We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
-
-##borde inte detta vara under någon slags egenrubrik?
-
-We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index, to the destructors place in the list, with our object and not the entire adress.
-How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue/list. We realised that the time complexity didn't matter when we changed our integer type to unsigned short, because it limited the trees size to 2^16. Therefor the tree would only be available to hold 2^16 objects and the time complexity O(logn) compared to O(n) was not valuable enough to use an AVL tree instead of a linked list.
-
-
 
 # 8 Reflection
