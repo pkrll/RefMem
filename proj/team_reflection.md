@@ -1,12 +1,12 @@
 ## Table of Contents
 * [1. Introduction](#1-göktytorna)
-  * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
 * [2. Quantification](#2-quantification)
-* [Abstracting stuff](#abstracting-stuff)
-* [Formatting matters](#formatting-matters)
-* [Deviations](#deviations)
-  * [Function names](#function-names)
-
+* [3. Process](#3-process)
+* [4. Use Of Tools](#4-use-of-tools)
+* [5. Communication, Cooperation and Coordination](#5-communication-cooperation-and-coordination)
+* [6. Work Breakdown Structure](#6-work-breakdown-structure)
+* [7. Quality Assurance](#7-quality-assurance)
+* [8. Reflection](#8-reflection)
 
 # 1 Göktytorna
 ## 1.1 Participant List
@@ -58,7 +58,7 @@ to the master branch.
 Our planning stategy was less than ideal. We would make loose plans but have no real way of keeping track of what our plans were or who should be doing what to get there. The idea was that it wasnt insanely difficult so we would just do everything one thing at a time. It worked, but far from split the workload evenly over the time frame we had. 
 If we were to start over we would probably work harder before christmas, making us less stressed in the beginning of the new year. Alternatively actually work properly over christmas and new years but that seems harder to make happen. Maybe we would make a plan or two as well.
 
-The communication within the team worked fairly well.
+The communication within the team worked fairly well. FLER BRA GREJER
 
 The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. 
 
@@ -72,6 +72,7 @@ For keeping track of what tasks were left and who did what.
 For more or less all communication, within the group and with Elias.
 ## Github
 For merging our code, reviewing added code and documenting changes.
+
 # 5 Communication, Cooperation and Coordination
 Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if they wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on git hub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
 # 6 Work Breakdown Structure

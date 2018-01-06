@@ -66,3 +66,15 @@ We had to decide for ourselves how to keep the overhead down, we solved this by 
 We did the same thing when we had to save the size of the object, NÅGON ANNAN FORTSÄTT 
 
 How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue/list. We realised that the time complexity didn't matter when we changed our integer type to unsigned short, because it limited the trees size to 2^16. Therefor the tree would only be available to hold 2^16 objects and the time complexity O(logn) compared to O(n) was not valuable enough to use an AVL tree instead of a linked list.
+
+The memory goal for the project was:
+> A program that uses B bytes of memory with malloc() / calloc() may only use k * B bytes using your system. Additionally, k may not be larger than 2.
+
+As seen above or header contained 3 unsigned shorts with a total size of 6 byte. In the following graphs memory usage is described. There are two alternativs, worst possible memory usage and expected memory usage. Which is represented by 2^16 or 2^4 diffrent sizes and destruction functions. The graph describe how many object that's required to be allocated before the program goes below k = 2, represented by the x = 1 line.
+
+![record](graph2.png?)
+Worst case requires nearly 1000000 objects to be allocated.
+![record](graph1.png?)
+Expected case requires nearly 300 objects to be allocated.
+
+We can assume that we achieves the memory requirement by studying the graphs.
