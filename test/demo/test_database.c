@@ -125,6 +125,7 @@ void test_database_update_item() {
   item_t *item2 = create_item("Foo", "Bar", 1, "F5", 5);
   retain(item2);
   edit = item_copy(item2);
+  retain(edit);
 
   CU_ASSERT_FALSE(database_update_item(database, item2, edit));
 
@@ -135,6 +136,7 @@ void test_database_update_item() {
   release(database);
   release(key1);
   release(item2);
+  release(edit);
 }
 
 void test_database_remove_item() {
@@ -397,6 +399,8 @@ int main(int argc, char *argv[]) {
 
   // Tear down
   CU_cleanup_registry();
+
+  shutdown();
 
   return CU_get_error();
 
