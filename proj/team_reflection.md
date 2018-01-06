@@ -35,7 +35,7 @@ through concrete goals represented as notes on Trello.
 The application Trello allowed us to create a board with notes, each note has a specifik task that needed to be completed. We had different sections which we moved the notes between depending on its level of completion.
 Our sections were "To do", "ToDo: Kod", "Doing", "Review" and "Done". The sections that were
 specially adapted for this project were Doing and Review. Doing was limited to
-only contain six notes. Because of that the group is forced to complete those tasks
+only contain six notes. Because of that the group was forced to complete those tasks
 before continuing and limited us to only work on things that had a direct
 impact on the current progress. Review was used to guarantee some level
 of correctness in the code by forcing another project member to verify that
