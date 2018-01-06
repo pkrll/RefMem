@@ -69,13 +69,13 @@ void test_queue_length() {
   CU_ASSERT_EQUAL(queue_length(queue), 4);
 
   queue_dequeue(queue);
-  
+
   CU_ASSERT_EQUAL(queue_length(queue), 3);
-  
+
   queue_dequeue(queue);
   queue_dequeue(queue);
   queue_dequeue(queue);
-  
+
   CU_ASSERT_EQUAL(queue_length(queue), 0);
 
   queue_delete(queue);
