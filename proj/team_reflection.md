@@ -47,6 +47,7 @@ to the master branch.
 ## 3.2 Implementation
 Our planning stategy was less than ideal. We would make loose plans but have no real way of keeping track of what our plans were or who should be doing what to get there. The idea was that it wasnt insanely difficult so we would just do everything one thing at a time. It worked, but far from split the workload evenly over the time frame we had. 
 If we were to start over we would probably work harder before christmas, making us less stressed in the beginning of the new year. Alternatively actually work properly over christmas and new years but that seems harder to make happen. Maybe we would make a plan or two as well.
+
 The communication within the team worked fairly well.
 
 The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. 
