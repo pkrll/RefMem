@@ -61,7 +61,7 @@ For keeping track of what tasks were left and who did what.
 ## Slack
 For more or less all communication, within the group and with Elias.
 ## Github
-For merging our code, review added code and documenting changes.
+For merging our code, reviewing added code and documenting changes.
 # 5 Communication, Cooperation and Coordination
 Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if they wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on git hub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
 # 6 Work Breakdown Structure
