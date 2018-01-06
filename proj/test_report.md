@@ -93,3 +93,5 @@ Regression testing wasn't actively enforced until later in the project. Until th
 
 ## Handled bugs and other nasties
 **TODO List the most significant bugs encountered and how they were defeated.  Also, code coverage.**
+
+![record](code_coverage_overview.png?)
