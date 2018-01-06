@@ -51,12 +51,12 @@ The communication within the team worked fairly well.
 
 The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. 
 
-Descisions were made in person or over slack, we had meetings consistently which made for perfect arenas to bring up choices that needed to be made by the entire group and problems that needed solving. Key descisions such as how to save all our allocations and what to do about the overhead were the type of descisions where everyone was involved, even if some members were working on something unrelated at the time. Other smaller implementations details were decided with a simple message on slack which was approved by the rest of the croup.
+Descisions were made in person or over slack, we had meetings consistently which made for perfect arenas to bring up choices that needed to be made by the entire group and problems that needed solving. Key descisions such as how to save all our allocations and what to do about the overhead were the type of descisions where everyone was involved, even if some members were working on something unrelated at the time. Other smaller implementations details were decided with a simple message on slack which was approved by the rest of the group.
 
 
 # 4 Use of Tools
 ## Trello
-For keeping track of what tasks were left and who did what
+For keeping track of what tasks were left and who did what.
 ## Slack
 For more or less all communication, within the group and with Elias.
 ## Github
@@ -64,19 +64,19 @@ For merging our code, review added code and documenting changes.
 # 5 Communication, Cooperation and Coordination
 Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if they wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on git hub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
 # 6 Work Breakdown Structure
-Since we added all our tasks to trello it was easy to see what was left to be done. If something had to be completed before the project could be moved along slack was used to make sure someone was at least working on that part.
-Slack was also used for communicating problems and splitting the work load.
+Since we added all our tasks to Trello it was easy to see what was left to be done. If something had to be completed before the project could be moved along Slack was used to make sure someone was at least working on that part.
+Slack was also used for communicating our problems and splitting the work load.
 
-The tasks were of very varying size, but because different memebers of the group have different amounts of experience of c as a language and of programming in general the size of the actual task had little to do with how much work was put into it. Because of this it was also very hard to estimate how long a task would take to complete. It, as usual, completely depends on how many problems you run into on the way. Our utopian goal was to be finished before christmas. Having such a big margin made it less important to estimate the time correctly and more important that the task just gets done in time that it didnt stop the rest of the project moving forward.
+The tasks were of very varying size, but because different memebers of the group have different amounts of experience of C as a language and of programming in general the size of the actual task had little to do with how much work was put into it. Because of this it was also very hard to estimate how long a task would take to complete. It, as usual, completely depends on how many problems you run into on the way. Our utopian goal was to be finished before christmas. Having such a big margin made it less important to estimate the time correctly and more important that the task just got done in time that it didnt stop the rest of the project moving forward.
 
-The work was not completely balanced. Partly because team members were at times busy with other things during christmas and partly because we are not equally good at programming in c.
+The work was not completely balanced. Partly because all team members didnt put the same effort in and partly because we are not equally good at programming in c.
 
 # 7 Quality Assurance
 
 | Type | Info |
 |------|------|
-| Amount | FYLL I |
-| How many people, pr | FYLL I |
+| Amount of PRs | FYLL I |
+| How many people made PRs | FYLL I |
 | Reviews | FYLL I |
 | Comments | FYLL I |
 
