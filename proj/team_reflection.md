@@ -26,14 +26,15 @@
 |------|------|
 | Start date | 11/12-17 |
 | End date | 8/1-18 FYLL I |
-| Sprints | 0 or 1 FYLL I |
-| Lines of code | FYLL I |
-| Lines of tests | FYLL I |
-| Lines of script | FYLL I |
+| Sprints | n/a |
+| Lines of code | 672 |
+| Lines of tests | 2638 |
+| Lines of Demo | 3735 |
+| Lines of script | 180 |
 | Hours Worked | FYLL I |
-| Git commits | 155 |
-| Pull Requests | 33 |
-| GitHub Issues | 6 |
+| Git commits | 310 |
+| Pull Requests | 43 |
+| GitHub Issues | 15 |
 
 # 3 Process
 ## 3.1 Inception
@@ -58,7 +59,7 @@ to the master branch.
 Our planning stategy was less than ideal. We would make loose plans but have no real way of keeping track of what our plans were or who should be doing what to get there. The idea was that it wasnt insanely difficult so we would just do everything one thing at a time. It worked, but far from split the workload evenly over the time frame we had. 
 If we were to start over we would probably work harder before christmas, making us less stressed in the beginning of the new year. Alternatively actually work properly over christmas and new years but that seems harder to make happen. Maybe we would make a plan or two as well.
 
-The communication within the team worked fairly well. FLER BRA GREJER
+The communication within the team worked fairly well. We would use Trello again, the concreteness of the tasks made it easy to attack the problem.
 
 The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. 
 
@@ -74,7 +75,7 @@ For more or less all communication, within the group and with Elias.
 For merging our code, reviewing added code and documenting changes.
 
 # 5 Communication, Cooperation and Coordination
-Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if they wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on git hub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
+Ardalan was the contact person with Elias, but after our first meeting Elias was added directly to one of our slack channels so anyone could ask him a question if they wanted to. To communicate within the group we used slack, either if someone had a question, felt like they needed a task, added a pull request on GitHub that needed to be reviewed or had any other relevant info or questions. Sometimes it was difficult to get ahold of members, but nobody completely disappeared for too long. We had regular meetings, not always because anyone had anything to say specifically but more to catch up and make plans for the rest of the project.
 # 6 Work Breakdown Structure
 Since we added all our tasks to Trello it was easy to see what was left to be done. If something had to be completed before the project could be moved along Slack was used to make sure someone was at least working on that part.
 Slack was also used for communicating our problems and splitting the work load.
@@ -96,6 +97,6 @@ PR:s helped us change formatting so it was all consistent, making sure the code 
 
 We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister" the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
 
-We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
+We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Also naming of branches should have been done better. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
 
 # 8 Reflection
