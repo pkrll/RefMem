@@ -75,6 +75,7 @@ void list_insert(list_t *list, int index, obj elem) {
     *next = link_new(elem, *next, list->copy);
 
     if (index == 0) {
+      release(list->first); // Prevents mem leak
       list->first = *next;
       retain(list->first);
     } else {
@@ -252,7 +253,8 @@ static link_t *link_new(obj elem, link_t *next, element_copy_fun copy) {
     if (link->next) {
       retain(link->next);
     }
-    retain(elem);
+
+    retain(link->elem);
   }
 
   return link;
@@ -293,6 +295,7 @@ static link_t **find_link_by_index(link_t **link, int index) {
 
 static void list_destructor(obj object) {
   list_t *list = (list_t *)object;
+
   release(list->first);
   release(list->last);
 }

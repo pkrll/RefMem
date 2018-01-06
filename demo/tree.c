@@ -208,10 +208,11 @@ bool tree_remove(tree_t *tree, tree_key_t key, obj *result) {
         }
 
         minimum_node->left = node_to_delete->left;
-        *child = minimum_node;
 
         if (node_to_delete->left)   retain(node_to_delete->left);
         if (node_to_delete->right)  retain(node_to_delete->right);
+
+        *child = minimum_node;
       }
 
       if (result) *result = node_to_delete->elem;
@@ -348,6 +349,7 @@ static node_t **node_minimum(node_t **root) {
   node_t **node = root;
 
   while (*node && (*node)->left) {
+    *root = *node; // Fixes leak
     node = &(*node)->left;
   }
 
@@ -476,6 +478,7 @@ static void tree_destructor(obj object) {
 
 static void node_destructor(obj object) {
   node_t *node = (node_t *)object;
+
   release(node->key);
   release(node->elem);
   release(node->right);

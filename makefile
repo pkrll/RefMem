@@ -146,11 +146,20 @@ test-demo: test-action test-stack test-utils test-utils-goods test-tree test-lis
 	@echo "--------------------------------------------- RUNNING TESTS ON DATABASE -----------------------------------------"
 	@./$(BINARYDIR)/test_database
 
-memtest: test-refmem
+memtest: test-refmem test-queue test-list
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
-
-memtest-queue: test-queue
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_queue
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_list
+
+memtest-demo: test-action test-stack test-utils test-utils-goods test-tree test-list test-item test-database
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_action
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_stack
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_utils
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_utils_goods
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_tree
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_list
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_item
+	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_database
 
 style:
 	astyle --style=google --indent=spaces=2 --indent-continuation=2 $(SOURCES) $(SOURCES_TEST)

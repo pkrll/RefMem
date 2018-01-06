@@ -166,6 +166,8 @@ int main(int argc, char *argv[]) {
 
   CU_cleanup_registry();
 
+  shutdown();
+
   return CU_get_error();
 
 }

@@ -130,18 +130,23 @@ void test_item_set_name() {
 
   CU_ASSERT_FALSE(item_set_name(item, ""));
 
-  char *name = calloc(3, sizeof(char*));
-  name = "Foo";
+  char *name = string_duplicate("Foo");
+  retain(name);
 
   CU_ASSERT_TRUE(item_set_name(item, name));
   CU_ASSERT_STRING_EQUAL(item_get_name(item), name);
+  release(name);
 
-  name = "Bar";
+  name = string_duplicate("Bar");
+  retain(name);
   CU_ASSERT_STRING_NOT_EQUAL(item_get_name(item), name);
+  release(name);
 
-  name = "Baz";
+  name = string_duplicate("Baz");
+  retain(name);
   CU_ASSERT_TRUE(item_set_name(item, name));
   CU_ASSERT_STRING_EQUAL(item_get_name(item), name);
+  release(name);
 
   release(item);
 }
@@ -164,19 +169,24 @@ void test_item_set_desc() {
 
   CU_ASSERT_FALSE(item_set_desc(item, ""));
 
-  char *desc = calloc(3, sizeof(char*));
-  desc = "Foo";
+  char *desc = string_duplicate("Foo");
+  retain(desc);
 
   CU_ASSERT_TRUE(item_set_desc(item, desc));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item), desc);
+  release(desc);
 
-  desc = "Bar";
+  desc = string_duplicate("Bar");
+  retain(desc);
   CU_ASSERT_STRING_NOT_EQUAL(item_get_desc(item), desc);
+  release(desc);
 
-  desc = "Baz";
+  desc = string_duplicate("Baz");
+  retain(desc);
   CU_ASSERT_TRUE(item_set_desc(item, desc));
   CU_ASSERT_STRING_EQUAL(item_get_desc(item), desc);
 
+  release(desc);
   release(item);
 }
 
@@ -232,17 +242,19 @@ void test_item_set_shelves() {
   item_t *item = item_new();
   retain(item);
 
-  CU_ASSERT_FALSE(item_has_shelf(item, "A1"));
-
-  char *shelf = calloc(2, sizeof(char*));
-  shelf = "A1";
+  char *shelf = string_duplicate("A1");
+  retain(shelf);
+  CU_ASSERT_FALSE(item_has_shelf(item, shelf));
 
   item_set_shelves(item, shelf, 150, false);
-  CU_ASSERT_TRUE(item_has_shelf(item, "A1"));
+  CU_ASSERT_TRUE(item_has_shelf(item, shelf));
+  release(shelf);
 
-  shelf = "A2";
+  shelf = string_duplicate("A2");
+  retain(shelf);
   CU_ASSERT_TRUE(item_has_shelf(item, "A1"));
   CU_ASSERT_FALSE(item_has_shelf(item, "A2"));
+  release(shelf);
 
   item_set_shelves(item, "A1", 0, false);
   CU_ASSERT_FALSE(item_has_shelf(item, "A1"));
@@ -284,7 +296,8 @@ void test_item_has_shelf() {
   CU_ASSERT_TRUE(item_has_shelf(item, shelf));
 
   char *shelf2 = string_duplicate("A2");
-  retain(shelf);
+  retain(shelf2);
+
   CU_ASSERT_TRUE(item_has_shelf(item, "A1"));
   CU_ASSERT_FALSE(item_has_shelf(item, shelf2));
 
@@ -339,6 +352,8 @@ int main(int argc, char *argv[]) {
   CU_add_test(properties, "Apply", test_item_apply_on_shelves);
 
   CU_basic_run_tests();
+
+  shutdown();
 
   // Tear down
   CU_cleanup_registry();

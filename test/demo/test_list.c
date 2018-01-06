@@ -7,9 +7,15 @@
 #include "../../demo/utils.h"
 #include "../../demo/common.h"
 
+int teardown() {
+  cleanup();
+  return 0;
+}
+
 int *new_integer(int number) {
   int *integer = allocate(sizeof(int), NULL);
   *integer = number;
+
   return integer;
 }
 
@@ -80,11 +86,14 @@ void test_list_length() {
 void test_list_insertion() {
   obj fst;
   obj lst;
-  list_t *list = list_new(NULL, NULL, NULL);
+  list_t *list = list_new(NULL, NULL, comp_fun);
   retain(list);
 
   for (int i = 0; i < 10; i++) {
-    list_insert(list, i, new_integer(i));
+    int *number = new_integer(i);
+    retain(number);
+    list_insert(list, i, number);
+    release(number);
   }
 
   CU_ASSERT_EQUAL(list_length(list), 10);
@@ -95,14 +104,29 @@ void test_list_insertion() {
   list_last(list, &lst);
   CU_ASSERT_EQUAL(*(int*)lst, 9);
 
-  list_insert(list, 0, new_integer(99));
+  int *number1 = new_integer(99);
+  retain(number1);
+
+  list_insert(list, 0, number1);
   CU_ASSERT_EQUAL(list_length(list), 11);
 
-  list_insert(list, 0, new_integer(98));
+  release(number1);
+
+  int *number2 = new_integer(98);
+  retain(number2);
+
+  list_insert(list, 0, number2);
   CU_ASSERT_EQUAL(list_length(list), 12);
 
-  list_insert(list, -1, new_integer(934));
+  release(number2);
+
+  int *number3 = new_integer(934);
+  retain(number3);
+
+  list_insert(list, -1, number3);
   CU_ASSERT_EQUAL(list_length(list), 13);
+
+  release(number3);
 
   list_first(list, &fst);
   CU_ASSERT_EQUAL(*(int*)fst, 98);
@@ -112,10 +136,14 @@ void test_list_insertion() {
 
   // Testing negative indicies some more
   obj test;
+  int *number4 = new_integer(88);
+  retain(number4);
 
-  list_insert(list, -14, new_integer(88));
+  list_insert(list, -14, number4);
   list_get(list, 0, &test);
   CU_ASSERT_EQUAL(*(int *)test, 88);
+
+  release(number4);
 
   for (int i = 0; i < 14; i++) {
     list_remove(list, i, false);
@@ -124,7 +152,10 @@ void test_list_insertion() {
   // testing insertion with 500 elems
   // perhaps unneccesary
   for (int i = 0; i < 500; i++) {
+    int *number = new_integer(i);
+    retain(number);
     list_insert(list, i, new_integer(i));
+    release(number);
   }
 
   CU_ASSERT_EQUAL(list_length(list), 500);
@@ -135,6 +166,7 @@ void test_list_insertion() {
 void test_list_append() {
   obj elem;
   list_t *list = list_new(NULL, NULL, NULL);
+  retain(list);
 
   for (int i = 0; i < 100; i++) {
     list_append(list, new_integer(i));
@@ -142,7 +174,7 @@ void test_list_append() {
     CU_ASSERT_EQUAL(*(int*)elem, i);
   }
 
-  deallocate(list);
+  release(list);
 }
 
 void test_list_prepend() {
@@ -275,14 +307,21 @@ void test_list_contains() {
   }
 
   int *five = new_integer(15);
+  retain(five);
   list_append(list, five);
 
   index = list_contains(list, five);
   CU_ASSERT_EQUAL(index, 10);
 
+  release(five);
+
   int *fifteen = new_integer(99);
+  retain(fifteen);
+
   index = list_contains(list, fifteen);
   CU_ASSERT_EQUAL(index, -1);
+
+  release(fifteen);
 
   release(list);
 }
@@ -292,22 +331,22 @@ int main(int argc, char *argv[]) {
   CU_initialize_registry();
 
   // Set up suites and tests
-  CU_pSuite creation = CU_add_suite("Test creation and length", NULL, NULL);
+  CU_pSuite creation = CU_add_suite("Test creation and length", NULL, teardown);
   CU_add_test(creation, "Creation", test_list_creation);
   CU_add_test(creation, "Length", test_list_length);
-  //
-  CU_pSuite manipulation = CU_add_suite("Test insertion, prepend, append and remove", NULL, NULL);
+
+  CU_pSuite manipulation = CU_add_suite("Test insertion, prepend, append and remove", NULL, teardown);
   CU_add_test(manipulation, "Insertion", test_list_insertion);
   CU_add_test(manipulation, "Append", test_list_append);
   CU_add_test(manipulation, "Prepend", test_list_prepend);
   CU_add_test(manipulation, "Remove", test_list_remove);
 
-  CU_pSuite retrieval = CU_add_suite("Test retrieval", NULL, NULL);
+  CU_pSuite retrieval = CU_add_suite("Test retrieval", NULL, teardown);
   CU_add_test(retrieval, "Get", test_list_get);
   CU_add_test(retrieval, "First", test_list_first);
   CU_add_test(retrieval, "Last", test_list_last);
 
-  CU_pSuite misc = CU_add_suite("Test apply and contains", NULL, NULL);
+  CU_pSuite misc = CU_add_suite("Test apply and contains", NULL, teardown);
   CU_add_test(misc, "Apply", test_list_apply);
   CU_add_test(misc, "Contains", test_list_contains);
 
@@ -315,5 +354,8 @@ int main(int argc, char *argv[]) {
 
   // Tear down
   CU_cleanup_registry();
+
+  shutdown();
+
   return CU_get_error();
 }
