@@ -105,12 +105,9 @@ We learnt that we should probably come up with some sort of standard before we s
 # 8 Reflection
 
 Groups biggest win:
-Done on time
-No members were useless
-Communication worked fine
+We were done on time, no members were useless, communication worked fine
 
-What we did the worst:
-Planned badly
+What we did the worst: Planned badly
 
 ## Ratings:
 Our method: kanban:
