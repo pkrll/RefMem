@@ -61,5 +61,8 @@ The rectangles represent our structures. Size is the size of the allocation our 
 How does the overhead change over time in comparison to the allocated memory size:
 MAX GOT THIS
 
+
+We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index, to the destructors place in the list, with our object and not the entire adress. How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue/list. We realised that the time complexity didn't matter when we changed our integer type to unsigned short, because it limited the trees size to 2^16. Therefor the tree would only be available to hold 2^16 objects and the time complexity O(logn) compared to O(n) was not valuable enough to use an AVL tree instead of a linked list.
+
 queue som allokeringssparargrej
 list för size och för destructors
