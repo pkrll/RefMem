@@ -26,7 +26,7 @@
 |------|------|
 | Start date | 11/12-17 |
 | End date | 8/1-18 FYLL I |
-| Sprints | 0 or 1 FYLL I |
+| Sprints | n/a |
 | Lines of code | 672 |
 | Lines of tests | 2638 |
 | Lines of Demo | 3735 |
