@@ -4,7 +4,7 @@
 * [2. Quantification](#2-quantification)
 * [3. Process](#3-process)
 * [4. Use Of Tools](#4-use-of-tools)
-* [Deviations](#deviations)
+* [5. Communication, Cooperation and Coordination](#5-Communication,-Cooperation-and-Coordination)
   * [Function names](#function-names)
 
 
