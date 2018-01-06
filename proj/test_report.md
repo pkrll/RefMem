@@ -94,4 +94,6 @@ Regression testing wasn't actively enforced until later in the project. Until th
 ## Handled bugs and other nasties
 **TODO List the most significant bugs encountered and how they were defeated.  Also, code coverage.**
 
+No fatal bugs were encountered during this project. Due to our set conditions for a PR to be approved, bugs of significance never rarely or never reached the master branch. Other pieces of faulty code did pass a PR, but they would never affect the functionality of the program. Instead, it would more commonly be related to memory issues such as memory leakages.
+
 ![record](code_covrage_overview.png?)
