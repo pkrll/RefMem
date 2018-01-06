@@ -92,6 +92,10 @@ void test_stack_pop() {
   char *elem2 = string_duplicate("Bar");
   char *elem3 = string_duplicate("Baz");
 
+  retain(elem1);
+  retain(elem2);
+  retain(elem3);
+
   stack_push(stack, elem1);
   stack_push(stack, elem2);
 
@@ -103,6 +107,9 @@ void test_stack_pop() {
   stack_push(stack, elem3);
   CU_ASSERT_STRING_EQUAL(stack_pop(stack), elem3);
 
+  release(elem1);
+  release(elem2);
+  release(elem3);
   release(stack);
 }
 
@@ -146,6 +153,8 @@ int main(int argc, char *argv[]) {
   CU_basic_run_tests();
 
   CU_cleanup_registry();
+
+  shutdown();
 
   return CU_get_error();
 }
