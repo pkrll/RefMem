@@ -1,7 +1,7 @@
 ## Table of Contents
-* [1.Göktytorna](#1-göktytorna)
+* [1. Introduction](#1-göktytorna)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
-* [Naming things](#naming-things)
+* [2. Quantification](#2-quantification)
 * [Abstracting stuff](#abstracting-stuff)
 * [Formatting matters](#formatting-matters)
 * [Deviations](#deviations)
