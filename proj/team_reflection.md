@@ -52,7 +52,7 @@ The communication within the team worked fairly well.
 
 The strenght of using kanban was that we could always keep track of what was left to be done. The weakness was that it didnt take presidence over us actually talking and deciding things together, this meant it wasnt always updated and therefore not entirely trustworthy. 
 
-Descisions were made in person or over slack, we had meetings consistently which made for perfect arenas to bring up choices that needed to be made by the entire group and problems that needed solving. Key descisions such as how to save all our allocations and what to do about the overhead were the type of descisions where everyone was involved, even if some members were working on something unrelated at the time. Other smaller implementations details were decided with a simple message on slack which was approved by the rest of the group.
+Descisions were made in person or over slack, we had meetings consistently which made for perfect arenas to bring up choices that needed to be made by the entire group and problems that needed solving. Key descisions such as how to save all our allocations and what to do about the overhead were the type of descisions where everyone was involved, even if some members were working on something unrelated at the time. Other smaller implementation details were decided with a simple message on slack which was approved by the rest of the group.
 
 
 # 4 Use of Tools
