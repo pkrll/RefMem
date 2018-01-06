@@ -1,10 +1,10 @@
 ## Table of Contents
-* [1.--](#introduction)
+* [1. Introduction](#1-göktytorna)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
-* [Naming things](#naming-things)
-* [Abstracting stuff](#abstracting-stuff)
-* [Formatting matters](#formatting-matters)
-* [Deviations](#deviations)
+* [2. Quantification](#2-quantification)
+* [3. Process](#3-process)
+* [4. Use Of Tools](#4-use-of-tools)
+* [5. Communication, Cooperation and Coordination](#5-Communication,-Cooperation-and-Coordination)
   * [Function names](#function-names)
 
 
