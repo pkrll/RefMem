@@ -33,8 +33,8 @@
 | Lines of script | 180 |
 | Hours Worked | FYLL I |
 | Git commits | 310 |
-| Pull Requests | 33 |
-| GitHub Issues | 6 |
+| Pull Requests | 43 |
+| GitHub Issues | 15 |
 
 # 3 Process
 ## 3.1 Inception
