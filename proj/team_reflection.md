@@ -1,8 +1,8 @@
 ## Table of Contents
 * [1. Introduction](#1-göktytorna)
-  * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
 * [2. Quantification](#2-quantification)
 * [3. Process](#3-process)
+  * [3.1 Inception](#3.1-inception)
 * [4. Use Of Tools](#4-use-of-tools)
 * [5. Communication, Cooperation and Coordination](#5-communication,-cooperation-and-coordination)
   * [Function names](#function-names)
