@@ -1,5 +1,5 @@
 ## Table of Contents
-* [1.--](#introduction)
+* [1.Göktytorna](#1-göktytorna)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
 * [Naming things](#naming-things)
 * [Abstracting stuff](#abstracting-stuff)
