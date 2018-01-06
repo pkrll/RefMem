@@ -2,15 +2,11 @@
 * [1. Introduction](#1-göktytorna)
 * [2. Quantification](#2-quantification)
 * [3. Process](#3-process)
-  * [3.1 Inception](#3.1-inception)
 * [4. Use Of Tools](#4-use-of-tools)
 * [5. Communication, Cooperation and Coordination](#5-communication,-cooperation-and-coordination)
-  * [Function names](#function-names)
 * [6. Work Breakdown Structure](#6-work-breakdown-structure)
 * [7. Quality Assurance](#7-quality-assurance)
 * [8. Reflection](#8-Reflection)
-  * [Function names](#function-names)
-
 
 # 1 Göktytorna
 ## 1.1 Participant List
