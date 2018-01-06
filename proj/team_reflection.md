@@ -1,5 +1,5 @@
 ## Table of Contents
-* [2 Quantification](#introduction)
+* [1.--](#introduction)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
 * [Naming things](#naming-things)
 * [Abstracting stuff](#abstracting-stuff)
