@@ -54,4 +54,12 @@ This contains three unsigned shorts:
 
 ![record](flow.png?)
 
-The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. 
+The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. LÄGG TILL
+
+## Overhead
+
+How does the overhead change over time in comparison to the allocated memory size:
+MAX GOT THIS
+
+queue som allokeringssparargrej
+list för size och för destructors
