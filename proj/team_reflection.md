@@ -6,7 +6,7 @@
 * [5. Communication, Cooperation and Coordination](#5-communication,-cooperation-and-coordination)
 * [6. Work Breakdown Structure](#6-work-breakdown-structure)
 * [7. Quality Assurance](#7-quality-assurance)
-* [8. Reflection](#8-Reflection)
+* [8. Reflection](#8-reflection)
 
 # 1 Göktytorna
 ## 1.1 Participant List
