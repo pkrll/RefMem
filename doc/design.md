@@ -12,7 +12,7 @@ The refmem module contains five static variables:
 
 ## Structs
 
-![record](record.png?)
+![record](HeaderDiagram.png?)
 
 To keep track of each objects reference count some overhead is necessary which is contained in what we call a record. 
 This contains three unsigned shorts: 
@@ -52,6 +52,17 @@ This contains three unsigned shorts:
 
 ## Graphical example
 
-![record](flow.png?)
+![record](record.png?)
 
-The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. 
+The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. Within our module we have two lists that start of empty, destructor list and size list, we save our destructor pointer and our size here to be able to only have an index in our header. Squares in green are changed by our following our arrow. The cascade limit is by default set to 1000 but can easily be changed by the user.
+
+## Overhead
+
+How does the overhead change over time in comparison to the allocated memory size:
+MAX GOT THIS
+
+
+We had to decide for ourselves how to keep the overhead down, we solved this by creating a list with the pointers to our destructors and only sending the index, to the destructors place in the list, with our object and not the entire adress.
+We did the same thing when we had to save the size of the object, NÅGON ANNAN FORTSÄTT 
+
+How to save all of our allocations was also something we had to reason about so we could find the smartest way to keep all our info in a way that doesnt use unreasonble resource. We started off with a tree but later changed our minds and implemented a queue/list. We realised that the time complexity didn't matter when we changed our integer type to unsigned short, because it limited the trees size to 2^16. Therefor the tree would only be available to hold 2^16 objects and the time complexity O(logn) compared to O(n) was not valuable enough to use an AVL tree instead of a linked list.

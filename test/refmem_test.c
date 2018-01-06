@@ -87,20 +87,20 @@ void test_mem_reg_size_clear() {
 
   deallocate(test1);
   //Checking that first deallocation doesn't end up in mem_register.
-  CU_ASSERT_TRUE(mem_register_is_empty());
-  
+  CU_ASSERT_TRUE(obj_register_is_empty());
+
   // These should end up in mem_register
   deallocate(test2);
   deallocate(test3);
   deallocate(test4);
 
-  CU_ASSERT_FALSE(mem_register_is_empty());
+  CU_ASSERT_FALSE(obj_register_is_empty());
 
   // Since the 3 items in the mem_register are the same size as we are requesting now
   // the mem_register should be cleared
   test_t *test5 = allocate(sizeof(test_t) * 3, NULL);
 
-  CU_ASSERT_TRUE(mem_register_is_empty());
+  CU_ASSERT_TRUE(obj_register_is_empty());
 
   deallocate(test5);
 }
@@ -240,7 +240,7 @@ void test_set_cascade_limit() {
 
 void test_cascade_limit() {
   set_cascade_limit(2);
-  
+
   test_t *test1 = allocate(sizeof(test_t), test_t_destructor);
   test_t *test2 = allocate(sizeof(test_t), test_t_destructor);
   test_t *test3 = allocate(sizeof(test_t), test_t_destructor);
@@ -253,20 +253,20 @@ void test_cascade_limit() {
   release(test2);
   release(test3);
 
-  CU_ASSERT_FALSE(mem_register_is_empty());
+  CU_ASSERT_FALSE(obj_register_is_empty());
 
   test_t *test4 = allocate(sizeof(test_t), test_t_destructor);
-  
+
   retain(test4);
 
-  CU_ASSERT_TRUE(mem_register_is_empty());
+  CU_ASSERT_TRUE(obj_register_is_empty());
 
   release(test4);
 }
 
 void test_cleanup() {
   set_cascade_limit(2);
-  
+
   test_t *test1 = allocate(sizeof(test_t), NULL);
   test_t *test2 = allocate(sizeof(test_t), NULL);
   test_t *test3 = allocate(sizeof(test_t), NULL);
@@ -279,11 +279,11 @@ void test_cleanup() {
   release(test2);
   release(test3);
 
-  CU_ASSERT_FALSE(mem_register_is_empty());
+  CU_ASSERT_FALSE(obj_register_is_empty());
 
   cleanup();
 
-  CU_ASSERT_TRUE(mem_register_is_empty());
+  CU_ASSERT_TRUE(obj_register_is_empty());
 
 }
 
