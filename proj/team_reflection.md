@@ -70,7 +70,7 @@ Slack was also used for communicating our problems and splitting the work load.
 
 The tasks were of very varying size, but because different memebers of the group have different amounts of experience of C as a language and of programming in general the size of the actual task had little to do with how much work was put into it. Because of this it was also very hard to estimate how long a task would take to complete. It, as usual, completely depends on how many problems you run into on the way. Our utopian goal was to be finished before christmas. Having such a big margin made it less important to estimate the time correctly and more important that the task just got done in time that it didnt stop the rest of the project moving forward.
 
-The work was not completely balanced. Partly because all team members didnt put the same effort in and partly because we are not equally good at programming in c.
+The work was not completely balanced. Partly because all team members didnt put the same effort in and partly because we are not equally good at programming in C.
 
 # 7 Quality Assurance
 
@@ -83,8 +83,7 @@ The work was not completely balanced. Partly because all team members didnt put 
 
 PR:s helped us change formatting so it was all consistent, making sure the code worked on both Linux and Mac, memory leaks were caught and tests were added to catch more cases.
 
-We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister"
-the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
+We have switched ruthlessly between lagnuages in our PR:s. Some names were probably felt very relevant to us at the time but seem unclear, such as "changed refmem". Others are easy to understand, like "Första implementation av trädstruktur som pekarregister" the language has inexplicably changed but it is very descriptive. "Unit tests for existing functions" is well-phrased and in english, we did good there.
 
 We learnt that we should probably come up with some sort of standard before we start, naming convention but maybe also have a system for who reviews what or somthing similar. This makes it easier to avoid the situation where one person gets stuck putting time into reviewing when they have other things to work on. Otherwise git PRs are a very good way to not only make sure the code everyone writes separatly actually comes together but also being able to give eachother feedback before you make changes and keeping track of who does what and what has been done.
 
