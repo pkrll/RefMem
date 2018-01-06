@@ -12,7 +12,7 @@ The refmem module contains five static variables:
 
 ## Structs
 
-![record](HeaderDiagram.png?)
+![record](headerdiagram.png?)
 
 To keep track of each objects reference count some overhead is necessary which is contained in what we call a record. 
 This contains three unsigned shorts: 
