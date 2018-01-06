@@ -27,11 +27,12 @@
 | Start date | 11/12-17 |
 | End date | 8/1-18 FYLL I |
 | Sprints | 0 or 1 FYLL I |
-| Lines of code | FYLL I |
-| Lines of tests | FYLL I |
-| Lines of script | FYLL I |
+| Lines of code | 672 |
+| Lines of tests | 2638 |
+| Lines of Demo | 3735 |
+| Lines of script | 180 |
 | Hours Worked | FYLL I |
-| Git commits | 155 |
+| Git commits | 310 |
 | Pull Requests | 33 |
 | GitHub Issues | 6 |
 
