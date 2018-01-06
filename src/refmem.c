@@ -168,13 +168,13 @@ void deallocate(obj object) {
   }
 }
 
-bool mem_register_is_empty() {
+bool obj_register_is_empty() {
   return queue_is_empty(obj_register);
 }
 
 void cleanup() {
   if (obj_register != NULL) {
-    while (mem_register_is_empty() == false) {
+    while (obj_register_is_empty() == false) {
       header_t *object = queue_dequeue(obj_register);
       free(object);
     }

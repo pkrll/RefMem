@@ -70,3 +70,8 @@ void cleanup();
   * @brief               Shutdowns the reference count system.
   */
 void shutdown();
+/**
+  * @brief               Checks if mem register is empty.
+  * @return              True if empty, else false.
+  */
+bool obj_register_is_empty();
