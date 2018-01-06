@@ -62,7 +62,7 @@ profiler:
 ########### Tests
 
 tests: CFLAGS += -g -lcunit --coverage #-fprofile-arcs -ftest-coverage
-tests: refmem.o listset.o queue.o test_action test_stack test_item test_utils test_database test_utils_goods #test_list test_tree    
+tests: refmem.o listset.o queue.o test_action test_stack test_item test_utils test_database test_utils_goods #test_list test_tree
 
 test_tree:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib refmem.o listset.o queue.o tree.c tests/test_tree.c -o test_tree
@@ -93,7 +93,7 @@ test_database:
 .PHONY: valgrind gdb lldb clean run test gcov
 
 valgrind: debug goods
-	valgrind --leak-check=full --suppressions=/Users/ardalansamimi/Library/Application\ Support/Valgrind/darwin14.supp ./goods
+	valgrind --leak-check=full ./goods
 
 gdb:	debug
 	gdb goods

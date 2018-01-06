@@ -34,9 +34,6 @@ DEBUG_FILES = $(shell find . -type f -name '*.gcda' -o -name '*.gcno' -o -name '
 
 all: build
 
-demonstration:
-	cd demo; make run
-
 build: compile
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BINARYDIR)/$(BINARY)
 
@@ -165,6 +162,12 @@ memtest-demo: test-action test-stack test-utils test-utils-goods test-tree test-
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_list
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_item
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_database
+
+run:
+	cd demo; make run
+
+mem-demo:
+	cd demo; make valgrind
 
 style:
 	astyle --style=google --indent=spaces=2 --indent-continuation=2 $(SOURCES) $(SOURCES_TEST)
