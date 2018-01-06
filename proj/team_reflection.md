@@ -2,8 +2,8 @@
 * [1. Introduction](#1-göktytorna)
   * [What we mean when we talk about quality](#what-we-mean-when-we-talk-about-quality)
 * [2. Quantification](#2-quantification)
-* [Abstracting stuff](#abstracting-stuff)
-* [Formatting matters](#formatting-matters)
+* [3. Process](#3-process)
+* [4. Use Of Tools](#4-use-of-tools)
 * [Deviations](#deviations)
   * [Function names](#function-names)
 
