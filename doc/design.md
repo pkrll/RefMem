@@ -54,7 +54,7 @@ This contains three unsigned shorts:
 
 ![record](record.png?)
 
-The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. LÄGG TILL
+The rectangles represent our structures. Size is the size of the allocation our user gives us, the destructor is a function pointer also given to us. Within our module we have two lists that start of empty, destructor list and size list, we save our destructor pointer and our size here to be able to only have an index in our header. Squares in green are changed by our following our arrow. The cascade limit is by default set to 1000 but can easily be changed by the user.
 
 ## Overhead
 
