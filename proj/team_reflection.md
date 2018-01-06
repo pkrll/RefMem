@@ -69,8 +69,6 @@ The work was not completely balanced. Partly because team members were at times 
 
 # 7 Quality Assurance
 
-underrubrikerna är bara för tydlighet när vi skriver ska inte va kvar
-
 | Type | Info |
 |------|------|
 | Amount | FYLL I |
