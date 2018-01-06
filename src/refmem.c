@@ -5,20 +5,15 @@
 #include "queue.h"
 #include "listset.h"
 
-/**
-* @brief cascade_limit represent the amount of free's
-         that's the program is allowed to do in a
-         sequence.
-*/
-static size_t cascade_limit = 1000;
-
-static listset_t *destr_register = NULL;
-
-static listset_t *size_register = NULL;
-
-static queue_t *obj_register = NULL;
-
 static size_t cascade_counter = 0;
+// Represent the amount of free's that the system is allowed to do in a sequence
+static size_t cascade_limit = 1000;
+// The register over all destructors
+static listset_t *destr_register = NULL;
+// The register storing the sizes of all allocated objects
+static listset_t *size_register = NULL;
+// The register holding all user deallocated objects, not yet free'd.
+static queue_t *obj_register = NULL;
 
 // -------------------------------
 // Structs
@@ -36,37 +31,42 @@ struct header {
 // -------------------------------
 
 /**
- * @brief                 Redirect object pointer to its header
- * @param object          Pointer to object
- * @return                The object's header
+ * @brief         Redirect object pointer to its header
+ * @param object  Pointer to object
+ * @return        The object's header
  */
 static header_t *convert_to_header(obj object);
 /**
- * @brief         Puts an object in the object register queue.
+ * @brief         Queues an object for deallocation at a later time
  * @param object  Pointer to the object.
  */
 static void queue_deallocation(obj object);
 /**
  * @brief         Prepares the system for allocation.
+ *                This function invokes clear_obj_register.
  * @param bytes   The number of bytes requested for allocation.
  */
 static void prepare_for_allocation(size_t bytes);
 /**
- * @brief         Free cascade_limit amount of objects in obj_register or clear until limit is reached
+ * @brief         Removes and free's the objects in the object register queue, either up to the.
+ *                cascade limit, or until the requested number of bytes have been free’d.
  * @param request Upper limit of number of bytes to clear.
- * @return        void
  */
 static void clear_obj_register(size_t request);
 
 /**
- * @brief                 Compare two elements by their destructor function
- * @return                true if they are the same, false if not
+ * @brief         Compare two destructor function
+ * @param elem1   An element_t union holding the first destructor.
+ * @param elem2   An element_t union holding the second destructor.
+ * @return        True if they are the same, otherwise false.
  */
 static bool compare_destructor(element_t elem1, element_t elem2);
 
 /**
- * @brief                 Compare two elements by their size
- * @return                true if they are the same, false if not
+ * @brief         Compare two sizes.
+ * @param elem1   An element_t union holding the first size.
+ * @param elem2   An element_t union holding the second size.
+ * @return        True if they are the same, otherwise false.
  */
 static bool compare_size(element_t elem1, element_t elem2);
 
