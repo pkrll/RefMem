@@ -38,3 +38,10 @@ Min största "fail" var att jag inte tänkte igenom projektet tillräckligt noga
 
 
 ## Mika Skjelnes
+Jag hade en relativt seg start på projektet. Inlupp 4 var inte klart och prioriterades vilket ledde till att jag missade de första framstegen. Som konsekvens av detta, kombinerat med mitt relativt passiva beteende under projektet, bidrog jag intet till något av implementationen av GCn. Istället involverade mina första insatser till skrivandet av tester för funktionerna. Detta följdes av allmän kodtestning samt sökande av programbuggar. Detta är vad min tid gick till under dessa veckor.
+
+Till mestadels har jag utökat mina kunskaper i användandet av verktyg associerat med projektet (git och github specifikt) samt fått en större överblick på samspelet mellan tester och programmet. Jag känner dock att jag lär mig mer genom "trial and error"-programmering efter föreläsningar då det eliminerar alla former av omständigheter ett grupparbete kan medföra (trots att dessa aspekter även är mycket viktiga att jobba med) samt att det ger mig möjligheten att testa koncepten lite hur jag vill, även om programmen som skrivs blir helt meningslösa.
+
+Tidsloggningen har fungerat utan större problem. Glömde man logga för en dag blev det lite svårt ibland att komma ihåg precis vad man gjorde under det tidsintervallet.
+
+Största missen för min del var att hamna på efterkälken kunskapsmässigt redan från starten samt att jag inte gjorde något åt det. Det är något jag får jobba med i framtiden och se till att jag hanterar situationen bättre om det skulle ske igen. I slutändan finns det en del saker jag måste jobba med för att kunna fungera mer effektivt i grupp under sub-optimala tillstånd.
