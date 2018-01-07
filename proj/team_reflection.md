@@ -84,6 +84,8 @@ Decisions were made in person or over Slack. We had meetings consistently, which
 
 Key decisions, such as how to save all our allocations and what to do about the overhead, were the type of decision where everyone was involved with making, even if some members were working on something unrelated at the time. Other, smaller implementation details were decided with a simple message on Slack.
 
+Because the start of the project was relatively close to the final dealine we decided that we didnt need any sprints. We felt that it would only complicate our working process. Looking back it would have helped us plan, which was something we ended up having alot of trouble doing so it might have been god to at least split the time into two sprints.
+
 # 4 Use of Tools
 
 ## Trello
@@ -97,6 +99,8 @@ For merging our code, reviewing added code and documenting changes.
 
 ## Astyle
 For formatting the code.
+
+The tools we ended up using were enough for our purpose, we didnt need anything else and every tool was very useful. 
 
 # 5 Communication, Cooperation and Coordination
 Overall, we feel that we communicated fairly well during the course of the project. We tried to have a clear dialogue and always be straight forward with each other.
