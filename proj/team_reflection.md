@@ -38,8 +38,6 @@
 
 # 3 Process
 ## 3.1 Inception
-**CHANGES: flyttade en del ner till implementation, skrev om delar av inception**
-
 In this project, we used the agile methodology Kanban, with Trello as platform. We chose Kanban because it was easy to learn, and also made it easier to visualize and break down the project using Kanban cards.
 
 Before implementing the process, one group member was first tasked to research the method, to get a better understanding of how it works, and later gave a small presentation to the rest of the group.
