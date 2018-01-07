@@ -5,7 +5,8 @@
 ## Martin Larsson
 När det kommer till gruppdynamiker är jag väldigt flexibel, om jag känner att det behövs kan jag ta en ledarroll men jag är mer van vid att “ta order”. Det jag fokuserar mest på är att hålla igång kommunikation och fokus i gruppen eftersom det enligt min erfarenhet ofta är där grupper fallerar. Om man inte känner att man kan vara ärlig och kommunicera effektivt får man stora svårigheter.
 
-Jag föredrar att jobba i grupper, speciellt med likasinnade personer sett till ambition. Vill alla i gruppen framåt kan man få en synergieffekt som gör att man lär sig oerhört mycket, ännu mer än om man jobbar ensam. Varenda person man någonsin kommer träffa kommer kunna någonting man själv inte vet, så om man har ett öppet sinne och samarbetar med andra kommer aldrig sluta utvecklas; 
+Jag föredrar att jobba i grupper, speciellt med likasinnade personer sett till ambition. Vill alla i gruppen framåt kan man få en synergieffekt som gör att man lär sig oerhört mycket, ännu mer än om man jobbar ensam. Varenda person man någonsin kommer träffa kommer kunna någonting man själv inte vet, så om man har ett öppet sinne och samarbetar med andra kommer aldrig sluta utvecklas: 
+
 “vill man vara snabb ska man fara själv, vill man komma långt ska man fara tillsammans” - Mormor
 
 Under projektet har jag lärt mig en hel del, men eftersom själva uppgiften var så liten har jag inte lärt mig lika mycket tekniska saker som resten av kursen. Jag har dock lärt mig mycket om att utveckla kod i grupp på ett mer seriöst sätt. Verktyg såsom kanban, github och rent allmänt mer struktur har visat sig öka både produktiviteten och kvalitén markant. Det är inga problem att logga tid när allt annat arbete sköts ordentligt också.
