@@ -5,6 +5,14 @@
 ## Martin Larsson
 
 ## Elisabeth Ryan
+Jag tenderar att ta en följar-roll oavsett grupp. Det är klart jag får ut saker av att jobba I grupp, men jag vet att jag har en tendens att låta någon som verkar “ha mer koll” ta över “svårare” delar. Det innebär inte att jag släpper mina ansvarsområden men kanske väljer lite mjukare delar. Detta är såklart onödigt. Jag önskar I efterhand att jag I det här projektet hade kämpat hårdare och tagit tag på riktigt, även I delar som jag kanske tycker är för avancerade för mig. 
+
+Jag jobbar gärna själv på en specifik del men tycker det är svårt att bedöma vad jag kan göra själv och hur lång tid något tar, det beror ju helt på hur mycket problem man får på vägen. 
+Under kursen har jag lärt mig mest när jag blivit tvungen att jobba på saker som egentligen är alldeles för svåra för mig men som jag helt enkelt fått kämpa mig igenom ändå, men jag skulle inte säga att det är en bra taktik överlag. 
+Under projektet har jag lärt mig övergripande saker mest, sådant som vi diskuterat på mötena, om hur man lagrar saker smartast t.ex. har varit lärorikt. Den enda c-programmeringen jag gjorde var sådant jag i princip redan kunde eller hade med l-unit att göra.
+Biggest Fail: Att jag inte fick demot att fundera.
+Biggest Win: Att jag hittade saker att göra mot slutet och att jag kommunicerade ganska bra med gruppen.
+
 
 ## Max Rylander
 Min roll i ett projekt brukar handla om att stå nära ledaren och se till att allt fungerar korrekt och att alla i gruppen tar till sig informationen han delar ut. Har aldrig haft ett behov att leda men föredrar att ha kontroll över vad jag gör därav placerar jag mig själv i ledningen. Mina styrkor som gruppmedlem har delvis växt fram ur detta. För att bli accepterad på denna roll har jag behövt varit väldigt dynamisk och tillmötesgående, för alla sorters personligheter. Vilket jag anser att jag själv är. Sedan har jag alltid varit bra på att kontrollera saker, som utfallen av olika händelser, vad folk tycker och hur folk uppfattar saker.
