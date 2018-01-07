@@ -8,8 +8,9 @@
 Jag tenderar att ta en följar-roll oavsett grupp. Det är klart jag får ut saker av att jobba I grupp, men jag vet att jag har en tendens att låta någon som verkar “ha mer koll” ta över “svårare” delar. Det innebär inte att jag släpper mina ansvarsområden men kanske väljer lite mjukare delar. Detta är såklart onödigt. Jag önskar I efterhand att jag I det här projektet hade kämpat hårdare och tagit tag på riktigt, även I delar som jag kanske tycker är för avancerade för mig. 
 
 Jag jobbar gärna själv på en specifik del men tycker det är svårt att bedöma vad jag kan göra själv och hur lång tid något tar, det beror ju helt på hur mycket problem man får på vägen. 
+
 Under kursen har jag lärt mig mest när jag blivit tvungen att jobba på saker som egentligen är alldeles för svåra för mig men som jag helt enkelt fått kämpa mig igenom ändå, men jag skulle inte säga att det är en bra taktik överlag. 
-Under projektet har jag lärt mig övergripande saker mest, sådant som vi diskuterat på mötena, om hur man lagrar saker smartast t.ex. har varit lärorikt. Den enda c-programmeringen jag gjorde var sådant jag i princip redan kunde eller hade med l-unit att göra.
+Under projektet har jag lärt mig övergripande saker mest, sådant som vi diskuterat på mötena, om hur man lagrar saker smartast t.ex. har varit lärorikt. Den enda c-programmeringen jag gjorde var sådant jag i princip redan kunde eller hade med l-unit att göra. Hur jag jobbar i grupp blev också bekräftat.
 Biggest Fail: Att jag inte fick demot att fundera.
 Biggest Win: Att jag hittade saker att göra mot slutet och att jag kommunicerade ganska bra med gruppen.
 
