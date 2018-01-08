@@ -168,7 +168,7 @@ test-stack-run:
 	@echo "--------------------------------------------- RUNNING TESTS ON STACK --------------------------------------------"
 	@./$(BINARYDIR)/test_stack	
 
-test-tree: compile-tests compile-demo-tests
+test-tree-run: compile-tests compile-demo-tests
 test-tree-run:
 	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/tree.o $(OBJECTDIR)/test_tree.o -o $(BINARYDIR)/test_tree $(TFLAGS)
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE ---------------------------------------------"
