@@ -2,6 +2,14 @@
 
 ## Nicklas
 
+Min personliga insats i projektet har varit varierad. Kort summerat så är det positiva att jag har utfört alla de uppgifter som jag har blivit tilldelad medan det negativa har varit att jag har varit väldigt dålig på att hålla en kontinuelig kommunikation med resten av gruppen mellan möten. 
+
+Jag tycker att projektarbetet har varit väldigt lärorikt. Inte så mycket när det gäller kodrelaterade kunskaper utan framförallt för att se hur jag själv fungerar i grupp med andra. Jag har alltid haft svårt att arbeta tillsammans med andra och har föredragit att jobba själv. Anledningen har framför allt varit att jag uppfattar mig själv vara tankspridd och långsam på att ta in information jämfört med andra vilket gör att jag kan ha det svårt att hänga med. Tidigare har jag därför alltid föredragit att sätta mig in och lösa uppgifter själv i min egen takt. Det jag upptäckt nu är att jag nog har undervärderat min egen förmåga på detta område och att jag vid tillfällen då vi nu jobbat tillsammans faktiskt hängt med bättre än jag trott och faktiskt kunnat vara användbar för gruppen. Det tar mig fortfarande väldigt lång tid att sätta mig in i en uppgift, men bara jag gjort det enskillt i lugn och ro så klarar jag av att lösa uppgifter tillsammans med andra bättre än jag tidigare trott. 
+
+Att logga arbetstid har gått sådär, jag har ofta glömt det helt och har därefter varit tvungen att i efterhand fylla i vad jag gjort, detta har lett till att jag bara loggat de längre sessionerna jag suttit och gjort produtivt arbete, inte alla ”icke-produktiva”småstunder som jag bara suttit och reflekterat, satt mig in och experimenterat.
+
+Mina biggest fails har varit att jag har varit väldigt dålig på att hålla koll på slacken, jag har ibland inte kollat den på ett par dagar vilket lett till att jag missat en del viktig information (dels för att jag haft problem med slack-applikationen men iblan också för att jag helt enkelt glömt). Detta har jag kommit fram till att jag måste lösa genom att shemalägga och ställa larm. Min biggest win är väl helt enkelt att jag gjort de uppgifter som jag blivit tilldelad.
+
 ## Martin Larsson
 När det kommer till gruppdynamiker är jag väldigt flexibel, om jag känner att det behövs kan jag ta en ledarroll men jag är mer van vid att “ta order”. Det jag fokuserar mest på är att hålla igång kommunikation och fokus i gruppen eftersom det enligt min erfarenhet ofta är där grupper fallerar. Om man inte känner att man kan vara ärlig och kommunicera effektivt får man stora svårigheter.
 
