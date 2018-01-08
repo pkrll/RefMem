@@ -78,7 +78,7 @@ test-listset:
 
 test-action: compile-tests compile-demo-tests
 test-action:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/action.o $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)	
+	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/action.o $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)
 
 
 test-database: compile-tests compile-demo-tests
@@ -116,78 +116,51 @@ test-utils:
 
 # TEST TARGETS INDIVIDUAL RUN
 
-test-queue-run: compile-tests
-test-queue-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/queue.o $(OBJECTDIR)/queue_test.o -o $(BINARYDIR)/test_queue $(TFLAGS)
+test-queue-run: test-queue
 	@echo "--------------------------------------------- RUNNING TESTS ON queue   --------------------------------------------"
 	@./$(BINARYDIR)/test_queue
 
-
-
-test-refmem-run: compile-tests
-test-refmem-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/listset.o $(OBJECTDIR)/queue.o  $(OBJECTDIR)/refmem.o $(OBJECTDIR)/refmem_test.o -o $(BINARYDIR)/test_refmem $(TFLAGS)
+test-refmem-run: test-refmem
 	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
 		@./$(BINARYDIR)/test_refmem
 
-test-listset-run: compile-tests
-test-listset-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/listset.o $(OBJECTDIR)/listset_test.o -o $(BINARYDIR)/test_listset $(TFLAGS)
+test-listset-run: test-listset
 	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
 	@./$(BINARYDIR)/test_listset
 
 # TEST TARGETS INDIVIDUAL RUN (FOR DEMO)
 
-test-action-run: compile-tests compile-demo-tests
-test-action-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/action.o $(OBJECTDIR)/test_action.o -o $(BINARYDIR)/test_action $(TFLAGS)	
+test-action-run: test-action
 	@echo "--------------------------------------------- RUNNING TESTS ON ACTION -------------------------------------------"
 	@./$(BINARYDIR)/test_action
 
-test-database-run: compile-tests compile-demo-tests
-test-database-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/item.o $(OBJECTDIR)/action.o $(OBJECTDIR)/list.o $(OBJECTDIR)/tree.o $(OBJECTDIR)/utils_goods.o $(OBJECTDIR)/file.o $(OBJECTDIR)/stack.o $(OBJECTDIR)/database.o $(OBJECTDIR)/test_database.o -o $(BINARYDIR)/test_database $(TFLAGS)
+test-database-run: test-database
 	@echo "--------------------------------------------- RUNNING TESTS ON DATABASE -----------------------------------------"
-	@./$(BINARYDIR)/test_database	
+	@./$(BINARYDIR)/test_database
 
-test-item-run: compile-tests compile-demo-tests
-test-item-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/item.o $(OBJECTDIR)/list.o $(OBJECTDIR)/test_item.o -o $(BINARYDIR)/test_item $(TFLAGS)
+test-item-run: test-item
 	@echo "--------------------------------------------- RUNNING TESTS ON ITEM ---------------------------------------------"
 	@./$(BINARYDIR)/test_item
 
-test-list-run: compile-tests compile-demo-tests
-test-list-run:
-	$(CC) $(CFLAGS) -g -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/list.o $(OBJECTDIR)/test_list.o -o $(BINARYDIR)/test_list $(TFLAGS)
+test-list-run: test-list
 	@echo "--------------------------------------------- RUNNING TESTS ON LIST ---------------------------------------------"
 	@./$(BINARYDIR)/test_list
 
-test-stack-run: compile-tests compile-demo-tests
-test-stack-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/stack.o $(OBJECTDIR)/test_stack.o -o $(BINARYDIR)/test_stack $(TFLAGS)
+test-stack-run: test-stack
 	@echo "--------------------------------------------- RUNNING TESTS ON STACK --------------------------------------------"
-	@./$(BINARYDIR)/test_stack	
+	@./$(BINARYDIR)/test_stack
 
-test-tree-run: compile-tests compile-demo-tests
-test-tree-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/tree.o $(OBJECTDIR)/test_tree.o -o $(BINARYDIR)/test_tree $(TFLAGS)
+test-tree-run: test-tree
 	@echo "--------------------------------------------- RUNNING TESTS ON TREE ---------------------------------------------"
 	@./$(BINARYDIR)/test_tree
 
-
-test-utils-goods-run: compile-tests compile-demo-tests
-test-utils-goods-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/utils_goods.o $(OBJECTDIR)/test_utils_goods.o -o $(BINARYDIR)/test_utils_goods $(TFLAGS)
+test-utils-goods-run: test-utils-goods
 	@echo "--------------------------------------------- RUNNING TESTS ON UTILS GOODS --------------------------------------"
 	@./$(BINARYDIR)/test_utils_goods
 
-test-utils-run: compile-tests compile-demo-tests
-test-utils-run:
-	$(CC) $(CFLAGS) -I/usr/local/Cellar/cunit/2.1-3/include -L/usr/local/Cellar/cunit/2.1-3/lib $(OBJECTDIR)/refmem.o $(OBJECTDIR)/queue.o $(OBJECTDIR)/listset.o $(OBJECTDIR)/utils.o $(OBJECTDIR)/test_utils.o -o $(BINARYDIR)/test_utils $(TFLAGS)
+test-utils-run: test-utils
 	@echo "--------------------------------------------- RUNNING TESTS ON UTILS --------------------------------------------"
 	@./$(BINARYDIR)/test_utils
-
-
 
 # PHONY TARGETS
 
@@ -205,31 +178,9 @@ clean:
 	rm -rf ./out
 	rm -f coverage.info
 
-test: test-refmem test-queue test-listset
-	@echo "--------------------------------------------- RUNNING TESTS ON refmem --------------------------------------------"
-	@./$(BINARYDIR)/test_refmem
-	@echo "--------------------------------------------- RUNNING TESTS ON queue   --------------------------------------------"
-	@./$(BINARYDIR)/test_queue
-	@echo "--------------------------------------------- RUNNING TESTS ON LIST   --------------------------------------------"
-	@./$(BINARYDIR)/test_listset
+test: test-refmem-run test-queue-run test-listset-run
 
-test-demo: test-action test-stack test-utils test-utils-goods test-tree test-list test-item test-database
-	@echo "--------------------------------------------- RUNNING TESTS ON UTILS --------------------------------------------"
-	@./$(BINARYDIR)/test_utils
-	@echo "--------------------------------------------- RUNNING TESTS ON UTILS GOODS --------------------------------------"
-	@./$(BINARYDIR)/test_utils_goods
-	@echo "--------------------------------------------- RUNNING TESTS ON ACTION -------------------------------------------"
-	@./$(BINARYDIR)/test_action
-	@echo "--------------------------------------------- RUNNING TESTS ON STACK --------------------------------------------"
-	@./$(BINARYDIR)/test_stack
-	@echo "--------------------------------------------- RUNNING TESTS ON LIST ---------------------------------------------"
-	@./$(BINARYDIR)/test_list
-	@echo "--------------------------------------------- RUNNING TESTS ON TREE ---------------------------------------------"
-	@./$(BINARYDIR)/test_tree
-	@echo "--------------------------------------------- RUNNING TESTS ON ITEM ---------------------------------------------"
-	@./$(BINARYDIR)/test_item
-	@echo "--------------------------------------------- RUNNING TESTS ON DATABASE -----------------------------------------"
-	@./$(BINARYDIR)/test_database
+test-demo: test-action-run test-stack-run test-utils-run test-utils-goods-run test-tree-run test-list-run test-item-run test-database-run
 
 memtest: test-refmem test-queue test-list
 	valgrind --leak-check=full --track-origins=yes --show-possibly-lost=yes bin/test_refmem
