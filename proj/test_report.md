@@ -52,6 +52,8 @@ From a certain perspective, regression testing has always been here as a side ef
 
 High-level regression testing was taken into consideration when modifications to the demo was made. The demo itself, is a simulation on how a user may use the GC for memory handling in their database. If any changes are made to the GC, the demo tests will tell if everything's still works after the changes.
 
+To allow regression testing of certain parts of the program, we've divided the tests into their own files depending on what module they belong to. Typing ``make test`` will run all tests while ``make test-listset`` only runs the tests for the listset. There is no support for testing certain parts of a module. This could be achieved by dividing the module into multiple suites depending on what category the functions belong to. But since none of the modules in the program of the project are of relatively large size, it wouldn't save much time running tests that only check a specific suite in the module.
+
 ## Summary
 Since day one, we've been made sure to actually write some kinds of tests in symbiosis with the functions. A rule was set requiring tests for all written functions when performing a pull request from the working branch. Anything that didn't follow this rule would not be merged into the master branch. Later on, tests targeting edge-cases were written for eligible functions.
 
