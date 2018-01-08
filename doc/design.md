@@ -38,7 +38,7 @@ The ``header`` contains three unsigned shorts:
 
 **deallocate**(*object*)
 - Call the object's destructor.
-- Free the object and increment ``cascade_counter``, if ``cascade_limit``. Otherwise, add the object to ``obj_register``.
+- Free the object and increment ``cascade_counter``, if ``cascade_counter`` is under ``cascade_limit``. Otherwise, add the object to ``obj_register``.
 
 **prepare_for_allocation(size_t bytes)**
 - Create ``destr_register``, if  needed.
