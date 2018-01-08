@@ -1,1 +1,7 @@
-The project met all requirements wihtout one. Which was in the function allocate, where we are told to deallocate all standing deallocations until cascade limit is reached and if the combined size of the deallocated objects is less then the requested allocation is will keep deallocte until it reached. Our implementation iterate over the queue of standing deallocations and and sums the size of the deallocations. Which might result that we exceeds the requested size on the last deallocation. As example, 96 bytes is deallocated and 100 bytes is requested to allocate our solution will deallocate another object even if the total deallocated size exceeds 100. becuase it checks deallocted size < requested size and not deallocated size + next deallocated size < requested size.
+The project met all requirements, except possibly one.
+
+When freeing in conjunction with allocation, the specification states that we should respect the cascade limit, *unless the amount of memory free'd is less than the amount of bytes requested*. In that case, we should keep going until we have free'd the same amount of bytes as requested.
+
+Our implementation may however exceed that amount, as the function will iterate over the queue of objects and free them in sequence, until it has reached the requested size, instead of finding objects in the queue that together amounts to the exact same size as requested.
+
+For example, if the user has requested 100 bytes and the first 5 objects amounts to a total of 120 bytes, our system will free the 5 objects and thereby exceeding the 100 bytes requested.
