@@ -1,4 +1,4 @@
-# Testing (Re-expressions and changes will be made. Also, comments and memory notations will also be wiped soon.)
+# Testing
 
 ## TOC
 * [Introduction](#intro)
