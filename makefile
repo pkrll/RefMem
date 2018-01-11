@@ -164,7 +164,7 @@ test-utils-run: test-utils
 
 # PHONY TARGETS
 
-.PHONY: clean test
+.PHONY: clean test demo memtest-demo
 
 clean:
 	rm -f $(OBJECTDIR)/*.o
@@ -202,6 +202,12 @@ run:
 
 mem-demo:
 	cd demo; make valgrind
+
+demo:
+	make -C demo demo
+
+memtest-demo:
+	make -C demo memtest-demo
 
 style:
 	astyle --style=google --indent=spaces=2 --indent-continuation=2 $(SOURCES) $(SOURCES_TEST)
