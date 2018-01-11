@@ -32,10 +32,7 @@ DEBUG_FILES = $(shell find . -type f -name '*.gcda' -o -name '*.gcno' -o -name '
 
 # Targets
 
-all: build
-
-build: compile
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(BINARYDIR)/$(BINARY)
+all: compile
 
 compile: $(OBJECTS)
 
