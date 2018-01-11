@@ -1,5 +1,6 @@
 CC=gcc
 CFLAGS= -Wall -pedantic
+VFLAGS= --leak-check=full
 PROFFL=tree.c
 
 all: goods
@@ -93,7 +94,7 @@ test_database:
 .PHONY: valgrind gdb lldb clean run test gcov
 
 valgrind: debug goods
-	valgrind --leak-check=full ./goods
+	valgrind $(VFLAGS) ./goods
 
 gdb:	debug
 	gdb goods
@@ -119,6 +120,12 @@ clean:
 
 run:	goods
 	./goods
+
+demo: goods
+	./goods < test.txt
+
+memtest-demo: goods
+	valgrind $(VFLAGS) ./goods < test.txt
 
 test:	tests
 	@echo "--------------------------------------------- RUNNING TESTS ON UTILS --------------------------------------------"
