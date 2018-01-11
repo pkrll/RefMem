@@ -200,13 +200,13 @@ memtest-demo: test-action test-stack test-utils test-utils-goods test-tree test-
 run:
 	cd demo; make run
 
-mem-demo:
+mem-run:
 	cd demo; make valgrind
 
 demo:
 	make -C demo demo
 
-memtest-demo:
+mem-demo:
 	make -C demo memtest-demo
 
 style:
