@@ -25,13 +25,13 @@
 | Type | Info |
 |------|------|
 | Start date | 11/12-17 |
-| End date | 8/1-18 FYLL I |
+| End date | 11/1-18 |
 | Sprints | n/a |
 | Lines of code | 672 |
 | Lines of tests | 2638 |
 | Lines of Demo | 3735 |
 | Lines of script | 180 |
-| Hours Worked | FYLL I |
+| Hours Worked | 201 |
 | Git commits | 310 |
 | Pull Requests | 43 |
 | GitHub Issues | 15 |
@@ -100,7 +100,7 @@ For merging our code, reviewing added code and documenting changes.
 ## Astyle
 For formatting the code.
 
-The tools we ended up using were enough for our purpose, we didnt need anything else and every tool was very useful. 
+The tools we ended up using were enough for our purpose, we didnt need anything else and every tool was very useful.
 
 # 5 Communication, Cooperation and Coordination
 Overall, we feel that we communicated fairly well during the course of the project. We tried to have a clear dialogue and always be straight forward with each other.
