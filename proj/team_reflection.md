@@ -25,7 +25,7 @@
 | Type | Info |
 |------|------|
 | Start date | 11/12-17 |
-| End date | 10/1-18 |
+| End date | 11/1-18 |
 | Sprints | n/a |
 | Lines of code | 672 |
 | Lines of tests | 2638 |
