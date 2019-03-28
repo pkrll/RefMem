@@ -1,6 +1,6 @@
 # Göktytorna
 
-Refmem is a reference counting library for C, created by Göktytorna as a student project for the course IOOPM.
+Refmem is a reference counting library for C, created as student project for the course Imperative and Object-Oriented Programming Methodology (1DL221) at Uppsala university.
 
 ## Building & testing
 
@@ -43,5 +43,3 @@ make compile-gcov
 ```
 
 The coverage information will be placed in the folder ``out``.
-
-# projektuppgift: 170108 5a91218
